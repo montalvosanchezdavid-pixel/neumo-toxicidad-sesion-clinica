@@ -1,0 +1,5 @@
+# Originales sin recortar, ya procesados en /images. Se quedan solo en local.
+*.webp
+rx bleomicina *.png
+tac bleomicina *.png
+neumo sesion clinica.html
