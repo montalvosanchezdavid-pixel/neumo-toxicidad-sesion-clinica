@@ -1,249 +1,154 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Neumotoxicidad por fármacos · Sesión clínica</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700&family=Newsreader:ital,opsz,wght@0,6..72,300;0,6..72,400;0,6..72,500;1,6..72,300&display=swap" rel="stylesheet">
-<style>
-:root{
-  --ink:#0F1D24; --ink-2:#162A33; --ink-3:#22414E; --line:#2C4E5C;
-  --bone:#E9EEEF; --mist:#93AAB3;
-  --glass:#7FC4D9; --ok:#8FC69A; --warn:#E0B23C;
-  --c1:#E0B23C; --c2:#7FC4D9; --c3:#DE8A84; --c4:#AEA0E4;
-  --serif:"Newsreader",Georgia,serif;
-  --sans:"Archivo","Helvetica Neue",Arial,sans-serif;
-  --accent:var(--glass);
-}
-*{box-sizing:border-box}
-body{margin:0;background:var(--ink);color:var(--bone);font-family:var(--sans);font-size:16px;line-height:1.5;-webkit-font-smoothing:antialiased}
-
-.stage{height:100dvh;display:grid;grid-template-rows:auto 1fr auto;max-width:1180px;margin:0 auto;padding:0 clamp(16px,3vw,32px)}
-
-.rail{display:flex;align-items:center;gap:12px;padding:10px 0 8px;border-bottom:1px solid var(--line);font-size:.78rem;color:var(--mist);flex-wrap:wrap}
-.rail__chip{display:inline-flex;align-items:center;gap:7px;color:var(--bone);font-weight:600}
-.rail__chip::before{content:"";width:9px;height:9px;border-radius:2px;background:var(--accent)}
-.rail__who{border:1px solid var(--line);border-radius:999px;padding:2px 9px;font-size:.72rem;font-weight:600;color:var(--mist)}
-.rail__spacer{flex:1}
-.rail__score{font-weight:600;color:var(--bone);font-variant-numeric:tabular-nums}
-.rail__clock{font-variant-numeric:tabular-nums;font-weight:600;color:var(--bone);background:none;border:1px solid var(--line);border-radius:999px;padding:4px 13px;cursor:pointer;font-family:var(--sans);font-size:.8rem}
-.rail__clock:hover{border-color:var(--accent)}
-.rail__clock[data-over="1"]{color:var(--warn);border-color:var(--warn)}
-
-.deck{height:100%;overflow:hidden;padding:clamp(8px,1.6vh,16px) 0;container-type:size;container-name:deck}
-.slide{display:none}
-.slide.is-live{display:flex;flex-direction:column;height:100%;overflow-y:auto;animation:in .2s ease-out}
-.slide.is-live>*{flex-shrink:0}
-@keyframes in{from{opacity:0}to{opacity:1}}
-@media (prefers-reduced-motion:reduce){.slide.is-live{animation:none}}
-
-.slide h1{font-family:var(--serif);font-weight:300;font-size:clamp(1.9rem,5.4cqh,3.4rem);line-height:1.04;margin:0 0 .22em;letter-spacing:-.015em;max-width:16ch;flex:none}
-.slide h2{font-family:var(--serif);font-weight:400;font-size:clamp(1.3rem,4.1cqh,1.9rem);line-height:1.1;margin:0 0 .4em;letter-spacing:-.01em;max-width:32ch;flex:none}
-.slide p{max-width:66ch;margin:0 0 .7em}
-.lede{font-family:var(--serif);font-size:clamp(.95rem,2.4cqh,1.15rem);line-height:1.45;flex:none}
-.muted{color:var(--mist)}
-.meta{color:var(--mist);font-size:.82rem;margin-bottom:.6rem;flex:none}
-
-.split{display:grid;gap:18px;grid-template-columns:1.15fr .85fr;align-items:start;margin-bottom:12px}
-@media (max-width:820px){.split{grid-template-columns:1fr}}
-
-.case{background:var(--ink-2);border-left:3px solid var(--accent);border-radius:0 6px 6px 0;padding:9px 14px}
-.case .step{font-family:var(--serif);font-size:clamp(.88rem,2.1cqh,1rem);line-height:1.42;margin:0 0 .5em;max-width:70ch}
-.case .step:last-of-type{margin-bottom:0}
-.case .step[hidden]{display:none}
-.case b{font-weight:600;color:#fff}
-.more{margin-top:10px;background:none;border:1px dashed var(--line);color:var(--accent);border-radius:6px;padding:6px 13px;cursor:pointer;font-family:var(--sans);font-size:.8rem;font-weight:600}
-.more:hover{border-color:var(--accent);border-style:solid}
-.more:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
-.more[hidden]{display:none}
-
-.figs{display:grid;gap:6px}
-.dgm{margin:0;background:var(--ink-2);border-radius:6px;padding:4px}
-.dgm svg{width:100%;height:auto;max-height:17cqh;display:block;margin:0 auto}
-.dgm figcaption{font-size:.66rem;color:var(--mist);margin-top:3px;line-height:1.28}
-.shot{margin:0;background:var(--ink-2);border-radius:6px;overflow:hidden}
-.shot img{width:100%;max-height:17cqh;object-fit:cover;display:block}
-.shot figcaption{font-size:.66rem;color:var(--mist);padding:4px 8px;line-height:1.28}
-.empty{border:1px dashed var(--line);border-radius:6px;padding:14px 12px;text-align:center;font-size:.76rem;color:var(--mist);line-height:1.45}
-.empty code{color:var(--accent);font-family:var(--sans);font-weight:600}
-
-.pair{display:grid;grid-template-columns:1fr 1fr;gap:2px;background:var(--ink-3)}
-.pair img{width:100%;max-height:17cqh;object-fit:cover;display:block}
-.pair span{display:block;text-align:center;font-size:.66rem;color:var(--mist);padding:4px 0;background:var(--ink-2)}
-
-.ct-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:6px}
-.ct-cell img{width:100%;height:4cqh;object-fit:cover;border-radius:4px;display:block}
-.ct-cell span{display:block;text-align:center;font-size:.56rem;color:var(--mist);margin-top:1px}
-.ct-cell.is-empty{border:1px dashed var(--line);border-radius:4px;height:4cqh;display:flex;align-items:center;justify-content:center;text-align:center;font-size:.54rem;color:var(--mist);padding:2px}
-.ct-row-label{grid-column:1/-1;font-size:.62rem;color:var(--mist);margin-top:2px}
-.ct-row-label:first-child{margin-top:0}
-
-.reveal-pair{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:10px;max-width:560px}
-.reveal-img{background:var(--ink-2);border-radius:6px;overflow:hidden;height:26cqh}
-.reveal-img img{width:100%;height:100%;object-fit:cover;display:block}
-.reveal-img .empty{height:100%;display:flex;align-items:center;justify-content:center;border:none}
-.reveal-label{text-align:center;margin-top:6px;font-weight:600;color:#fff;font-size:.88rem}
-.reveal-label[hidden]{display:none}
-
-.keys{list-style:none;margin:0;padding:0}
-.keycards{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(3,1fr);gap:5px 12px}
-@media (max-width:900px){.keycards{grid-template-columns:repeat(2,1fr)}}
-@media (max-width:560px){.keycards{grid-template-columns:1fr}}
-.keycards li{background:var(--ink-2);border-left:3px solid var(--accent);border-radius:0 6px 6px 0;padding:4px 10px}
-.keycards dfn{display:block;font-style:normal;color:var(--accent);font-weight:600;font-size:.64rem;text-transform:uppercase;letter-spacing:.04em;margin-bottom:1px}
-.keycards span{display:block;font-size:.71rem;line-height:1.18}
-.keycards b{color:#fff;font-weight:600}
-.cite{font-size:.68em;color:var(--warn);font-weight:600;margin-left:2px}
-
-.trap{margin-top:3px;padding:4px 11px;border-radius:6px;background:rgba(224,178,60,.09);border:1px solid rgba(224,178,60,.28);font-size:.68rem;line-height:1.24;max-width:78ch;flex:none}
-.trap strong{color:var(--warn);font-weight:600}
-
-.quiz[hidden]{display:none}
-.quiz__q{font-family:var(--serif);font-size:clamp(.92rem,2.6cqh,1.15rem);line-height:1.26;margin:6px 0 4px;max-width:60ch}
-.quiz__note{font-size:.68rem;color:var(--mist);margin:0 0 5px}
-.quiz__opts{list-style:none;margin:0;padding:0;display:grid;gap:5px}
-.quiz[data-multi] .quiz__opts{grid-template-columns:repeat(2,1fr);gap:5px 8px}
-@media (max-width:700px){.quiz[data-multi] .quiz__opts{grid-template-columns:1fr}}
-.opt{width:100%;display:grid;grid-template-columns:18px 1fr;gap:7px;text-align:left;align-items:start;background:var(--ink-2);border:1px solid transparent;color:var(--bone);border-radius:6px;padding:4px 9px;cursor:pointer;font-family:var(--sans);font-size:.72rem;line-height:1.2}
-.opt:hover:not(:disabled){border-color:var(--line)}
-.opt:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
-.opt:disabled{cursor:default;opacity:.5}
-.opt__k{font-weight:700;color:var(--mist)}
-.opt.is-pick{border-color:var(--accent);opacity:1}
-.opt.is-right{border-color:var(--ok);background:rgba(143,198,154,.12);opacity:1}
-.opt.is-right .opt__k{color:var(--ok)}
-.opt.is-wrong{border-color:var(--warn);background:rgba(224,178,60,.1);opacity:1}
-.opt.is-wrong .opt__k{color:var(--warn)}
-.check{margin-top:6px;background:var(--accent);border:none;color:var(--ink);border-radius:6px;padding:5px 14px;font-family:var(--sans);font-weight:600;font-size:.76rem;cursor:pointer}
-.check[hidden]{display:none}
-.check:focus-visible{outline:2px solid var(--bone);outline-offset:2px}
-.quiz__fb{border-left:2px solid var(--ok);padding:1px 0 1px 11px;margin-top:6px;font-size:.72rem;line-height:1.3;max-width:76ch}
-.quiz__fb p{margin:0 0 .32em}
-.quiz__fb p:last-child{margin:0}
-.quiz__fb b{color:#fff;font-weight:600}
-
-.tiles{display:grid;grid-template-columns:repeat(auto-fit,minmax(100px,1fr));gap:5px;margin:5px 0}
-.tile{background:var(--ink-2);border-top:2px solid var(--accent);border-radius:0 0 6px 6px;padding:5px 8px 6px}
-.tile__icon{width:15px;height:15px;color:var(--accent);opacity:.85;display:block;margin-bottom:3px}
-.tile__label{display:block;font-size:.62rem;color:var(--mist);text-transform:uppercase;letter-spacing:.03em;line-height:1.2}
-.tile__value{display:block;font-family:var(--serif);font-size:clamp(1rem,2.8cqh,1.3rem);font-weight:500;color:#fff;line-height:1.15;margin-top:1px}
-.tile__value.is-flag{color:var(--warn)}
-.tile__ref{display:block;font-size:.62rem;color:var(--mist);line-height:1.25;margin-top:1px}
-.tile-line{font-family:var(--serif);font-size:.85rem;line-height:1.4;color:var(--bone);margin:6px 0 0}
-
-.match{display:grid;grid-template-columns:1fr minmax(150px,230px);gap:8px;margin-bottom:8px}
-@media (max-width:700px){.match{grid-template-columns:1fr}}
-.col{display:grid;gap:5px;align-content:start}
-.mi{background:var(--ink-2);border:1px solid transparent;color:var(--bone);border-radius:6px;padding:7px 11px;text-align:left;cursor:pointer;font-family:var(--sans);font-size:.78rem;line-height:1.3}
-.mi:hover:not(:disabled){border-color:var(--line)}
-.mi:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
-.mi.is-sel{border-color:var(--accent);background:rgba(127,196,217,.12)}
-.mi.is-done{border-color:var(--ok);background:rgba(143,198,154,.1);cursor:default;opacity:.85}
-.mi.is-miss{border-color:var(--warn);animation:shake .3s}
-@keyframes shake{25%{transform:translateX(-4px)}75%{transform:translateX(4px)}}
-@media (prefers-reduced-motion:reduce){.mi.is-miss{animation:none}}
-.mi small{display:block;color:var(--mist);font-size:.7rem;margin-top:2px}
-
-.drugcards{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin:6px 0 8px}
-@media (max-width:820px){.drugcards{grid-template-columns:repeat(2,1fr)}}
-.drugcard{background:var(--ink-2);border-top:3px solid var(--c);border-radius:0 0 8px 8px;padding:9px 11px;display:flex;flex-direction:column;gap:5px}
-.drugcard h3{font-family:var(--serif);font-weight:500;font-size:.92rem;color:#fff;margin:0}
-.drugcard .row{font-size:.7rem;line-height:1.3}
-.drugcard .row dfn{display:block;font-style:normal;color:var(--c);font-weight:600;font-size:.6rem;text-transform:uppercase;letter-spacing:.03em}
-.drugcard .row span{color:var(--bone)}
-
-.take{list-style:none;margin:0 0 10px;padding:0;display:grid;gap:7px;max-width:78ch}
-.take li{font-family:var(--serif);font-size:clamp(.86rem,2.3cqh,1.02rem);line-height:1.32;padding-left:15px;border-left:2px solid var(--accent)}
-.refs{font-size:.72rem;color:var(--mist);line-height:1.4;max-width:80ch}
-.refs h3{font-family:var(--sans);font-size:.74rem;color:var(--bone);margin:0 0 4px;font-weight:600}
-.refs ol{margin:0;padding-left:1.1em}
-.refs li{margin-bottom:2px}
-.refs i{font-style:italic}
-
-.controls{display:flex;align-items:center;gap:13px;padding:8px 0 10px;border-top:1px solid var(--line);flex:none}
-.track{display:flex;gap:3px;flex:1}
-.tick{flex:1;height:5px;border:none;padding:0;border-radius:2px;background:var(--ink-3);cursor:pointer}
-.tick:hover{background:var(--line)}
-.tick.is-done{background:var(--line)}
-.tick.is-live{background:var(--accent)}
-.tick:focus-visible{outline:2px solid var(--accent);outline-offset:3px}
-.nav{display:flex;gap:8px}
-.nav button{background:var(--ink-2);border:1px solid var(--line);color:var(--bone);width:40px;height:36px;border-radius:6px;cursor:pointer;font-size:1rem;font-family:var(--sans)}
-.nav button:hover:not(:disabled){border-color:var(--accent)}
-.nav button:disabled{opacity:.3;cursor:default}
-.nav button:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
-.hint{font-size:.74rem;color:var(--mist);white-space:nowrap}
-@media (max-width:640px){.hint{display:none}}
-
-.presenter{position:fixed;top:0;right:0;bottom:0;width:min(340px,86vw);background:var(--ink-2);border-left:1px solid var(--line);padding:20px 22px;overflow-y:auto;z-index:20;box-shadow:-8px 0 24px rgba(0,0,0,.35)}
-.presenter[hidden]{display:none}
-.presenter h3{font-family:var(--sans);font-size:.75rem;text-transform:uppercase;letter-spacing:.06em;color:var(--mist);margin:0 0 8px;font-weight:600}
-.presenter h3:not(:first-child){margin-top:22px}
-.presenter__clock{font-variant-numeric:tabular-nums;font-weight:600;font-size:2rem;color:var(--bone)}
-.presenter__notes{font-family:var(--serif);font-size:1.05rem;line-height:1.55;color:var(--bone)}
-.presenter__warn{margin-top:14px;padding:11px 14px;border-radius:6px;background:rgba(224,178,60,.12);border:1px solid rgba(224,178,60,.35);color:var(--warn);font-size:.85rem;line-height:1.5}
-.presenter__warn[hidden]{display:none}
-.presenter__hint{margin-top:20px;font-size:.72rem;color:var(--mist)}
-</style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Neumotoxicidad por fármacos — Sesión clínica</title>
+<meta name="description" content="Sesión clínica de Neumología: neumotoxicidad por fármacos en el paciente hematológico. Bleomicina, metotrexato, CAR-T e inhibidores de checkpoint.">
+<link rel="stylesheet" href="assets/css/style.css">
 </head>
 <body>
-<svg width="0" height="0" style="position:absolute" aria-hidden="true">
-  <symbol id="icon-droplet" viewBox="0 0 20 20"><path d="M10 2C10 2 4 9 4 13a6 6 0 0 0 12 0C16 9 10 2 10 2Z" fill="currentColor"/></symbol>
-  <symbol id="icon-wave" viewBox="0 0 20 20"><path d="M2 12c2 0 2-6 4-6s2 6 4 6 2-6 4-6 2 6 4 6" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></symbol>
-  <symbol id="icon-flask" viewBox="0 0 20 20"><path d="M8 2h4M8 2v5l-4.5 8a1.5 1.5 0 0 0 1.3 2.2h10.4a1.5 1.5 0 0 0 1.3-2.2L12 7V2" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"/></symbol>
-  <symbol id="icon-pulse" viewBox="0 0 20 20"><path d="M2 10h3l2-5 3 10 2-7 1.5 2H18" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></symbol>
-</svg>
-<div class="stage">
 
-<header class="rail">
-  <span class="rail__chip" id="chip">Sesión clínica</span>
-  <span class="rail__who" id="who">Los dos</span>
-  <span id="pos">1 / 13</span>
-  <span class="rail__spacer"></span>
-  <span class="rail__score" id="score">Aciertos 0 / 6</span>
-  <button class="rail__clock" id="clock" title="Iniciar o pausar">20:00</button>
-</header>
+<div id="scroll-progress"></div>
 
-<main class="deck" id="deck">
+<div id="top-controls">
+  <button class="pill-btn" id="btn-mode">Modo presentación</button>
+  <button class="pill-btn" id="timer-display" title="Iniciar o pausar el cronómetro de 20 minutos">20:00</button>
+</div>
 
-<section class="slide" data-chip="Sesión clínica" data-who="Los dos" data-accent="var(--glass)" data-notes="Arrancad con el título en pantalla mientras entra la gente. No leáis la diapo: anunciad que son cuatro casos reales y que la pregunta de fondo es siempre la misma, cuándo el fármaco deja de ser sospechoso y pasa a ser el diagnóstico.">
-  <h1>Cuando el fármaco es el infiltrado</h1>
-  <p class="lede">Neumotoxicidad en el paciente hematológico: cuatro casos, cuatro mecanismos, cuatro decisiones distintas.</p>
-  <p class="meta">Bleomicina · Metotrexato · CAR-T · Inhibidores de checkpoint<br>20 minutos · Servicio de Neumología</p>
-</section>
+<nav id="progress-nav" aria-label="Navegación de secciones"></nav>
 
-<section class="slide" data-chip="Punto de partida" data-who="Ponente A" data-accent="var(--glass)" data-notes="Insistid en que la infección va primero, siempre. El marco de cronología, mecanismo y consecuencia es el hilo que vais a repetir en los cuatro casos: usadlo para anclar la atención antes de entrar en el primero.">
-  <h2>El fármaco es siempre un diagnóstico de exclusión</h2>
-  <p>En un paciente inmunodeprimido con un infiltrado nuevo, la infección va primero. Pero descartarla no basta: hay que saber a qué toxicidad nos enfrentamos, porque el manejo cambia por completo.</p>
-  <ul class="keycards">
-    <li><dfn>Cronología</dfn><span>¿Cuántos días u horas desde la última dosis? Es el dato que más discrimina y el que peor recogemos.</span></li>
-    <li><dfn>Mecanismo</dfn><span>Daño oxidativo, hipersensibilidad, fuga capilar por citoquinas o desregulación inmune. Cada uno responde a un tratamiento distinto.</span></li>
-    <li><dfn>Consecuencia</dfn><span>Retirar, reducir, mantener o reintroducir. La respuesta no es la misma en los cuatro casos.</span></li>
-  </ul>
-  <div class="trap"><strong>Cómo funciona la sesión:</strong> cada caso se abre por partes. Parad en cada botón, dejad que la sala responda y solo después seguid. Las preguntas se corrigen solas al pulsar.</div>
-</section>
-
-<section class="slide" data-chip="Caso 1 · Bleomicina" data-who="Ponente A" data-accent="var(--c1)" data-notes="Revelad los datos uno a uno con el botón, dejad que la sala proponga un diagnóstico antes de la TC. El dato que más se pasa por alto es la ausencia de fiebre: subrayadlo antes de mostrar la pregunta.">
-  <h2>Varón de 24 años, linfoma de Hodgkin</h2>
-  <div class="split">
-    <div class="case" data-reveal>
-      <p class="step">Estadio IIB, en tratamiento con <b>ABVD</b>. Consulta tres semanas después del quinto ciclo por tos seca y disnea de esfuerzo progresiva. Sin fiebre.</p>
-      <div class="step tiles" hidden>
-        <div class="tile"><svg class="tile__icon"><use href="#icon-droplet"/></svg><span class="tile__label">SpO₂ reposo</span><strong class="tile__value">95 %</strong></div>
-        <div class="tile"><svg class="tile__icon"><use href="#icon-droplet"/></svg><span class="tile__label">SpO₂ tras marcha</span><strong class="tile__value is-flag">87 %</strong><span class="tile__ref">crepitantes secos bibasales</span></div>
-        <div class="tile"><svg class="tile__icon"><use href="#icon-flask"/></svg><span class="tile__label">PCR</span><strong class="tile__value">6 mg/L</strong><span class="tile__ref">procalcitonina normal</span></div>
-        <div class="tile"><svg class="tile__icon"><use href="#icon-flask"/></svg><span class="tile__label">Galactomanano</span><strong class="tile__value">Negativo</strong></div>
-      </div>
-      <p class="step" hidden>TC: opacidades reticulares y en vidrio deslustrado <b>subpleurales, de predominio en bases</b>, con engrosamiento septal. Sin nódulos ni signo del halo.</p>
-      <div class="step tiles" hidden>
-        <div class="tile"><svg class="tile__icon"><use href="#icon-wave"/></svg><span class="tile__label">DLCO</span><strong class="tile__value is-flag">47 %</strong><span class="tile__ref">basal 91 % · patrón restrictivo leve</span></div>
-      </div>
-      <button class="more">Siguiente dato</button>
+<!-- ============================================================ -->
+<!-- PORTADA -->
+<!-- ============================================================ -->
+<section class="slide" id="hero" data-title="Portada">
+  <div class="hero-mesh" aria-hidden="true">
+    <div class="hero-blob b1"></div>
+    <div class="hero-blob b2"></div>
+    <div class="hero-blob b3"></div>
+    <div class="hero-blob b4"></div>
+  </div>
+  <div class="wrap">
+    <div class="tag-row reveal">
+      <span class="tag c1">Bleomicina</span>
+      <span class="tag c2">Metotrexato</span>
+      <span class="tag c3">CAR-T</span>
+      <span class="tag c4">Checkpoint</span>
     </div>
-    <div class="figs">
-      <figure class="dgm">
+    <h1 class="reveal d1">Cuando el fármaco<br>es el infiltrado</h1>
+    <p class="sub reveal d2">Neumotoxicidad en el paciente hematológico: cuatro casos, cuatro mecanismos, cuatro decisiones distintas.</p>
+    <div class="hero-meta reveal d3">
+      <div><b>Servicio de Neumología</b>Sesión clínica</div>
+      <div><b>Los dos ponentes</b>Casos A y B</div>
+      <div><b>20 minutos</b>Duración estimada</div>
+    </div>
+    <div class="scroll-cue reveal d4"><span class="arrow">↓</span> Desliza para empezar · flechas ← → en modo presentación</div>
+  </div>
+</section>
+
+<!-- ============================================================ -->
+<!-- PUNTO DE PARTIDA -->
+<!-- ============================================================ -->
+<section class="slide" id="marco" data-title="Punto de partida">
+  <div class="wrap">
+    <span class="eyebrow reveal">Punto de partida</span>
+    <h2 class="reveal">El fármaco es siempre un diagnóstico de exclusión</h2>
+    <p class="reveal">En un paciente inmunodeprimido con un infiltrado nuevo, la infección va primero. Pero descartarla no basta: hay que saber a qué toxicidad nos enfrentamos, porque el manejo cambia por completo.</p>
+    <div class="frame-grid">
+      <div class="frame-card reveal">
+        <div class="fc-num">01</div>
+        <h4>Cronología</h4>
+        <p>¿Cuántos días u horas desde la última dosis? Es el dato que más discrimina y el que peor recogemos.</p>
+      </div>
+      <div class="frame-card reveal d1">
+        <div class="fc-num">02</div>
+        <h4>Mecanismo</h4>
+        <p>Daño oxidativo, hipersensibilidad, fuga capilar por citoquinas o desregulación inmune. Cada uno responde a un tratamiento distinto.</p>
+      </div>
+      <div class="frame-card reveal d2">
+        <div class="fc-num">03</div>
+        <h4>Consecuencia</h4>
+        <p>Retirar, reducir, mantener o reintroducir. La respuesta no es la misma en los cuatro casos.</p>
+      </div>
+    </div>
+    <div class="callout reveal d3"><strong>Cómo funciona la sesión:</strong> desliza a tu ritmo por cada caso. Los datos clínicos se animan al entrar en pantalla, las preguntas se corrigen solas al pulsar, y los bloques con «+» se abren al hacer clic.</div>
+  </div>
+</section>
+
+<!-- ============================================================ -->
+<!-- CASO 1 · BLEOMICINA — presentación -->
+<!-- ============================================================ -->
+<section class="slide" id="caso1" data-title="Caso 1 · Bleomicina" style="--c-case:var(--c1);--c-case-dim:var(--c1-dim)">
+  <div class="wrap">
+    <span class="eyebrow reveal">Caso 1 · Bleomicina</span>
+    <h2 class="reveal">Varón de 24 años, linfoma de Hodgkin</h2>
+    <p class="reveal">Estadio IIB, en tratamiento con <b>ABVD</b>. Consulta tres semanas después del quinto ciclo por tos seca y disnea de esfuerzo progresiva. Sin fiebre.</p>
+
+    <div class="lab-grid">
+      <div class="lab-card reveal">
+        <div class="lab-head"><svg class="lab-icon" viewBox="0 0 20 20"><path d="M10 2C10 2 4 9 4 13a6 6 0 0 0 12 0C16 9 10 2 10 2Z" fill="currentColor" opacity=".85"/></svg><div class="lab-label">SpO₂ reposo</div></div>
+        <div class="lab-value">95 %</div>
+      </div>
+      <div class="lab-card abn reveal" data-target="87" data-fill="87%">
+        <div class="lab-head"><svg class="lab-icon" viewBox="0 0 20 20"><path d="M10 2C10 2 4 9 4 13a6 6 0 0 0 12 0C16 9 10 2 10 2Z" fill="currentColor" opacity=".85"/></svg><div class="lab-label">SpO₂ tras marcha</div></div>
+        <div class="lab-value abn"><span class="counter">0</span> %</div>
+        <div class="lab-ref">Crepitantes secos bibasales</div>
+        <div class="lab-bar"><span></span></div>
+      </div>
+      <div class="lab-card reveal">
+        <div class="lab-head"><svg class="lab-icon" viewBox="0 0 20 20"><path d="M8 2h4M8 2v5l-4.5 8a1.5 1.5 0 0 0 1.3 2.2h10.4a1.5 1.5 0 0 0 1.3-2.2L12 7V2" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"/></svg><div class="lab-label">PCR</div></div>
+        <div class="lab-value">6 mg/L</div>
+        <div class="lab-ref">Procalcitonina normal</div>
+      </div>
+      <div class="lab-card reveal">
+        <div class="lab-head"><svg class="lab-icon" viewBox="0 0 20 20"><path d="M8 2h4M8 2v5l-4.5 8a1.5 1.5 0 0 0 1.3 2.2h10.4a1.5 1.5 0 0 0 1.3-2.2L12 7V2" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"/></svg><div class="lab-label">Galactomanano</div></div>
+        <div class="lab-value">Negativo</div>
+      </div>
+      <div class="lab-card abn reveal" data-target="47" data-fill="47%">
+        <div class="lab-head"><svg class="lab-icon" viewBox="0 0 20 20"><path d="M2 12c2 0 2-6 4-6s2 6 4 6 2-6 4-6 2 6 4 6" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg><div class="lab-label">DLCO</div></div>
+        <div class="lab-value abn"><span class="counter">0</span> %</div>
+        <div class="lab-ref">Basal 91 % · patrón restrictivo leve</div>
+        <div class="lab-bar"><span></span></div>
+      </div>
+    </div>
+
+    <div class="case-block reveal" style="--c-case:var(--c1)">
+      <div class="cb-head"><span>TC de tórax</span><span class="cb-icon">+</span></div>
+      <div class="cb-body"><p>Opacidades reticulares y en vidrio deslustrado <b>subpleurales, de predominio en bases</b>, con engrosamiento septal. Sin nódulos ni signo del halo.</p></div>
+    </div>
+
+    <div class="img-row reveal">
+      <figure class="img-card"><img data-slot alt="Radiografía PA al momento de la consulta" src="images/caso1-rx-antes.jpg"><span class="tagline">Al consultar</span></figure>
+      <figure class="img-card"><img data-slot alt="Radiografía PA de control" src="images/caso1-rx-despues.jpg"><span class="tagline">En el seguimiento</span></figure>
+    </div>
+
+    <div class="quiz-step reveal">
+      <div class="q-prompt"><strong>Decisión:</strong> ¿Qué hacéis con el esquema de tratamiento?</div>
+      <div class="q-options">
+        <button class="q-opt" data-correct="true">Retirar la bleomicina de forma definitiva, continuar con AVD y evitar FiO₂ elevadas</button>
+        <button class="q-opt" data-correct="false">Reducir la bleomicina al 50 % y vigilar la DLCO antes de cada ciclo</button>
+        <button class="q-opt" data-correct="false">Mantener el esquema: la toxicidad es idiosincrásica y no depende de la dosis</button>
+        <button class="q-opt" data-correct="false">Antifúngico empírico y reevaluar antes de modificar nada</button>
+      </div>
+      <div class="q-feedback">
+        <p>La toxicidad por bleomicina <b>no se dosifica a la baja: se retira</b>. La incidencia sube con la dosis acumulada, sobre todo por encima de 300–400 U, pero hay casos muy por debajo, así que ninguna cifra es «segura».</p>
+        <p>Galactomanano negativo, sin fiebre y patrón subpleural basal hacen improbable la aspergilosis. El antifúngico no debe retrasar la retirada.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================ -->
+<!-- CASO 1 · BLEOMICINA — mecanismo -->
+<!-- ============================================================ -->
+<section class="slide" id="caso1-mech" data-title="Caso 1 · Mecanismo" style="--c-case:var(--c1);--c-case-dim:var(--c1-dim)">
+  <div class="wrap">
+    <span class="eyebrow reveal">Caso 1 · Mecanismo</span>
+    <h2 class="reveal">Bleomicina</h2>
+
+    <div class="mech-panel reveal">
+      <h3><span class="tag c1">Caso 1</span> Daño oxidativo directo</h3>
+      <div class="mech-grid">
         <svg viewBox="0 0 230 150" role="img" aria-label="Esquema de TC axial con reticulación subpleural de predominio basal">
           <ellipse cx="115" cy="76" rx="110" ry="66" fill="#1B333E"/>
           <defs>
@@ -264,103 +169,152 @@ body{margin:0;background:var(--ink);color:var(--bone);font-family:var(--sans);fo
           </g>
           <ellipse cx="115" cy="74" rx="15" ry="30" fill="#254654"/>
         </svg>
-        <figcaption>Reticulación subpleural con gradiente basal. La periferia se afecta antes que el centro.</figcaption>
-      </figure>
-      <figure class="shot">
-        <div class="pair">
-          <div><img data-slot alt="Radiografía PA al momento de la consulta" src="images/caso1-rx-antes.jpg"><span>Al consultar</span></div>
-          <div><img data-slot alt="Radiografía PA de control" src="images/caso1-rx-despues.jpg"><span>En el seguimiento</span></div>
-        </div>
-        <figcaption>Radiografía PA. Reticulación bibasal que progresa pese a la retirada. Fuente: <sup class="cite">[PENDIENTE]</sup></figcaption>
-      </figure>
+        <ul class="mech-steps">
+          <li><b>Mecanismo:</b> daño oxidativo directo. El pulmón carece de bleomicina hidrolasa: por eso es el órgano diana.</li>
+          <li><b>Latencia:</b> semanas a meses; mediana en torno a 2–3 meses en Hodgkin, más precoz en tumores germinales.</li>
+          <li><b>Imagen:</b> reticulación y vidrio deslustrado subpleural basal, con evolución posible a fibrosis. Formas menos frecuentes: neumonía organizada y neumonitis por hipersensibilidad.</li>
+          <li><b>Manejo:</b> retirada definitiva. Corticoide (0,5–1 mg/kg) si hay síntomas o progresión, con descenso lento. Respuesta variable; la fibrosis establecida no revierte.</li>
+          <li><b>Prevención:</b> en RATHL, omitir bleomicina tras un PET-TC negativo en el ciclo 2 redujo los eventos respiratorios graves sin perder supervivencia.</li>
+        </ul>
+      </div>
+      <div class="interact-box"><span class="lbl">Interacción</span>FiO₂ elevada perioperatoria, radioterapia torácica previa, filtrado glomerular bajo (la eliminación es renal), G-CSF y cisplatino potencian el daño. <span class="cite">[PENDIENTE]</span></div>
+      <div class="trap"><strong>Para vosotros:</strong> la DLCO cae más de un 10 % en la mayoría de los tratados con ABVD, y a los 5 años un tercio sigue por debajo del 75 %. Una caída aislada no diagnostica toxicidad, y ese antecedente explica muchas DLCO bajas que os llegan años después.</div>
     </div>
-  </div>
-  <div class="quiz" data-key="a" hidden>
-    <p class="quiz__q">¿Qué hacéis con el esquema de tratamiento?</p>
-    <ul class="quiz__opts">
-      <li><button class="opt" data-k="a"><span class="opt__k">A</span><span>Retirar la bleomicina de forma definitiva, continuar con AVD y evitar FiO₂ elevadas</span></button></li>
-      <li><button class="opt" data-k="b"><span class="opt__k">B</span><span>Reducir la bleomicina al 50 % y vigilar la DLCO antes de cada ciclo</span></button></li>
-      <li><button class="opt" data-k="c"><span class="opt__k">C</span><span>Mantener el esquema: la toxicidad es idiosincrásica y no depende de la dosis</span></button></li>
-      <li><button class="opt" data-k="d"><span class="opt__k">D</span><span>Antifúngico empírico y reevaluar antes de modificar nada</span></button></li>
-    </ul>
-    <div class="quiz__fb" hidden>
-      <p>La toxicidad por bleomicina <b>no se dosifica a la baja: se retira</b>. La incidencia sube con la dosis acumulada, sobre todo por encima de 300–400 U, pero hay casos muy por debajo, así que ninguna cifra es «segura».</p>
-      <p>Galactomanano negativo, sin fiebre y patrón subpleural basal hacen improbable la aspergilosis. El antifúngico no debe retrasar la retirada.</p>
+
+    <div class="ct-strip reveal">
+      <div class="ct-strip-label">TC axial · antes de la toxicidad</div>
+      <div class="ct-strip-row">
+        <div class="ct-cell"><img src="images/caso1-tc-superior-antes.jpg" alt="TC axial, campo superior, antes"><span>Superior</span></div>
+        <div class="ct-cell is-empty">Pendiente<br>nivel medio</div>
+        <div class="ct-cell"><img src="images/caso1-tc-inferior-antes.jpg" alt="TC axial, campo inferior, antes"><span>Inferior</span></div>
+      </div>
+      <div class="ct-strip-label" style="margin-top:.9rem">TC axial · tras la toxicidad</div>
+      <div class="ct-strip-row">
+        <div class="ct-cell"><img src="images/caso1-tc-superior-despues.jpg" alt="TC axial, campo superior, después"><span>Superior</span></div>
+        <div class="ct-cell"><img src="images/caso1-tc-medio-despues.jpg" alt="TC axial, campo medio, después"><span>Medio</span></div>
+        <div class="ct-cell"><img src="images/caso1-tc-inferior-despues.jpg" alt="TC axial, campo inferior, después"><span>Inferior</span></div>
+      </div>
+    </div>
+
+    <div class="quiz-step reveal" data-multi>
+      <div class="q-prompt"><strong>Respuesta múltiple:</strong> ¿cuáles aumentan el riesgo de toxicidad?</div>
+      <p class="q-note">Marcad todas las que creáis y pulsad Comprobar.</p>
+      <div class="q-options">
+        <button class="q-opt" data-correct="true">Edad superior a 40 años</button>
+        <button class="q-opt" data-correct="false">Sexo femenino</button>
+        <button class="q-opt" data-correct="true">Filtrado glomerular por debajo de 80 ml/min</button>
+        <button class="q-opt" data-correct="true">Radioterapia torácica previa o concomitante</button>
+        <button class="q-opt" data-correct="true">Oxigenoterapia a FiO₂ alta, por ejemplo en una anestesia</button>
+        <button class="q-opt" data-correct="false">Esplenectomía previa</button>
+      </div>
+      <button class="q-check">Comprobar</button>
+      <div class="q-feedback">
+        <p>Riesgo aumentado: <b>edad &gt;40, insuficiencia renal, radioterapia torácica y FiO₂ elevada</b>. Añadid el tabaquismo y la propia dosis acumulada. El sexo y la esplenectomía no son factores establecidos.</p>
+        <p>El del filtrado glomerular es el que más se olvida: la bleomicina se elimina por vía renal y un aclaramiento bajo alarga la exposición pulmonar.</p>
+      </div>
     </div>
   </div>
 </section>
 
-<section class="slide" data-chip="Caso 1 · Claves" data-who="Ponente A" data-accent="var(--c1)" data-notes="La tarjeta de interacción es nueva: parad ahí un momento, el filtrado glomerular bajo es el factor que menos se recoge en la anamnesis. En el quiz múltiple dejad que la sala debata antes de comprobar.">
-  <h2>Bleomicina</h2>
-  <ul class="keycards">
-    <li><dfn>Mecanismo</dfn><span>Daño oxidativo directo. El pulmón carece de bleomicina hidrolasa: por eso es el órgano diana.</span></li>
-    <li><dfn>Interacción</dfn><span>FiO₂ elevada perioperatoria, radioterapia torácica previa, filtrado glomerular bajo (la eliminación es renal), G-CSF y cisplatino potencian el daño.<sup class="cite">[PENDIENTE]</sup></span></li>
-    <li><dfn>Latencia</dfn><span>Semanas a meses; mediana en torno a 2–3 meses en Hodgkin, más precoz en tumores germinales.</span></li>
-    <li><dfn>Imagen</dfn><span>Reticulación y vidrio deslustrado subpleural basal, con evolución posible a fibrosis. Formas menos frecuentes: neumonía organizada y neumonitis por hipersensibilidad.</span></li>
-    <li><dfn>Manejo</dfn><span>Retirada definitiva. Corticoide (0,5–1 mg/kg) si hay síntomas o progresión, con descenso lento. Respuesta variable; la fibrosis establecida no revierte.</span></li>
-    <li><dfn>Prevención</dfn><span>En RATHL, omitir bleomicina tras un PET-TC negativo en el ciclo 2 redujo los eventos respiratorios graves sin perder supervivencia.</span></li>
-  </ul>
-  <figure class="dgm">
-    <div class="ct-grid">
-      <div class="ct-row-label">Antes</div>
-      <div class="ct-cell"><img src="images/caso1-tc-superior-antes.jpg" alt="TC axial, campo superior, antes de la toxicidad"><span>Superior</span></div>
-      <div class="ct-cell is-empty">Pendiente<br>nivel medio, antes</div>
-      <div class="ct-cell"><img src="images/caso1-tc-inferior-antes.jpg" alt="TC axial, campo inferior, antes de la toxicidad"><span>Inferior</span></div>
-      <div class="ct-row-label">Después</div>
-      <div class="ct-cell"><img src="images/caso1-tc-superior-despues.jpg" alt="TC axial, campo superior, tras la toxicidad"><span>Superior</span></div>
-      <div class="ct-cell"><img src="images/caso1-tc-medio-despues.jpg" alt="TC axial, campo medio, tras la toxicidad"><span>Medio</span></div>
-      <div class="ct-cell"><img src="images/caso1-tc-inferior-despues.jpg" alt="TC axial, campo inferior, tras la toxicidad"><span>Inferior</span></div>
+<!-- ============================================================ -->
+<!-- CASO 2 · METOTREXATO — presentación -->
+<!-- ============================================================ -->
+<section class="slide" id="caso2" data-title="Caso 2 · Metotrexato" style="--c-case:var(--c2);--c-case-dim:var(--c2-dim)">
+  <div class="wrap">
+    <span class="eyebrow reveal">Caso 2 · Metotrexato</span>
+    <h2 class="reveal">Mujer de 58 años, leucemia linfoblástica aguda</h2>
+    <p class="reveal">En <b>mantenimiento</b>: metotrexato oral semanal y mercaptopurina. Profilaxis con cotrimoxazol, cumplimiento verificado. A las 7 semanas: tos seca y disnea de dos semanas.</p>
+
+    <div class="lab-grid">
+      <div class="lab-card abn reveal" data-target="38.1" data-decimals="1" data-fill="70%">
+        <div class="lab-head"><svg class="lab-icon" viewBox="0 0 20 20"><path d="M2 10h3l2-5 3 10 2-7 1.5 2H18" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg><div class="lab-label">Temperatura</div></div>
+        <div class="lab-value abn"><span class="counter">0</span> ºC</div>
+        <div class="lab-ref">Febrícula</div>
+        <div class="lab-bar"><span></span></div>
+      </div>
+      <div class="lab-card abn reveal" data-target="92" data-fill="60%">
+        <div class="lab-head"><svg class="lab-icon" viewBox="0 0 20 20"><path d="M10 2C10 2 4 9 4 13a6 6 0 0 0 12 0C16 9 10 2 10 2Z" fill="currentColor" opacity=".85"/></svg><div class="lab-label">SpO₂</div></div>
+        <div class="lab-value abn"><span class="counter">0</span> %</div>
+        <div class="lab-bar"><span></span></div>
+      </div>
+      <div class="lab-card abn reveal" data-target="780" data-fill="65%">
+        <div class="lab-head"><svg class="lab-icon" viewBox="0 0 20 20"><circle cx="7" cy="8" r="3" fill="currentColor"/><circle cx="13" cy="7" r="2.4" fill="currentColor" opacity=".7"/><circle cx="9" cy="14" r="2.6" fill="currentColor" opacity=".85"/></svg><div class="lab-label">Eosinófilos</div></div>
+        <div class="lab-value abn"><span class="counter">0</span>/µL</div>
+        <div class="lab-bar"><span></span></div>
+      </div>
+      <div class="lab-card abn reveal" data-fill="75%">
+        <div class="lab-head"><svg class="lab-icon" viewBox="0 0 20 20"><path d="M11 1 L4 12 L9 12 L8 19 L16 8 L11 8 Z" fill="currentColor"/></svg><div class="lab-label">LDH</div></div>
+        <div class="lab-value abn">Elevada</div>
+        <div class="lab-bar"><span></span></div>
+      </div>
     </div>
-    <figcaption>El gradiente basal se acentúa con la progresión. Fuente: <sup class="cite">[PENDIENTE]</sup></figcaption>
-  </figure>
-  <div class="quiz" data-multi data-key="a,c,d,e">
-    <p class="quiz__q">¿Cuáles aumentan el riesgo de toxicidad?</p>
-    <p class="quiz__note">Respuesta múltiple. Marcad todas las que creáis y pulsad Comprobar.</p>
-    <ul class="quiz__opts">
-      <li><button class="opt" data-k="a"><span class="opt__k">1</span><span>Edad superior a 40 años</span></button></li>
-      <li><button class="opt" data-k="b"><span class="opt__k">2</span><span>Sexo femenino</span></button></li>
-      <li><button class="opt" data-k="c"><span class="opt__k">3</span><span>Filtrado glomerular por debajo de 80 ml/min</span></button></li>
-      <li><button class="opt" data-k="d"><span class="opt__k">4</span><span>Radioterapia torácica previa o concomitante</span></button></li>
-      <li><button class="opt" data-k="e"><span class="opt__k">5</span><span>Oxigenoterapia a FiO₂ alta, por ejemplo en una anestesia</span></button></li>
-      <li><button class="opt" data-k="f"><span class="opt__k">6</span><span>Esplenectomía previa</span></button></li>
-    </ul>
-    <button class="check">Comprobar</button>
-    <div class="quiz__fb" hidden>
-      <p>Riesgo aumentado: <b>edad &gt;40, insuficiencia renal, radioterapia torácica y FiO₂ elevada</b>. Añadid el tabaquismo y la propia dosis acumulada. El sexo y la esplenectomía no son factores establecidos.</p>
-      <p>El del filtrado glomerular es el que más se olvida: la bleomicina se elimina por vía renal y un aclaramiento bajo alarga la exposición pulmonar.</p>
+
+    <div class="case-block reveal" style="--c-case:var(--c2)">
+      <div class="cb-head"><span>TC de tórax</span><span class="cb-icon">+</span></div>
+      <div class="cb-body"><p><b>Vidrio deslustrado bilateral difuso</b>, sin quistes ni neumotórax.</p></div>
     </div>
+
+    <div class="lab-grid">
+      <div class="lab-card reveal">
+        <div class="lab-head"><svg class="lab-icon" viewBox="0 0 20 20"><path d="M8 2h4M8 2v5l-4.5 8a1.5 1.5 0 0 0 1.3 2.2h10.4a1.5 1.5 0 0 0 1.3-2.2L12 7V2" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"/></svg><div class="lab-label">LBA celularidad</div></div>
+        <div class="lab-value">340.000/mL</div>
+      </div>
+      <div class="lab-card abn reveal" data-target="62" data-fill="62%">
+        <div class="lab-head"><svg class="lab-icon" viewBox="0 0 20 20"><path d="M8 2h4M8 2v5l-4.5 8a1.5 1.5 0 0 0 1.3 2.2h10.4a1.5 1.5 0 0 0 1.3-2.2L12 7V2" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"/></svg><div class="lab-label">LBA linfocitos</div></div>
+        <div class="lab-value abn"><span class="counter">0</span> %</div>
+        <div class="lab-ref">CD4/CD8 descendido</div>
+        <div class="lab-bar"><span></span></div>
+      </div>
+      <div class="lab-card reveal">
+        <div class="lab-head"><svg class="lab-icon" viewBox="0 0 20 20"><path d="M8 2h4M8 2v5l-4.5 8a1.5 1.5 0 0 0 1.3 2.2h10.4a1.5 1.5 0 0 0 1.3-2.2L12 7V2" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"/></svg><div class="lab-label">PCR Pneumocystis</div></div>
+        <div class="lab-value">Negativa</div>
+        <div class="lab-ref">Galactomanano LBA negativo, cultivos estériles</div>
+      </div>
+    </div>
+
+    <div class="quiz-step reveal">
+      <div class="q-prompt"><strong>Decisión:</strong> ¿qué apoya más la neumonitis por metotrexato frente a <i>Pneumocystis</i>?</div>
+      <div class="q-options">
+        <button class="q-opt" data-correct="false">La fiebre y el curso subagudo de la disnea</button>
+        <button class="q-opt" data-correct="false">El vidrio deslustrado bilateral en la TC</button>
+        <button class="q-opt" data-correct="true">La eosinofilia junto al LBA linfocitario, con profilaxis correcta y PCR negativa</button>
+        <button class="q-opt" data-correct="false">La dosis acumulada alcanzada en el mantenimiento</button>
+      </div>
+      <div class="q-feedback">
+        <p>La fiebre aparece en cerca de la mitad de las neumonitis por metotrexato y el vidrio deslustrado difuso es común a ambas: ninguno separa nada. La <b>dosis acumulada es irrelevante</b>, porque el mecanismo es de hipersensibilidad.</p>
+        <p>Inclina la balanza el conjunto: <b>eosinofilia periférica</b>, <b>LBA linfocitario</b> con CD4/CD8 bajo y profilaxis bien cumplida con PCR negativa.</p>
+      </div>
+    </div>
+
+    <h3 class="reveal" style="margin-top:2.4rem">Una imagen no las separa</h3>
+    <p class="reveal">Metotrexato a la izquierda, <i>Pneumocystis</i> a la derecha. Sin mirar la historia clínica, decidid cuál es cuál.</p>
+    <div class="reveal-pair reveal">
+      <figure><div class="reveal-img"><img src="images/caso2-metotrexato-tc.jpg" alt="TC de tórax, corte coronal, sin identificar"></div><figcaption class="reveal-label" hidden>Metotrexato</figcaption></figure>
+      <figure><div class="reveal-img"><div class="img-empty">Pendiente: TC o radiografía de <i>Pneumocystis</i>, misma escala y altura.<br>Guardadla como <code>images/caso2-pneumocystis.jpg</code></div></div><figcaption class="reveal-label" hidden>Pneumocystis</figcaption></figure>
+    </div>
+    <button class="pill-btn reveal-btn reveal" style="margin-top:1rem">Revelar</button>
+    <p class="reveal-msg" hidden style="font-size:.85rem;color:var(--text-faint);margin-top:.8rem">Vidrio deslustrado difuso en ambas, sin gradiente que las distinga. La respuesta está en la cronología, la profilaxis y el LBA, no en la imagen.</p>
   </div>
-  <div class="trap"><strong>Para vosotros:</strong> la DLCO cae más de un 10 % en la mayoría de los tratados con ABVD, y a los 5 años un tercio sigue por debajo del 75 %. Una caída aislada no diagnostica toxicidad, y ese antecedente explica muchas DLCO bajas que os llegan años después.</div>
 </section>
 
-<section class="slide" data-chip="Caso 2 · Metotrexato" data-who="Ponente A" data-accent="var(--c2)" data-notes="Este es el caso donde más se confunde con Pneumocystis. Dejad que la sala se moje antes de enseñar el LBA: la profilaxis bien cumplida es el dato que más pesa y el que menos se pregunta en consulta.">
-  <h2>Mujer de 58 años, leucemia linfoblástica aguda</h2>
-  <div class="split">
-    <div class="case" data-reveal>
-      <p class="step">En <b>mantenimiento</b>: metotrexato oral semanal y mercaptopurina. Profilaxis con cotrimoxazol, cumplimiento verificado.</p>
-      <div class="step tiles" hidden>
-        <div class="tile"><svg class="tile__icon"><use href="#icon-pulse"/></svg><span class="tile__label">Temperatura</span><strong class="tile__value is-flag">38,1 ºC</strong><span class="tile__ref">a las 7 semanas</span></div>
-        <div class="tile"><svg class="tile__icon"><use href="#icon-droplet"/></svg><span class="tile__label">SpO₂</span><strong class="tile__value is-flag">92 %</strong></div>
-        <div class="tile"><svg class="tile__icon"><use href="#icon-flask"/></svg><span class="tile__label">Eosinófilos</span><strong class="tile__value is-flag">780/µL</strong></div>
-        <div class="tile"><svg class="tile__icon"><use href="#icon-flask"/></svg><span class="tile__label">LDH</span><strong class="tile__value is-flag">Elevada</strong></div>
-      </div>
-      <p class="step" hidden>TC: <b>vidrio deslustrado bilateral difuso</b>, sin quistes ni neumotórax.</p>
-      <div class="step tiles" hidden>
-        <div class="tile"><svg class="tile__icon"><use href="#icon-flask"/></svg><span class="tile__label">LBA celularidad</span><strong class="tile__value">340.000/mL</strong></div>
-        <div class="tile"><svg class="tile__icon"><use href="#icon-flask"/></svg><span class="tile__label">LBA linfocitos</span><strong class="tile__value is-flag">62 %</strong><span class="tile__ref">CD4/CD8 descendido</span></div>
-        <div class="tile"><svg class="tile__icon"><use href="#icon-flask"/></svg><span class="tile__label">PCR Pneumocystis</span><strong class="tile__value">Negativa</strong><span class="tile__ref">galactomanano LBA negativo, cultivos estériles</span></div>
-      </div>
-      <button class="more">Siguiente dato</button>
-    </div>
-    <div class="figs">
-      <figure class="dgm">
+<!-- ============================================================ -->
+<!-- CASO 2 · METOTREXATO — mecanismo -->
+<!-- ============================================================ -->
+<section class="slide" id="caso2-mech" data-title="Caso 2 · Mecanismo" style="--c-case:var(--c2);--c-case-dim:var(--c2-dim)">
+  <div class="wrap">
+    <span class="eyebrow reveal">Caso 2 · Mecanismo</span>
+    <h2 class="reveal">Metotrexato</h2>
+
+    <div class="mech-panel reveal">
+      <h3><span class="tag c2">Caso 2</span> Reacción de hipersensibilidad</h3>
+      <div class="mech-grid">
         <svg viewBox="0 0 230 150" role="img" aria-label="Esquema de TC axial con vidrio deslustrado difuso bilateral">
           <ellipse cx="115" cy="76" rx="110" ry="66" fill="#1B333E"/>
           <ellipse cx="70" cy="74" rx="40" ry="52" fill="#0C1A20"/>
           <ellipse cx="160" cy="74" rx="40" ry="52" fill="#0C1A20"/>
-          <ellipse cx="70" cy="74" rx="40" ry="52" fill="#7FC4D9" opacity=".26"/>
-          <ellipse cx="160" cy="74" rx="40" ry="52" fill="#7FC4D9" opacity=".26"/>
-          <g fill="#7FC4D9" opacity=".45">
+          <ellipse cx="70" cy="74" rx="40" ry="52" fill="#4FB8D6" opacity=".26"/>
+          <ellipse cx="160" cy="74" rx="40" ry="52" fill="#4FB8D6" opacity=".26"/>
+          <g fill="#4FB8D6" opacity=".45">
             <circle cx="55" cy="50" r="2"/><circle cx="82" cy="62" r="2"/><circle cx="63" cy="88" r="2"/>
             <circle cx="88" cy="98" r="2"/><circle cx="48" cy="72" r="2"/><circle cx="75" cy="112" r="2"/>
             <circle cx="145" cy="52" r="2"/><circle cx="172" cy="64" r="2"/><circle cx="152" cy="90" r="2"/>
@@ -368,90 +322,122 @@ body{margin:0;background:var(--ink);color:var(--bone);font-family:var(--sans);fo
           </g>
           <ellipse cx="115" cy="74" rx="15" ry="30" fill="#254654"/>
         </svg>
-        <figcaption>Vidrio deslustrado homogéneo, sin gradiente ni preferencia periférica. Indistinguible del de <i>Pneumocystis</i>.</figcaption>
-      </figure>
-      <figure class="shot"><img data-slot alt="TC del caso 2" src="img/caso2.jpg"><figcaption>Imagen del caso</figcaption></figure>
-    </div>
-  </div>
-  <div class="quiz" data-key="c" hidden>
-    <p class="quiz__q">¿Qué apoya más la neumonitis por metotrexato frente a <i>Pneumocystis</i>?</p>
-    <ul class="quiz__opts">
-      <li><button class="opt" data-k="a"><span class="opt__k">A</span><span>La fiebre y el curso subagudo de la disnea</span></button></li>
-      <li><button class="opt" data-k="b"><span class="opt__k">B</span><span>El vidrio deslustrado bilateral en la TC</span></button></li>
-      <li><button class="opt" data-k="c"><span class="opt__k">C</span><span>La eosinofilia junto al LBA linfocitario, con profilaxis correcta y PCR negativa</span></button></li>
-      <li><button class="opt" data-k="d"><span class="opt__k">D</span><span>La dosis acumulada alcanzada en el mantenimiento</span></button></li>
-    </ul>
-    <div class="quiz__fb" hidden>
-      <p>La fiebre aparece en cerca de la mitad de las neumonitis por metotrexato y el vidrio deslustrado difuso es común a ambas: ninguno separa nada. La <b>dosis acumulada es irrelevante</b>, porque el mecanismo es de hipersensibilidad.</p>
-      <p>Inclina la balanza el conjunto: <b>eosinofilia periférica</b>, <b>LBA linfocitario</b> con CD4/CD8 bajo y profilaxis bien cumplida con PCR negativa.</p>
-    </div>
-  </div>
-</section>
-
-<section class="slide" data-chip="Caso 2 · Claves" data-who="Ponente A" data-accent="var(--c2)" data-notes="La tarjeta de interacción con cotrimoxazol conecta directamente con el caso: recordad que es la misma profilaxis que ya llevaba. Aprovechad para nombrar AINE e IBP, que se olvidan más.">
-  <h2>Metotrexato</h2>
-  <ul class="keycards">
-    <li><dfn>Mecanismo</dfn><span>Reacción de hipersensibilidad. Impredecible e independiente de la dosis: no hay umbral que vigilar.</span></li>
-    <li><dfn>Interacción</dfn><span>Cotrimoxazol: compite por la secreción tubular, sube el AUC del metotrexato y suma mielotoxicidad. Vigilar también AINE, IBP y probenecid, por el mismo mecanismo.<sup class="cite">[PENDIENTE]</sup></span></li>
-    <li><dfn>Latencia</dfn><span>Desde días hasta años, con la mayoría en el primer año de exposición.</span></li>
-    <li><dfn>Clínica</dfn><span>Tos, disnea subaguda y fiebre en torno al 50 %. Eosinofilia periférica en una proporción relevante.</span></li>
-    <li><dfn>Imagen</dfn><span>Vidrio deslustrado difuso, a veces con patrón de neumonitis por hipersensibilidad. Adenopatías mediastínicas ocasionales.</span></li>
-    <li><dfn>LBA</dfn><span>Linfocitosis con CD4/CD8 bajo. No es diagnóstico, pero excluye lo que sí lo es.</span></li>
-    <li><dfn>Manejo</dfn><span>Retirada y corticoide, con buena respuesta habitual. La reintroducción no se recomienda: las recidivas descritas son más graves.</span></li>
-  </ul>
-  <figure class="shot">
-    <div class="pair">
-      <div><img alt="Radiografía PA al ingreso, con infiltrados bilaterales" src="images/caso2-rx-inicial.jpg"><span>Al ingreso</span></div>
-      <div><img alt="Radiografía PA tras retirar metotrexato e iniciar corticoide" src="images/caso2-rx-resolucion.jpg"><span>Tras retirada y corticoide</span></div>
-    </div>
-    <figcaption>Resolución casi completa en pocas semanas, la evolución típica una vez retirado el fármaco. Fuente: <sup class="cite">[PENDIENTE]</sup></figcaption>
-  </figure>
-  <div class="trap"><strong>La trampa:</strong> el metotrexato también produce edema pulmonar no cardiogénico, derrame pleural y neumonía organizada. Y coexiste con inmunosupresión real: la neumonitis no exime de completar el estudio microbiológico, solo de esperar a sus resultados para retirar el fármaco.</div>
-</section>
-
-<section class="slide" data-chip="Caso 2 · Misma imagen" data-who="Ponente A" data-accent="var(--c2)" data-notes="No digáis nada antes de pulsar Revelar. Dejad que la sala intente distinguirlas y que se quede con que fallará casi siempre: ese es el mensaje, no el hallazgo en sí.">
-  <h2>Una imagen no las separa</h2>
-  <p class="lede">Metotrexato a la izquierda, <i>Pneumocystis</i> a la derecha. Sin mirar la historia clínica, decidid cuál es cuál.</p>
-  <div class="reveal-pair">
-    <figure class="reveal-item">
-      <div class="reveal-img"><img src="images/caso2-metotrexato-tc.jpg" alt="TC de tórax, corte coronal, sin identificar"></div>
-      <figcaption class="reveal-label" hidden>Metotrexato</figcaption>
-    </figure>
-    <figure class="reveal-item">
-      <div class="reveal-img"><div class="empty">Pendiente: TC o radiografía de neumonía por <i>Pneumocystis</i>, misma escala y altura.<br>Guardadla como <code>images/caso2-pneumocystis.jpg</code></div></div>
-      <figcaption class="reveal-label" hidden>Pneumocystis</figcaption>
-    </figure>
-  </div>
-  <button class="more" id="revealBtn">Revelar</button>
-  <p class="muted" id="revealMsg" style="font-size:.88rem;margin-top:14px" hidden>Vidrio deslustrado difuso en ambas, sin gradiente que las distinga. La respuesta está en la cronología, la profilaxis y el LBA, no en la imagen.</p>
-</section>
-
-<section class="slide" data-chip="Caso 3 · CAR-T" data-who="Ponente B" data-accent="var(--c3)" data-notes="Cambio de ponente. Marcad claramente que esto no es una neumonitis por fármaco sino fuga capilar dentro del SLC: es el giro conceptual del caso y conviene decirlo en voz alta antes del quiz.">
-  <h2>Varón de 55 años, día +3 tras CAR-T</h2>
-  <div class="split">
-    <div class="case" data-reveal>
-      <p class="step">Linfoma B difuso de célula grande refractario. Recibió <b>axicabtagén ciloleucel</b> hace tres días tras linfodepleción.</p>
-      <div class="step tiles" hidden>
-        <div class="tile"><svg class="tile__icon"><use href="#icon-pulse"/></svg><span class="tile__label">Temperatura</span><strong class="tile__value is-flag">39,4 ºC</strong><span class="tile__ref">desde el día +1</span></div>
-        <div class="tile"><svg class="tile__icon"><use href="#icon-pulse"/></svg><span class="tile__label">TA</span><strong class="tile__value is-flag">82/48</strong><span class="tile__ref">con noradrenalina</span></div>
-        <div class="tile"><svg class="tile__icon"><use href="#icon-pulse"/></svg><span class="tile__label">FR</span><strong class="tile__value is-flag">32 rpm</strong></div>
-        <div class="tile"><svg class="tile__icon"><use href="#icon-droplet"/></svg><span class="tile__label">SpO₂</span><strong class="tile__value is-flag">89 %</strong><span class="tile__ref">gafas nasales 4 L/min</span></div>
+        <ul class="mech-steps">
+          <li><b>Mecanismo:</b> reacción de hipersensibilidad. Impredecible e independiente de la dosis: no hay umbral que vigilar.</li>
+          <li><b>Latencia:</b> desde días hasta años, con la mayoría en el primer año de exposición.</li>
+          <li><b>Clínica:</b> tos, disnea subaguda y fiebre en torno al 50 %. Eosinofilia periférica en una proporción relevante.</li>
+          <li><b>Imagen:</b> vidrio deslustrado difuso, a veces con patrón de neumonitis por hipersensibilidad. Adenopatías mediastínicas ocasionales.</li>
+          <li><b>Manejo:</b> retirada y corticoide, con buena respuesta habitual. La reintroducción no se recomienda: las recidivas descritas son más graves.</li>
+        </ul>
       </div>
-      <p class="step" hidden>Infiltrados alveolointersticiales bilaterales difusos, líneas B en la ecografía y derrame pleural bilateral escaso.</p>
-      <div class="step tiles" hidden>
-        <div class="tile"><svg class="tile__icon"><use href="#icon-flask"/></svg><span class="tile__label">Ferritina</span><strong class="tile__value is-flag">8.400 ng/mL</strong></div>
-        <div class="tile"><svg class="tile__icon"><use href="#icon-flask"/></svg><span class="tile__label">PCR</span><strong class="tile__value is-flag">214 mg/L</strong></div>
-        <div class="tile"><svg class="tile__icon"><use href="#icon-flask"/></svg><span class="tile__label">Fibrinógeno</span><strong class="tile__value is-flag">Descendido</strong></div>
-        <div class="tile"><svg class="tile__icon"><use href="#icon-pulse"/></svg><span class="tile__label">ICE</span><strong class="tile__value">10/10</strong><span class="tile__ref">exploración neurológica normal</span></div>
-      </div>
-      <button class="more">Siguiente dato</button>
+      <div class="interact-box"><span class="lbl">Interacción</span>Cotrimoxazol: compite por la secreción tubular, sube el AUC del metotrexato y suma mielotoxicidad. Vigilar también AINE, IBP y probenecid, por el mismo mecanismo. <span class="cite">[PENDIENTE]</span></div>
+      <div class="trap"><strong>La trampa:</strong> el metotrexato también produce edema pulmonar no cardiogénico, derrame pleural y neumonía organizada. Y coexiste con inmunosupresión real: la neumonitis no exime de completar el estudio microbiológico, solo de esperar a sus resultados para retirar el fármaco.</div>
     </div>
-    <div class="figs">
-      <figure class="dgm">
+
+    <h3 class="reveal" style="margin-top:2rem">Evolución tras la retirada</h3>
+    <div class="img-row reveal">
+      <figure class="img-card"><img alt="Radiografía PA al ingreso, con infiltrados bilaterales" src="images/caso2-rx-inicial.jpg"><span class="tagline">Al ingreso</span></figure>
+      <figure class="img-card"><img alt="Radiografía PA tras retirar metotrexato e iniciar corticoide" src="images/caso2-rx-resolucion.jpg"><span class="tagline">Tras retirada y corticoide</span></figure>
+    </div>
+    <p class="reveal" style="font-size:.85rem;color:var(--text-faint)">Resolución casi completa en pocas semanas, la evolución típica una vez retirado el fármaco. Fuente: <span class="cite">[PENDIENTE]</span></p>
+  </div>
+</section>
+
+<!-- ============================================================ -->
+<!-- CASO 3 · CAR-T — presentación -->
+<!-- ============================================================ -->
+<section class="slide" id="caso3" data-title="Caso 3 · CAR-T" style="--c-case:var(--c3);--c-case-dim:var(--c3-dim)">
+  <div class="wrap">
+    <span class="eyebrow reveal">Caso 3 · CAR-T</span>
+    <h2 class="reveal">Varón de 55 años, día +3 tras CAR-T</h2>
+    <p class="reveal">Linfoma B difuso de célula grande refractario. Recibió <b>axicabtagén ciloleucel</b> hace tres días tras linfodepleción.</p>
+
+    <div class="lab-grid">
+      <div class="lab-card abn reveal" data-target="39.4" data-decimals="1" data-fill="82%">
+        <div class="lab-head"><svg class="lab-icon" viewBox="0 0 20 20"><path d="M2 10h3l2-5 3 10 2-7 1.5 2H18" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg><div class="lab-label">Temperatura</div></div>
+        <div class="lab-value abn"><span class="counter">0</span> ºC</div>
+        <div class="lab-ref">Desde el día +1</div>
+        <div class="lab-bar"><span></span></div>
+      </div>
+      <div class="lab-card abn reveal" data-fill="75%">
+        <div class="lab-head"><svg class="lab-icon" viewBox="0 0 20 20"><path d="M2 10h3l2-5 3 10 2-7 1.5 2H18" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg><div class="lab-label">TA</div></div>
+        <div class="lab-value abn">82/48</div>
+        <div class="lab-ref">Con noradrenalina</div>
+        <div class="lab-bar"><span></span></div>
+      </div>
+      <div class="lab-card abn reveal" data-target="32" data-fill="70%">
+        <div class="lab-head"><svg class="lab-icon" viewBox="0 0 20 20"><path d="M2 10h3l2-5 3 10 2-7 1.5 2H18" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg><div class="lab-label">FR</div></div>
+        <div class="lab-value abn"><span class="counter">0</span> rpm</div>
+        <div class="lab-bar"><span></span></div>
+      </div>
+      <div class="lab-card abn reveal" data-target="89" data-fill="75%">
+        <div class="lab-head"><svg class="lab-icon" viewBox="0 0 20 20"><path d="M10 2C10 2 4 9 4 13a6 6 0 0 0 12 0C16 9 10 2 10 2Z" fill="currentColor" opacity=".85"/></svg><div class="lab-label">SpO₂</div></div>
+        <div class="lab-value abn"><span class="counter">0</span> %</div>
+        <div class="lab-ref">Gafas nasales 4 L/min</div>
+        <div class="lab-bar"><span></span></div>
+      </div>
+      <div class="lab-card abn reveal" data-target="8400" data-fill="80%">
+        <div class="lab-head"><svg class="lab-icon" viewBox="0 0 20 20"><path d="M8 2h4M8 2v5l-4.5 8a1.5 1.5 0 0 0 1.3 2.2h10.4a1.5 1.5 0 0 0 1.3-2.2L12 7V2" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"/></svg><div class="lab-label">Ferritina</div></div>
+        <div class="lab-value abn"><span class="counter">0</span> ng/mL</div>
+        <div class="lab-bar"><span></span></div>
+      </div>
+      <div class="lab-card abn reveal" data-target="214" data-fill="78%">
+        <div class="lab-head"><svg class="lab-icon" viewBox="0 0 20 20"><path d="M8 2h4M8 2v5l-4.5 8a1.5 1.5 0 0 0 1.3 2.2h10.4a1.5 1.5 0 0 0 1.3-2.2L12 7V2" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"/></svg><div class="lab-label">PCR</div></div>
+        <div class="lab-value abn"><span class="counter">0</span> mg/L</div>
+        <div class="lab-bar"><span></span></div>
+      </div>
+      <div class="lab-card abn reveal" data-fill="60%">
+        <div class="lab-head"><svg class="lab-icon" viewBox="0 0 20 20"><path d="M8 2h4M8 2v5l-4.5 8a1.5 1.5 0 0 0 1.3 2.2h10.4a1.5 1.5 0 0 0 1.3-2.2L12 7V2" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"/></svg><div class="lab-label">Fibrinógeno</div></div>
+        <div class="lab-value abn">Descendido</div>
+        <div class="lab-bar"><span></span></div>
+      </div>
+      <div class="lab-card reveal">
+        <div class="lab-head"><svg class="lab-icon" viewBox="0 0 20 20"><path d="M3 15 a7 7 0 0 1 14 0" fill="none" stroke="currentColor" stroke-width="1.6"/><line x1="10" y1="15" x2="14" y2="9" stroke="currentColor" stroke-width="1.6"/><circle cx="10" cy="15" r="1.4" fill="currentColor"/></svg><div class="lab-label">ICE</div></div>
+        <div class="lab-value">10/10</div>
+        <div class="lab-ref">Exploración neurológica normal</div>
+      </div>
+    </div>
+
+    <div class="case-block reveal" style="--c-case:var(--c3)">
+      <div class="cb-head"><span>Pruebas de imagen</span><span class="cb-icon">+</span></div>
+      <div class="cb-body"><p>Infiltrados alveolointersticiales bilaterales difusos, líneas B en la ecografía y derrame pleural bilateral escaso.</p></div>
+    </div>
+
+    <div class="img-row solo reveal">
+      <figure class="img-card"><img data-slot alt="Imagen del caso 3" src="img/caso3.jpg"><figcaption>Imagen del caso</figcaption></figure>
+    </div>
+
+    <div class="quiz-step reveal">
+      <div class="q-prompt"><strong>Decisión:</strong> ¿cuál es el tratamiento dirigido de la insuficiencia respiratoria?</div>
+      <div class="q-options">
+        <button class="q-opt" data-correct="false">Corticoide a dosis alta primero, evitando tocilizumab para no restar eficacia al CAR-T</button>
+        <button class="q-opt" data-correct="true">Tocilizumab más soporte y antibioterapia empírica, añadiendo corticoide si no responde</button>
+        <button class="q-opt" data-correct="false">Antibioterapia y observación 48 h antes de inmunomodular</button>
+        <button class="q-opt" data-correct="false">Neumonitis intersticial por el producto celular: micofenolato</button>
+      </div>
+      <div class="q-feedback">
+        <p>No es una neumonitis por fármaco: es <b>fuga capilar dentro de un síndrome de liberación de citoquinas</b>. Fiebre, hipotensión con vasopresor e hipoxemia con oxígeno de bajo flujo definen un <b>SLC grado 3</b> en la escala ASTCT, que se gradúa por el peor de los dos parámetros.</p>
+        <p>El tocilizumab es la primera línea; el corticoide se añade si no hay respuesta o hay ICANS. <b>La antibioterapia empírica es simultánea, nunca alternativa.</b></p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================ -->
+<!-- CASO 3 · CAR-T — mecanismo -->
+<!-- ============================================================ -->
+<section class="slide" id="caso3-mech" data-title="Caso 3 · Mecanismo" style="--c-case:var(--c3);--c-case-dim:var(--c3-dim)">
+  <div class="wrap">
+    <span class="eyebrow reveal">Caso 3 · Mecanismo</span>
+    <h2 class="reveal">CAR-T</h2>
+
+    <div class="mech-panel reveal">
+      <h3><span class="tag c3">Caso 3</span> Fuga capilar por tormenta de citoquinas</h3>
+      <div class="mech-grid">
         <svg viewBox="0 0 230 150" role="img" aria-label="Esquema de edema perihiliar con derrame pleural bilateral">
           <defs>
-            <radialGradient id="g3a" cx="82%" cy="50%"><stop offset="0%" stop-color="#DE8A84" stop-opacity=".6"/><stop offset="100%" stop-color="#DE8A84" stop-opacity="0"/></radialGradient>
-            <radialGradient id="g3b" cx="18%" cy="50%"><stop offset="0%" stop-color="#DE8A84" stop-opacity=".6"/><stop offset="100%" stop-color="#DE8A84" stop-opacity="0"/></radialGradient>
+            <radialGradient id="g3a" cx="82%" cy="50%"><stop offset="0%" stop-color="#DD7B74" stop-opacity=".6"/><stop offset="100%" stop-color="#DD7B74" stop-opacity="0"/></radialGradient>
+            <radialGradient id="g3b" cx="18%" cy="50%"><stop offset="0%" stop-color="#DD7B74" stop-opacity=".6"/><stop offset="100%" stop-color="#DD7B74" stop-opacity="0"/></radialGradient>
             <clipPath id="p3a"><ellipse cx="70" cy="74" rx="40" ry="52"/></clipPath>
             <clipPath id="p3b"><ellipse cx="160" cy="74" rx="40" ry="52"/></clipPath>
           </defs>
@@ -460,60 +446,86 @@ body{margin:0;background:var(--ink);color:var(--bone);font-family:var(--sans);fo
           <ellipse cx="160" cy="74" rx="40" ry="52" fill="#0C1A20"/>
           <ellipse cx="70" cy="74" rx="40" ry="52" fill="url(#g3a)"/>
           <ellipse cx="160" cy="74" rx="40" ry="52" fill="url(#g3b)"/>
-          <g clip-path="url(#p3a)"><rect x="30" y="112" width="80" height="26" fill="#DE8A84" opacity=".55"/></g>
-          <g clip-path="url(#p3b)"><rect x="120" y="112" width="80" height="26" fill="#DE8A84" opacity=".55"/></g>
+          <g clip-path="url(#p3a)"><rect x="30" y="112" width="80" height="26" fill="#DD7B74" opacity=".55"/></g>
+          <g clip-path="url(#p3b)"><rect x="120" y="112" width="80" height="26" fill="#DD7B74" opacity=".55"/></g>
           <ellipse cx="115" cy="74" rx="15" ry="30" fill="#254654"/>
         </svg>
-        <figcaption>Edema por fuga capilar: densidad máxima perihiliar, con derrame declive. No es intersticio inflamado.</figcaption>
-      </figure>
-      <figure class="shot"><img data-slot alt="Imagen del caso 3" src="img/caso3.jpg"><figcaption>Imagen del caso</figcaption></figure>
-    </div>
-  </div>
-  <div class="quiz" data-key="b" hidden>
-    <p class="quiz__q">¿Cuál es el tratamiento dirigido de la insuficiencia respiratoria?</p>
-    <ul class="quiz__opts">
-      <li><button class="opt" data-k="a"><span class="opt__k">A</span><span>Corticoide a dosis alta primero, evitando tocilizumab para no restar eficacia al CAR-T</span></button></li>
-      <li><button class="opt" data-k="b"><span class="opt__k">B</span><span>Tocilizumab más soporte y antibioterapia empírica, añadiendo corticoide si no responde</span></button></li>
-      <li><button class="opt" data-k="c"><span class="opt__k">C</span><span>Antibioterapia y observación 48 h antes de inmunomodular</span></button></li>
-      <li><button class="opt" data-k="d"><span class="opt__k">D</span><span>Neumonitis intersticial por el producto celular: micofenolato</span></button></li>
-    </ul>
-    <div class="quiz__fb" hidden>
-      <p>No es una neumonitis por fármaco: es <b>fuga capilar dentro de un síndrome de liberación de citoquinas</b>. Fiebre, hipotensión con vasopresor e hipoxemia con oxígeno de bajo flujo definen un <b>SLC grado 3</b> en la escala ASTCT, que se gradúa por el peor de los dos parámetros.</p>
-      <p>El tocilizumab es la primera línea; el corticoide se añade si no hay respuesta o hay ICANS. <b>La antibioterapia empírica es simultánea, nunca alternativa.</b></p>
+        <ul class="mech-steps">
+          <li><b>Mecanismo:</b> tormenta de citoquinas con IL-6 en el centro. El pulmón sufre por fuga capilar y edema, no por inflamación intersticial primaria.</li>
+          <li><b>Latencia:</b> primeros 1–14 días. Muy precoz con axi-cel, algo más tardío con tisagenlecleucel.</li>
+          <li><b>Graduación:</b> ASTCT: fiebre, hipotensión e hipoxemia. Manda el peor de los parámetros; las toxicidades de órgano no modifican el grado.</li>
+          <li><b>Manejo:</b> tocilizumab desde el grado 2 y en cuanto haya vasopresor o necesidad significativa de oxígeno. Corticoide en refractariedad o si hay ICANS.</li>
+          <li><b>Después:</b> citopenias prolongadas, hipogammaglobulinemia e infecciones tardías.</li>
+        </ul>
+      </div>
+      <div class="interact-box"><span class="lbl">Interacción</span>La IL-6 del síndrome de liberación de citoquinas inhibe los CYP hepáticos. Se acumulan voriconazol, tacrolimus y otros sustratos justo en la ventana de mayor uso. <span class="cite">[PENDIENTE]</span></div>
+      <div class="trap"><strong>Lo que os va a llegar:</strong> el hipoxémico del día +3 baja a la UCI, no a Neumología. El que os consultan es el del día +60 con infiltrados y linfopenia profunda, y ahí el diferencial es infeccioso casi siempre. Distinguir las dos ventanas ahorra broncoscopias en la primera y las hace imprescindibles en la segunda.</div>
     </div>
   </div>
 </section>
 
-<section class="slide" data-chip="Caso 3 · Claves" data-who="Ponente B" data-accent="var(--c3)" data-notes="La tarjeta de interacción con la inhibición de CYP por IL-6 explica por qué el tacrolimus y el voriconazol se disparan justo en estos días. Cerrad con la idea de las dos ventanas: día +3 en UCI, día +60 en vuestra consulta.">
-  <h2>CAR-T</h2>
-  <ul class="keycards">
-    <li><dfn>Mecanismo</dfn><span>Tormenta de citoquinas con IL-6 en el centro. El pulmón sufre por fuga capilar y edema, no por inflamación intersticial primaria.</span></li>
-    <li><dfn>Interacción</dfn><span>La IL-6 del síndrome de liberación de citoquinas inhibe los CYP hepáticos. Se acumulan voriconazol, tacrolimus y otros sustratos justo en la ventana de mayor uso.<sup class="cite">[PENDIENTE]</sup></span></li>
-    <li><dfn>Latencia</dfn><span>Primeros 1–14 días. Muy precoz con axi-cel, algo más tardío con tisagenlecleucel.</span></li>
-    <li><dfn>Graduación</dfn><span>ASTCT: fiebre, hipotensión e hipoxemia. Manda el peor de los parámetros; las toxicidades de órgano no modifican el grado.</span></li>
-    <li><dfn>Manejo</dfn><span>Tocilizumab desde el grado 2 y en cuanto haya vasopresor o necesidad significativa de oxígeno. Corticoide en refractariedad o si hay ICANS.</span></li>
-    <li><dfn>Después</dfn><span>Citopenias prolongadas, hipogammaglobulinemia e infecciones tardías.</span></li>
-  </ul>
-  <div class="trap"><strong>Lo que os va a llegar:</strong> el hipoxémico del día +3 baja a la UCI, no a Neumología. El que os consultan es el del día +60 con infiltrados y linfopenia profunda, y ahí el diferencial es infeccioso casi siempre. Distinguir las dos ventanas ahorra broncoscopias en la primera y las hace imprescindibles en la segunda.</div>
+<!-- ============================================================ -->
+<!-- CASO 4 · CHECKPOINT — presentación -->
+<!-- ============================================================ -->
+<section class="slide" id="caso4" data-title="Caso 4 · Checkpoint" style="--c-case:var(--c4);--c-case-dim:var(--c4-dim)">
+  <div class="wrap">
+    <span class="eyebrow reveal">Caso 4 · Checkpoint</span>
+    <h2 class="reveal">Varón de 68 años, Hodgkin en recaída</h2>
+    <p class="reveal">Recaída tras autotrasplante y brentuximab. En tratamiento con <b>nivolumab</b>, doce dosis en cinco meses. Disnea de esfuerzo progresiva de dos semanas y tos seca.</p>
+
+    <div class="lab-grid">
+      <div class="lab-card reveal">
+        <div class="lab-head"><svg class="lab-icon" viewBox="0 0 20 20"><path d="M10 2C10 2 4 9 4 13a6 6 0 0 0 12 0C16 9 10 2 10 2Z" fill="currentColor" opacity=".85"/></svg><div class="lab-label">SpO₂ reposo</div></div>
+        <div class="lab-value">93 %</div>
+      </div>
+      <div class="lab-card reveal">
+        <div class="lab-head"><svg class="lab-icon" viewBox="0 0 20 20"><path d="M2 10h3l2-5 3 10 2-7 1.5 2H18" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg><div class="lab-label">Fiebre</div></div>
+        <div class="lab-value">Ausente</div>
+      </div>
+      <div class="lab-card abn reveal" data-fill="55%">
+        <div class="lab-head"><svg class="lab-icon" viewBox="0 0 20 20"><path d="M3 15 a7 7 0 0 1 14 0" fill="none" stroke="currentColor" stroke-width="1.6"/><line x1="10" y1="15" x2="14" y2="9" stroke="currentColor" stroke-width="1.6"/><circle cx="10" cy="15" r="1.4" fill="currentColor"/></svg><div class="lab-label">Estado funcional</div></div>
+        <div class="lab-value abn">Limitación instrumental</div>
+        <div class="lab-ref">Aseo y vestido conservados</div>
+        <div class="lab-bar"><span></span></div>
+      </div>
+    </div>
+
+    <div class="case-block reveal" style="--c-case:var(--c4)">
+      <div class="cb-head"><span>TC y LBA</span><span class="cb-icon">+</span></div>
+      <div class="cb-body"><p><b>Vidrio deslustrado parcheado periférico con consolidaciones peribroncovasculares</b>, sugestivo de patrón organizativo. Sin progresión ganglionar. LBA linfocitario, microbiología negativa.</p></div>
+    </div>
+
+    <div class="img-row solo reveal">
+      <figure class="img-card"><img data-slot alt="TC del caso 4" src="img/caso4.jpg"><figcaption>Imagen del caso</figcaption></figure>
+    </div>
+
+    <div class="quiz-step reveal">
+      <div class="q-prompt"><strong>Decisión:</strong> ¿cómo lo graduáis y qué hacéis?</div>
+      <div class="q-options">
+        <button class="q-opt" data-correct="false">Grado 1: vigilancia con TC en 3–4 semanas, manteniendo el nivolumab</button>
+        <button class="q-opt" data-correct="true">Grado 2: suspender, prednisona 1 mg/kg/día con descenso en 4–6 semanas o más, y valorar reintroducción si resuelve a grado ≤1</button>
+        <button class="q-opt" data-correct="false">Grado 3: suspensión definitiva e infliximab desde el inicio</button>
+        <button class="q-opt" data-correct="false">Corticoide inhalado a dosis alta manteniendo el nivolumab</button>
+      </div>
+      <div class="q-feedback">
+        <p>Es sintomático y le limita las actividades instrumentales, pero conserva el autocuidado y no necesita oxígeno: <b>grado 2</b>. No es grado 1, que por definición es asintomático, solo radiológico.</p>
+        <p>Se suspende, se inicia prednisona 1 mg/kg/día y se desciende durante <b>al menos 4–6 semanas</b>. Si no mejora en 48–72 h se escala a infliximab, micofenolato o inmunoglobulinas, pero no de entrada.</p>
+      </div>
+    </div>
+  </div>
 </section>
 
-<section class="slide" data-chip="Caso 4 · Checkpoint" data-who="Ponente B" data-accent="var(--c4)" data-notes="El punto fino es la graduación: autocuidado conservado pero limitación instrumental es grado 2, no grado 1. Dejad que la sala discuta el grado antes de mostrar la respuesta.">
-  <h2>Varón de 68 años, Hodgkin en recaída</h2>
-  <div class="split">
-    <div class="case" data-reveal>
-      <p class="step">Recaída tras autotrasplante y brentuximab. En tratamiento con <b>nivolumab</b>, doce dosis en cinco meses.</p>
-      <div class="step tiles" hidden>
-        <div class="tile"><svg class="tile__icon"><use href="#icon-droplet"/></svg><span class="tile__label">SpO₂ reposo</span><strong class="tile__value">93 %</strong></div>
-        <div class="tile"><svg class="tile__icon"><use href="#icon-pulse"/></svg><span class="tile__label">Fiebre</span><strong class="tile__value">Ausente</strong><span class="tile__ref">disnea progresiva, 2 semanas</span></div>
-      </div>
-      <div class="step tiles" hidden>
-        <div class="tile"><svg class="tile__icon"><use href="#icon-pulse"/></svg><span class="tile__label">Estado funcional</span><strong class="tile__value is-flag">Limitación instrumental</strong><span class="tile__ref">aseo y vestido conservados</span></div>
-      </div>
-      <p class="step" hidden>TC: <b>vidrio deslustrado parcheado periférico con consolidaciones peribroncovasculares</b>, sugestivo de patrón organizativo. Sin progresión ganglionar. LBA linfocitario, microbiología negativa.</p>
-      <button class="more">Siguiente dato</button>
-    </div>
-    <div class="figs">
-      <figure class="dgm">
+<!-- ============================================================ -->
+<!-- CASO 4 · CHECKPOINT — mecanismo -->
+<!-- ============================================================ -->
+<section class="slide" id="caso4-mech" data-title="Caso 4 · Mecanismo" style="--c-case:var(--c4);--c-case-dim:var(--c4-dim)">
+  <div class="wrap">
+    <span class="eyebrow reveal">Caso 4 · Mecanismo</span>
+    <h2 class="reveal">Inhibidores de checkpoint</h2>
+
+    <div class="mech-panel reveal">
+      <h3><span class="tag c4">Caso 4</span> Autoinmunidad inducida</h3>
+      <div class="mech-grid">
         <svg viewBox="0 0 230 150" role="img" aria-label="Esquema de consolidaciones parcheadas periféricas de patrón organizativo">
           <defs>
             <clipPath id="p4a"><ellipse cx="70" cy="74" rx="40" ry="52"/></clipPath>
@@ -522,13 +534,13 @@ body{margin:0;background:var(--ink);color:var(--bone);font-family:var(--sans);fo
           <ellipse cx="115" cy="76" rx="110" ry="66" fill="#1B333E"/>
           <ellipse cx="70" cy="74" rx="40" ry="52" fill="#0C1A20"/>
           <ellipse cx="160" cy="74" rx="40" ry="52" fill="#0C1A20"/>
-          <g clip-path="url(#p4a)" fill="#AEA0E4">
+          <g clip-path="url(#p4a)" fill="#A594E0">
             <ellipse cx="40" cy="52" rx="16" ry="11" opacity=".6"/>
             <ellipse cx="46" cy="104" rx="19" ry="10" opacity=".5"/>
             <ellipse cx="86" cy="38" rx="13" ry="9" opacity=".45"/>
             <ellipse cx="92" cy="96" rx="12" ry="14" opacity=".55"/>
           </g>
-          <g clip-path="url(#p4b)" fill="#AEA0E4">
+          <g clip-path="url(#p4b)" fill="#A594E0">
             <ellipse cx="190" cy="60" rx="16" ry="11" opacity=".6"/>
             <ellipse cx="182" cy="106" rx="18" ry="10" opacity=".5"/>
             <ellipse cx="140" cy="44" rx="12" ry="10" opacity=".45"/>
@@ -536,297 +548,119 @@ body{margin:0;background:var(--ink);color:var(--bone);font-family:var(--sans);fo
           </g>
           <ellipse cx="115" cy="74" rx="15" ry="30" fill="#254654"/>
         </svg>
-        <figcaption>Consolidaciones parcheadas de reparto periférico, respetando el centro. Patrón organizativo clásico.</figcaption>
-      </figure>
-      <figure class="shot"><img data-slot alt="TC del caso 4" src="img/caso4.jpg"><figcaption>Imagen del caso</figcaption></figure>
-    </div>
-  </div>
-  <div class="quiz" data-key="b" hidden>
-    <p class="quiz__q">¿Cómo lo graduáis y qué hacéis?</p>
-    <ul class="quiz__opts">
-      <li><button class="opt" data-k="a"><span class="opt__k">A</span><span>Grado 1: vigilancia con TC en 3–4 semanas, manteniendo el nivolumab</span></button></li>
-      <li><button class="opt" data-k="b"><span class="opt__k">B</span><span>Grado 2: suspender, prednisona 1 mg/kg/día con descenso en 4–6 semanas o más, y valorar reintroducción si resuelve a grado ≤1</span></button></li>
-      <li><button class="opt" data-k="c"><span class="opt__k">C</span><span>Grado 3: suspensión definitiva e infliximab desde el inicio</span></button></li>
-      <li><button class="opt" data-k="d"><span class="opt__k">D</span><span>Corticoide inhalado a dosis alta manteniendo el nivolumab</span></button></li>
-    </ul>
-    <div class="quiz__fb" hidden>
-      <p>Es sintomático y le limita las actividades instrumentales, pero conserva el autocuidado y no necesita oxígeno: <b>grado 2</b>. No es grado 1, que por definición es asintomático, solo radiológico.</p>
-      <p>Se suspende, se inicia prednisona 1 mg/kg/día y se desciende durante <b>al menos 4–6 semanas</b>. Si no mejora en 48–72 h se escala a infliximab, micofenolato o inmunoglobulinas, pero no de entrada.</p>
+        <ul class="mech-steps">
+          <li><b>Mecanismo:</b> desinhibición de la respuesta T. No es toxicidad directa, es autoinmunidad inducida.</li>
+          <li><b>Latencia:</b> mediana de 2–3 meses, con rango de días a más de un año. Antes y más frecuente con combinaciones anti-PD-1 y anti-CTLA-4.</li>
+          <li><b>Imagen:</b> el espectro más amplio de los cuatro: neumonía organizada, NINE, hipersensibilidad, formas parcheadas inespecíficas. Nada es patognomónico.</li>
+          <li><b>Grados 1–2:</b> G1 vigilancia. G2 suspender, corticoide 1 mg/kg, cobertura antibiótica empírica y descenso prolongado.</li>
+          <li><b>Grados 3–4:</b> ingreso, metilprednisolona 1–2 mg/kg, suspensión definitiva y escalada si no hay mejoría en 48–72 h.</li>
+          <li><b>Reintroducción:</b> posible tras grado 2 resuelto, con recidiva descrita hasta en un cuarto de los casos.</li>
+        </ul>
+      </div>
+      <div class="interact-box"><span class="lbl">Interacción</span>Radioterapia torácica previa, con riesgo de radiation recall, y brentuximab previo, que ya consta en la historia de este paciente. <span class="cite">[PENDIENTE]</span></div>
+      <div class="trap"><strong>Sesgo a evitar:</strong> en hematología muchos reciben checkpoint tras un trasplante autólogo o alogénico. Ahí compiten neumonía organizada, EICH pulmonar e infección oportunista, y la broncoscopia deja de ser opcional.</div>
     </div>
   </div>
 </section>
 
-<section class="slide" data-chip="Caso 4 · Claves" data-who="Ponente B" data-accent="var(--c4)" data-notes="La tarjeta de interacción con radiation recall y el brentuximab previo conecta con la historia del propio paciente: señaladlo explícitamente. Cerrad con el sesgo del trasplante, es lo que más rentabilidad da a la sala.">
-  <h2>Inhibidores de checkpoint</h2>
-  <ul class="keycards">
-    <li><dfn>Mecanismo</dfn><span>Desinhibición de la respuesta T. No es toxicidad directa, es autoinmunidad inducida.</span></li>
-    <li><dfn>Interacción</dfn><span>Radioterapia torácica previa, con riesgo de radiation recall, y brentuximab previo, que ya consta en la historia de este paciente.<sup class="cite">[PENDIENTE]</sup></span></li>
-    <li><dfn>Latencia</dfn><span>Mediana de 2–3 meses, con rango de días a más de un año. Antes y más frecuente con combinaciones anti-PD-1 y anti-CTLA-4.</span></li>
-    <li><dfn>Imagen</dfn><span>El espectro más amplio de los cuatro: neumonía organizada, NINE, hipersensibilidad, formas parcheadas inespecíficas. Nada es patognomónico.</span></li>
-    <li><dfn>Grados 1–2</dfn><span>G1: vigilancia. G2: suspender, corticoide 1 mg/kg, cobertura antibiótica empírica y descenso prolongado.</span></li>
-    <li><dfn>Grados 3–4</dfn><span>Ingreso, metilprednisolona 1–2 mg/kg, suspensión definitiva y escalada si no hay mejoría en 48–72 h.</span></li>
-    <li><dfn>Reintroducción</dfn><span>Posible tras grado 2 resuelto, con recidiva descrita hasta en un cuarto de los casos.</span></li>
-  </ul>
-  <div class="trap"><strong>Sesgo a evitar:</strong> en hematología muchos reciben checkpoint tras un trasplante autólogo o alogénico. Ahí compiten neumonía organizada, EICH pulmonar e infección oportunista, y la broncoscopia deja de ser opcional.</div>
-</section>
+<!-- ============================================================ -->
+<!-- COMPARACIÓN -->
+<!-- ============================================================ -->
+<section class="slide" id="comparacion" data-title="Comparación">
+  <div class="wrap">
+    <span class="eyebrow reveal">Cara a cara</span>
+    <h2 class="reveal">Los cuatro, uno al lado del otro</h2>
+    <p class="reveal">Haz clic en cualquier fila para ampliar el detalle clínico.</p>
 
-<section class="slide is-reserve" data-chip="Ponemos a prueba" data-who="Los dos" data-accent="var(--glass)" data-notes="Diapo de reserva, fuera de la secuencia principal. Usadla solo si sobra tiempo o como repaso a demanda: accesible desde el índice (tecla o).">
-  <h2>Emparejad cada escenario con su fármaco</h2>
-  <p class="muted" style="font-size:.9rem">Pulsad un escenario y después el fármaco que le corresponde.</p>
-  <div class="match" id="match">
-    <div class="col" id="mL">
-      <button class="mi" data-id="a">Día +3, hipotensión con vasopresor e hipoxemia<small>Ferritina 8.400, sin foco infeccioso</small></button>
-      <button class="mi" data-id="b">Reticulación subpleural basal con DLCO en caída libre<small>Afebril, tres semanas tras el ciclo</small></button>
-      <button class="mi" data-id="c">Eosinofilia y LBA linfocitario, dosis acumulada irrelevante<small>Profilaxis correcta con cotrimoxazol</small></button>
-      <button class="mi" data-id="d">Patrón organizativo a los cinco meses, reintroducible<small>Afebril, autocuidado conservado</small></button>
-    </div>
-    <div class="col" id="mR">
-      <button class="mi" data-id="c">Metotrexato</button>
-      <button class="mi" data-id="d">Inhibidor de checkpoint</button>
-      <button class="mi" data-id="a">CAR-T</button>
-      <button class="mi" data-id="b">Bleomicina</button>
-    </div>
-  </div>
-  <p class="muted" id="mMsg" style="font-size:.9rem">0 de 4 emparejados.</p>
-</section>
+    <table class="cmp-table reveal">
+      <thead><tr><th>Dominio</th><th class="col-c1">Bleomicina</th><th class="col-c2">Metotrexato</th><th class="col-c3">CAR-T</th><th class="col-c4">Checkpoint</th></tr></thead>
+      <tbody id="cmp-body">
+        <tr class="cmp-row" data-detail="0"><td>Latencia</td><td>Semanas–meses</td><td>Días–años</td><td>Días +1–14</td><td>2–3 meses (mediana)</td></tr>
+        <tr class="cmp-detail" id="detail-0"><td colspan="5">La latencia es el dato más rentable de toda la historia: en CAR-T una disnea el día +3 y otra el día +60 obligan a diferenciales completamente distintos, aunque el fármaco sea el mismo.</td></tr>
 
-<section class="slide" data-chip="Comparación" data-who="Los dos" data-accent="var(--glass)" data-notes="Id fila por fila señalando que ninguno tiene un hallazgo patognomónico. Es la diapo para recapitular en voz alta, no para leer la tabla.">
-  <h2>Los cuatro, uno al lado del otro</h2>
-  <div class="drugcards">
-    <div class="drugcard" style="--c:var(--c1)">
-      <h3>Bleomicina</h3>
-      <div class="row"><dfn>Latencia</dfn><span>Semanas a meses; puede debutar tras terminar el ciclo</span></div>
-      <div class="row"><dfn>Patrón</dfn><span>Reticular y vidrio deslustrado subpleural basal, con tendencia a fibrosis</span></div>
-      <div class="row"><dfn>Tratamiento</dfn><span>Retirada. Corticoide si hay síntomas; respuesta variable</span></div>
-      <div class="row"><dfn>¿Reintroducir?</dfn><span>No</span></div>
-    </div>
-    <div class="drugcard" style="--c:var(--c2)">
-      <h3>Metotrexato</h3>
-      <div class="row"><dfn>Latencia</dfn><span>Días a años; impredecible, sin relación con la dosis</span></div>
-      <div class="row"><dfn>Patrón</dfn><span>Vidrio deslustrado difuso; LBA linfocitario, eosinofilia periférica</span></div>
-      <div class="row"><dfn>Tratamiento</dfn><span>Retirada y corticoide. Buena respuesta habitual</span></div>
-      <div class="row"><dfn>¿Reintroducir?</dfn><span>No recomendada</span></div>
-    </div>
-    <div class="drugcard" style="--c:var(--c3)">
-      <h3>CAR-T</h3>
-      <div class="row"><dfn>Latencia</dfn><span>Días +1 a +14</span></div>
-      <div class="row"><dfn>Patrón</dfn><span>Edema por fuga capilar, infiltrados difusos y derrame</span></div>
-      <div class="row"><dfn>Tratamiento</dfn><span>Tocilizumab primero; corticoide si refractario o ICANS</span></div>
-      <div class="row"><dfn>¿Reintroducir?</dfn><span>No procede (dosis única)</span></div>
-    </div>
-    <div class="drugcard" style="--c:var(--c4)">
-      <h3>Checkpoint</h3>
-      <div class="row"><dfn>Latencia</dfn><span>Mediana 2–3 meses; de días a más de un año</span></div>
-      <div class="row"><dfn>Patrón</dfn><span>Variable: organizativo, NINE, hipersensibilidad</span></div>
-      <div class="row"><dfn>Tratamiento</dfn><span>Corticoide según grado; escalada a los 2–3 días si no mejora</span></div>
-      <div class="row"><dfn>¿Reintroducir?</dfn><span>Sí tras grado 2 resuelto, con riesgo de recidiva</span></div>
-    </div>
-  </div>
-  <p class="muted" style="font-size:.78rem">Ninguno tiene un hallazgo patognomónico. El diagnóstico se sostiene en la cronología, la exclusión y la respuesta a la retirada.</p>
-</section>
+        <tr class="cmp-row" data-detail="1"><td>Patrón dominante</td><td>Reticular subpleural basal, tendencia a fibrosis</td><td>Vidrio deslustrado difuso; LBA linfocitario</td><td>Edema por fuga capilar, derrame</td><td>Organizativo, NINE, hipersensibilidad</td></tr>
+        <tr class="cmp-detail" id="detail-1"><td colspan="5">Ninguno tiene un hallazgo patognomónico. El diagnóstico se sostiene en la cronología, la exclusión y la respuesta a la retirada — no en la imagen aislada.</td></tr>
 
-<section class="slide" data-chip="Cierre" data-who="Los dos" data-accent="var(--glass)" data-notes="Cerrad con las cuatro ideas sin prisa, dejad un silencio antes de abrir turno de preguntas.">
-  <h2>Cuatro cosas que llevarse</h2>
-  <ul class="take">
-    <li>Toda opacidad nueva en un paciente hematológico es infección hasta que se demuestre lo contrario. El fármaco se diagnostica por exclusión, no por sospecha.</li>
-    <li>La cronología respecto a la última dosis es el dato más rentable de la historia y el que más falta en la interconsulta.</li>
-    <li>El LBA casi nunca diagnostica la neumotoxicidad, pero casi siempre cambia el manejo, porque descarta lo que sí tiene tratamiento propio.</li>
-    <li>Retirar el fármaco es el tratamiento. El corticoide es el complemento, y en el SLC ni siquiera es lo primero.</li>
-  </ul>
-  <div class="refs">
-    <h3>Referencias</h3>
-    <ol>
-      <li>Assessment of fitness for bleomycin use and management of bleomycin pulmonary toxicity in patients with classical Hodgkin lymphoma: a British Society for Haematology Good Practice Paper. <i>Br J Haematol</i>. 2024.</li>
-      <li>Johnson P, et al. Adapted treatment guided by interim PET-CT scan in advanced Hodgkin's lymphoma (RATHL). <i>N Engl J Med</i>. 2016;374:2419–29.</li>
-      <li>Lee DW, et al. ASTCT consensus grading for cytokine release syndrome and neurologic toxicity associated with immune effector cells. <i>Biol Blood Marrow Transplant</i>. 2019;25:625–38.</li>
-      <li>Schneider BJ, et al. Management of immune-related adverse events in patients treated with immune checkpoint inhibitor therapy: ASCO guideline update. <i>J Clin Oncol</i>. 2021;39:4073–126.</li>
-      <li>Haanen J, et al. Management of toxicities from immunotherapy: ESMO Clinical Practice Guideline. <i>Ann Oncol</i>. 2022;33:1217–38.</li>
-    </ol>
+        <tr class="cmp-row" data-detail="2"><td>Tratamiento</td><td>Retirada; corticoide si hay síntomas</td><td>Retirada y corticoide, buena respuesta</td><td>Tocilizumab primero; corticoide si refractario</td><td>Corticoide según grado; escalada a 2–3 días</td></tr>
+        <tr class="cmp-detail" id="detail-2"><td colspan="5">Retirar el fármaco es el tratamiento en tres de los cuatro casos. En CAR-T no hay fármaco que retirar: el objetivo es frenar la citoquina, no el producto celular.</td></tr>
+
+        <tr class="cmp-row" data-detail="3"><td>¿Reintroducir?</td><td>No</td><td>No recomendada</td><td>No procede (dosis única)</td><td>Sí tras grado 2 resuelto</td></tr>
+        <tr class="cmp-detail" id="detail-3"><td colspan="5">El checkpoint es el único de los cuatro donde la reintroducción es una opción real — con una recidiva descrita hasta en uno de cada cuatro pacientes, así que la decisión se individualiza.</td></tr>
+      </tbody>
+    </table>
   </div>
 </section>
 
-</main>
+<!-- ============================================================ -->
+<!-- TEACHING PEARLS -->
+<!-- ============================================================ -->
+<section class="slide" id="pearls" data-title="Puntos clave">
+  <div class="wrap">
+    <span class="eyebrow reveal">Para llevarse a la guardia</span>
+    <h2 class="reveal">Ocho ideas, clic para el reverso</h2>
 
-<footer class="controls">
-  <div class="track" id="track"></div>
-  <div class="nav">
-    <button id="prev" aria-label="Anterior">&larr;</button>
-    <button id="next" aria-label="Siguiente">&rarr;</button>
+    <div class="card-grid">
+      <div class="flip-card reveal"><div class="flip-inner">
+        <div class="flip-face flip-front"><div class="num">01</div><h4>Infección hasta demostrar lo contrario</h4></div>
+        <div class="flip-face flip-back">Toda opacidad nueva en un paciente hematológico es infección hasta que se demuestre lo contrario. El fármaco se diagnostica por exclusión, no por sospecha.</div>
+      </div></div>
+      <div class="flip-card reveal"><div class="flip-inner">
+        <div class="flip-face flip-front"><div class="num">02</div><h4>La cronología es el dato más rentable</h4></div>
+        <div class="flip-face flip-back">Cuántos días u horas desde la última dosis: es lo que más discrimina y lo que más falta en la interconsulta.</div>
+      </div></div>
+      <div class="flip-card reveal"><div class="flip-inner">
+        <div class="flip-face flip-front"><div class="num">03</div><h4>El LBA rara vez diagnostica, casi siempre cambia el manejo</h4></div>
+        <div class="flip-face flip-back">Casi nunca confirma la neumotoxicidad, pero descarta lo que sí tiene tratamiento propio — y eso ya cambia la decisión.</div>
+      </div></div>
+      <div class="flip-card reveal"><div class="flip-inner">
+        <div class="flip-face flip-front"><div class="num">04</div><h4>Retirar el fármaco es el tratamiento</h4></div>
+        <div class="flip-face flip-back">El corticoide es el complemento. En el síndrome de liberación de citoquinas, ni siquiera es lo primero.</div>
+      </div></div>
+      <div class="flip-card reveal"><div class="flip-inner">
+        <div class="flip-face flip-front"><div class="num">05</div><h4>Bleomicina: se retira, no se reduce</h4></div>
+        <div class="flip-face flip-back">No hay dosis «segura». La incidencia sube con la dosis acumulada, pero hay casos muy por debajo de cualquier umbral.</div>
+      </div></div>
+      <div class="flip-card reveal"><div class="flip-inner">
+        <div class="flip-face flip-front"><div class="num">06</div><h4>En el SLC, antibiótico y tocilizumab van juntos</h4></div>
+        <div class="flip-face flip-back">La antibioterapia empírica es simultánea al tocilizumab, nunca una alternativa a esperar mientras se decide.</div>
+      </div></div>
+      <div class="flip-card reveal"><div class="flip-inner">
+        <div class="flip-face flip-front"><div class="num">07</div><h4>Checkpoint: la limitación instrumental ya es grado 2</h4></div>
+        <div class="flip-face flip-back">El grado 1 es, por definición, asintomático. Si limita las actividades instrumentales aunque conserve el autocuidado, ya es grado 2.</div>
+      </div></div>
+      <div class="flip-card reveal"><div class="flip-inner">
+        <div class="flip-face flip-front"><div class="num">08</div><h4>Metotrexato no se reintroduce</h4></div>
+        <div class="flip-face flip-back">Las recidivas descritas tras reintroducir son más graves que el episodio inicial.</div>
+      </div></div>
+    </div>
   </div>
-  <span class="hint">Flechas para navegar</span>
-</footer>
+</section>
 
-<aside class="presenter" id="presenter" hidden aria-label="Notas del presentador">
-  <h3>Cronómetro</h3>
-  <div class="presenter__clock" id="pClock">20:00</div>
-  <div class="presenter__warn" id="pWarn" hidden>A los 10 minutos toca haber llegado al caso 3. Revisad el ritmo.</div>
-  <h3>Notas de la diapositiva</h3>
-  <div class="presenter__notes" id="pNotes"></div>
-  <p class="presenter__hint">Tecla «p» para cerrar. Solo vosotros veis este panel.</p>
-</aside>
-</div>
+<!-- ============================================================ -->
+<!-- REFERENCIAS -->
+<!-- ============================================================ -->
+<section class="slide" id="refs" data-title="Referencias">
+  <div class="wrap">
+    <span class="eyebrow reveal">Bibliografía</span>
+    <h2 class="reveal">Referencias</h2>
+    <p class="reveal">Las tarjetas de interacción farmacológica llevan marcadores <span class="cite">[PENDIENTE]</span> — faltan por localizar y añadir aquí antes de la sesión.</p>
 
-<script>
-(function(){
-  var slides=[].slice.call(document.querySelectorAll('.slide:not(.is-reserve)'));
-  var reserveSlides=[].slice.call(document.querySelectorAll('.slide.is-reserve'));
-  var track=document.getElementById('track'), chip=document.getElementById('chip'),
-      who=document.getElementById('who'), pos=document.getElementById('pos'),
-      prev=document.getElementById('prev'), next=document.getElementById('next'),
-      scoreEl=document.getElementById('score');
-  var i=0, hits=0, total=6;
-  var case3Index=slides.findIndex(function(s){return s.dataset.chip==='Caso 3 · CAR-T'});
+    <div class="ref-list reveal">
+      <div class="ref-item" id="ref-1"><div>Assessment of fitness for bleomycin use and management of bleomycin pulmonary toxicity in patients with classical Hodgkin lymphoma: a British Society for Haematology Good Practice Paper. <em>Br J Haematol</em>. 2024.</div></div>
+      <div class="ref-item" id="ref-2"><div>Johnson P, et al. Adapted treatment guided by interim PET-CT scan in advanced Hodgkin's lymphoma (RATHL). <em>N Engl J Med</em>. 2016;374:2419–29.</div></div>
+      <div class="ref-item" id="ref-3"><div>Lee DW, et al. ASTCT consensus grading for cytokine release syndrome and neurologic toxicity associated with immune effector cells. <em>Biol Blood Marrow Transplant</em>. 2019;25:625–38.</div></div>
+      <div class="ref-item" id="ref-4"><div>Schneider BJ, et al. Management of immune-related adverse events in patients treated with immune checkpoint inhibitor therapy: ASCO guideline update. <em>J Clin Oncol</em>. 2021;39:4073–126.</div></div>
+      <div class="ref-item" id="ref-5"><div>Haanen J, et al. Management of toxicities from immunotherapy: ESMO Clinical Practice Guideline. <em>Ann Oncol</em>. 2022;33:1217–38.</div></div>
+      <div class="ref-item"><div><span class="pending">[PENDIENTE]</span> Interacción bleomicina: FiO₂ perioperatoria, radioterapia, filtrado glomerular, G-CSF, cisplatino.</div></div>
+      <div class="ref-item"><div><span class="pending">[PENDIENTE]</span> Interacción metotrexato: cotrimoxazol, AINE, IBP, probenecid — competencia por secreción tubular.</div></div>
+      <div class="ref-item"><div><span class="pending">[PENDIENTE]</span> Interacción CAR-T: inhibición de CYP hepáticos mediada por IL-6 durante el SLC.</div></div>
+      <div class="ref-item"><div><span class="pending">[PENDIENTE]</span> Interacción checkpoint: radiation recall y brentuximab previo.</div></div>
+    </div>
 
-  function bump(ok){ if(ok) hits++; scoreEl.textContent='Aciertos '+hits+' / '+total; }
+    <footer class="end">Sesión clínica de Neumología · neumotoxicidad por fármacos en el paciente hematológico</footer>
+  </div>
+</section>
 
-  slides.forEach(function(s,n){
-    var t=document.createElement('button');
-    t.className='tick'; t.setAttribute('aria-label','Diapositiva '+(n+1));
-    t.onclick=function(){go(n)}; track.appendChild(t);
-  });
-  var ticks=[].slice.call(track.children);
-
-  function go(n){
-    i=Math.max(0,Math.min(slides.length-1,n));
-    slides.forEach(function(s,k){s.classList.toggle('is-live',k===i)});
-    ticks.forEach(function(t,k){t.classList.toggle('is-live',k===i);t.classList.toggle('is-done',k<i)});
-    var s=slides[i];
-    document.documentElement.style.setProperty('--accent',s.dataset.accent||'var(--glass)');
-    chip.textContent=s.dataset.chip||''; who.textContent=s.dataset.who||'';
-    pos.textContent=(i+1)+' / '+slides.length;
-    prev.disabled=i===0; next.disabled=i===slides.length-1;
-    pNotes.textContent=s.dataset.notes||'Sin notas para esta diapositiva.';
-    updateWarn();
-    window.scrollTo(0,0);
-  }
-  prev.onclick=function(){go(i-1)}; next.onclick=function(){go(i+1)};
-
-  document.addEventListener('keydown',function(e){
-    if(e.target.tagName==='BUTTON'&&(e.key===' '||e.key==='Enter'))return;
-    if(e.key==='ArrowRight'||e.key==='PageDown'||e.key===' '){e.preventDefault();go(i+1)}
-    if(e.key==='ArrowLeft'||e.key==='PageUp'){e.preventDefault();go(i-1)}
-    if(e.key==='Home'){e.preventDefault();go(0)}
-    if(e.key==='End'){e.preventDefault();go(slides.length-1)}
-    if(e.key==='p'||e.key==='P'){e.preventDefault();togglePresenter()}
-  });
-
-  var x0=null;
-  document.addEventListener('touchstart',function(e){x0=e.touches[0].clientX},{passive:true});
-  document.addEventListener('touchend',function(e){
-    if(x0===null)return;
-    var dx=e.changedTouches[0].clientX-x0;
-    if(Math.abs(dx)>60)go(dx<0?i+1:i-1);
-    x0=null;
-  },{passive:true});
-
-  document.querySelectorAll('[data-reveal]').forEach(function(box){
-    var steps=[].slice.call(box.querySelectorAll('.step')),
-        btn=box.querySelector('.more'),
-        quiz=box.closest('.slide').querySelector('.quiz'), n=1;
-    btn.onclick=function(){
-      if(n<steps.length){ steps[n].hidden=false; n++; }
-      if(n>=steps.length){ btn.hidden=true; if(quiz) quiz.hidden=false; }
-    };
-  });
-
-  document.querySelectorAll('.quiz').forEach(function(q){
-    var fb=q.querySelector('.quiz__fb'), opts=[].slice.call(q.querySelectorAll('.opt'));
-    if(q.hasAttribute('data-multi')){
-      var keys=q.dataset.key.split(','), btn=q.querySelector('.check');
-      opts.forEach(function(o){ o.onclick=function(){ o.classList.toggle('is-pick') } });
-      btn.onclick=function(){
-        var ok=true;
-        opts.forEach(function(o){
-          var right=keys.indexOf(o.dataset.k)>-1, picked=o.classList.contains('is-pick');
-          o.classList.remove('is-pick'); o.disabled=true;
-          if(right) o.classList.add('is-right');
-          if(picked&&!right) o.classList.add('is-wrong');
-          if(picked!==right) ok=false;
-        });
-        btn.hidden=true; fb.hidden=false; bump(ok);
-      };
-    } else {
-      var key=q.dataset.key;
-      opts.forEach(function(o){
-        o.onclick=function(){
-          opts.forEach(function(b){ b.disabled=true; if(b.dataset.k===key) b.classList.add('is-right') });
-          var ok=o.dataset.k===key;
-          if(!ok) o.classList.add('is-wrong');
-          fb.hidden=false; bump(ok);
-        };
-      });
-    }
-  });
-
-  (function(){
-    var L=document.getElementById('mL'), R=document.getElementById('mR'),
-        msg=document.getElementById('mMsg'), sel=null, done=0, scored=false;
-    L.querySelectorAll('.mi').forEach(function(b){
-      b.onclick=function(){
-        if(b.classList.contains('is-done'))return;
-        if(sel) sel.classList.remove('is-sel');
-        sel=b; b.classList.add('is-sel');
-      };
-    });
-    R.querySelectorAll('.mi').forEach(function(b){
-      b.onclick=function(){
-        if(!sel||b.classList.contains('is-done'))return;
-        if(b.dataset.id===sel.dataset.id){
-          b.classList.add('is-done'); b.disabled=true;
-          sel.classList.remove('is-sel'); sel.classList.add('is-done'); sel.disabled=true;
-          sel=null; done++;
-          msg.textContent=done+' de 4 emparejados.';
-          if(done===4&&!scored){ scored=true; msg.textContent='Los cuatro. Fijaos en que ninguno se distingue solo por la imagen.'; bump(true); }
-        } else {
-          b.classList.add('is-miss'); setTimeout(function(){b.classList.remove('is-miss')},320);
-        }
-      };
-    });
-  })();
-
-  (function(){
-    var btn=document.getElementById('revealBtn');
-    if(!btn)return;
-    btn.onclick=function(){
-      document.querySelectorAll('.reveal-label').forEach(function(l){l.hidden=false});
-      document.getElementById('revealMsg').hidden=false;
-      btn.hidden=true;
-    };
-  })();
-
-  document.querySelectorAll('img[data-slot]').forEach(function(img){
-    img.onerror=function(){
-      var fig=img.closest('.shot'), name=img.getAttribute('src');
-      fig.innerHTML='<div class="empty">Hueco para vuestra imagen.<br>Guardadla como <code>'+name+'</code> en el repositorio y aparecerá aquí.</div>';
-    };
-  });
-
-  var clock=document.getElementById('clock'), left=20*60, id=null;
-  var presenter=document.getElementById('presenter'), pClock=document.getElementById('pClock'),
-      pNotes=document.getElementById('pNotes'), pWarn=document.getElementById('pWarn');
-  function fmt(v){ var neg=v<0, a=Math.abs(v); return (neg?'+':'')+Math.floor(a/60)+':'+String(a%60).padStart(2,'0'); }
-  function paint(){
-    var neg=left<0;
-    clock.textContent=fmt(left);
-    clock.dataset.over=neg?'1':'0';
-    pClock.textContent=fmt(left);
-    updateWarn();
-  }
-  function updateWarn(){
-    var elapsed=20*60-left;
-    pWarn.hidden=!(elapsed>=10*60 && case3Index>-1 && i<case3Index);
-  }
-  clock.onclick=function(){
-    if(id){clearInterval(id); id=null; return}
-    id=setInterval(function(){left--; paint()},1000);
-  };
-  function togglePresenter(){
-    presenter.hidden=!presenter.hidden;
-    if(!presenter.hidden){ pNotes.textContent=slides[i].dataset.notes||'Sin notas para esta diapositiva.'; updateWarn(); }
-  }
-
-  paint(); go(0);
-})();
-</script>
+<script src="assets/js/main.js"></script>
 </body>
 </html>
