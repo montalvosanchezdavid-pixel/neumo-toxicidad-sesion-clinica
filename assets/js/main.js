@@ -203,4 +203,55 @@
     });
   });
 
+  /* ---------- lightbox: click any clinical image to see it full-screen ---------- */
+  var lightbox = document.createElement('div');
+  lightbox.id = 'lightbox';
+  lightbox.innerHTML = '<button class="lb-close" aria-label="Cerrar">×</button><img alt=""><div class="lb-caption"></div>';
+  document.body.appendChild(lightbox);
+  var lbImg = lightbox.querySelector('img');
+  var lbCaption = lightbox.querySelector('.lb-caption');
+  function openLightbox(img){
+    lbImg.src = img.currentSrc || img.src;
+    lbImg.alt = img.alt || '';
+    lbCaption.textContent = img.alt || '';
+    lightbox.classList.add('show');
+  }
+  function closeLightbox(){ lightbox.classList.remove('show'); lbImg.src = ''; }
+  lightbox.addEventListener('click', closeLightbox);
+  document.addEventListener('click', function(e){
+    var img = e.target.closest('.img-card img, .ct-cell img, .reveal-img img');
+    if(img){ e.stopPropagation(); openLightbox(img); }
+  });
+  window.addEventListener('keydown', function(e){ if(e.key === 'Escape') closeLightbox(); });
+
+  /* ---------- SVG hotspots: hover/tap a marked point for a short explanation ---------- */
+  document.querySelectorAll('.mech-grid').forEach(function(grid){
+    var tip = document.createElement('div');
+    tip.className = 'svg-tip';
+    grid.appendChild(tip);
+    var hotspots = grid.querySelectorAll('.hotspot');
+    function showTip(el){
+      tip.textContent = el.getAttribute('data-tip');
+      var gridRect = grid.getBoundingClientRect();
+      var elRect = el.getBoundingClientRect();
+      var x = elRect.left - gridRect.left + elRect.width / 2;
+      var y = elRect.top - gridRect.top;
+      tip.style.left = Math.min(Math.max(x - 90, 4), gridRect.width - 224) + 'px';
+      tip.style.top = Math.max(y - 8, 0) + 'px';
+      tip.classList.add('show');
+    }
+    function hideTip(){ tip.classList.remove('show'); }
+    hotspots.forEach(function(h){
+      h.addEventListener('mouseenter', function(){ showTip(h); });
+      h.addEventListener('mouseleave', hideTip);
+      h.addEventListener('click', function(e){
+        e.stopPropagation();
+        var isShown = tip.classList.contains('show') && tip.textContent === h.getAttribute('data-tip');
+        hideTip();
+        if(!isShown) showTip(h);
+      });
+    });
+    document.addEventListener('click', hideTip);
+  });
+
 })();

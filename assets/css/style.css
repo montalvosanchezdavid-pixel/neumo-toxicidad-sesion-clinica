@@ -149,7 +149,7 @@ section.slide{
 /* ================= CASE NARRATIVE (accordion) ================= */
 .case-block{
   background:var(--bg-panel); border:1px solid var(--border-soft); border-radius:14px;
-  padding:1.3rem 1.5rem; margin-bottom:.9rem; cursor:pointer; transition:border-color .2s ease;
+  padding:1.3rem 1.5rem; margin:1.8rem 0 .9rem; cursor:pointer; transition:border-color .2s ease;
 }
 .case-block:hover{ border-color:var(--c-case,var(--c2)); }
 .case-block .cb-head{ display:flex; justify-content:space-between; align-items:center; font-family:var(--font-mono); font-size:.8rem; color:var(--text-primary); letter-spacing:.02em; }
@@ -280,3 +280,34 @@ section.slide{
 
 footer.end{ text-align:center; padding:3rem 1rem 4rem; color:var(--text-faint); font-size:.85rem; }
 ::selection{ background:var(--c2); color:#04121a; }
+
+/* ================= LIGHTBOX ================= */
+.img-card img,.ct-cell img,.reveal-img img{ cursor:zoom-in; }
+#lightbox{
+  position:fixed; inset:0; z-index:200; background:rgba(5,8,14,.94);
+  display:flex; align-items:center; justify-content:center; padding:clamp(1rem,5vw,3rem);
+  opacity:0; pointer-events:none; transition:opacity .25s ease; cursor:zoom-out;
+}
+#lightbox.show{ opacity:1; pointer-events:auto; }
+#lightbox img{ max-width:100%; max-height:100%; border-radius:10px; box-shadow:0 24px 70px rgba(0,0,0,.55); cursor:default; }
+#lightbox .lb-close{
+  position:absolute; top:1.1rem; right:1.2rem; width:38px; height:38px; border-radius:50%;
+  background:rgba(17,25,40,.9); border:1px solid var(--border-soft); color:var(--text-primary);
+  font-size:1.2rem; line-height:1; cursor:pointer;
+}
+#lightbox .lb-caption{ position:absolute; bottom:1.4rem; left:0; right:0; text-align:center; font-size:.85rem; color:var(--text-muted); }
+
+/* ================= SVG HOTSPOTS ================= */
+.mech-grid{ position:relative; }
+.hotspot{ cursor:pointer; }
+.hotspot circle.dot{ fill:var(--c-case,var(--c2)); }
+.hotspot circle.ring{ fill:none; stroke:var(--c-case,var(--c2)); stroke-width:1.4; opacity:.55; animation:hotspotPulse 2.2s ease-out infinite; transform-origin:center; transform-box:fill-box; }
+@keyframes hotspotPulse{ 0%{ transform:scale(1); opacity:.6; } 100%{ transform:scale(2.4); opacity:0; } }
+@media (prefers-reduced-motion:reduce){ .hotspot circle.ring{ animation:none; opacity:.3; } }
+.svg-tip{
+  position:absolute; z-index:10; max-width:220px; background:var(--bg-panel-2); border:1px solid var(--border-soft);
+  border-left:2px solid var(--c-case,var(--c2)); border-radius:8px; padding:.6rem .8rem; font-size:.8rem;
+  color:var(--text-primary); line-height:1.35; pointer-events:none; opacity:0; transform:translateY(4px);
+  transition:opacity .15s ease, transform .15s ease; box-shadow:0 10px 30px rgba(0,0,0,.4);
+}
+.svg-tip.show{ opacity:1; transform:translateY(0); }

@@ -29,6 +29,8 @@ images/                 imágenes clínicas ya recortadas y listas para usar
 - **Cronómetro** (junto al botón de modo presentación): pulsa para
   arrancar/pausar una cuenta atrás de 20 minutos.
 - Los puntos de la derecha son el índice de secciones; clic para saltar.
+- Cualquier imagen clínica se puede pulsar para verla a pantalla completa;
+  clic fuera o Esc para cerrarla.
 
 ## Desplegar en GitHub Pages
 
@@ -51,12 +53,13 @@ cambiarla:
    aviso "Hueco para vuestra imagen" con el nombre exacto que espera —
    así sabes qué guardar y dónde.
 
-Pendientes actuales, marcadas en el propio texto de la página:
-- `images/caso2-pneumocystis.jpg` — TC o radiografía de Pneumocystis,
-  misma escala y altura que `images/caso2-metotrexato-tc.jpg`.
-- Corte de TC "nivel medio, antes" del caso 1 (bleomicina); el hueco está
-  marcado en la tira de TC de la diapositiva de mecanismo.
-- `img/caso3.jpg` y `img/caso4.jpg` — imagen real de los casos 3 y 4.
+Pendiente actualmente, marcado en el propio texto de la página:
+- `img/caso3.jpg` y `img/caso4.jpg` — imagen real de los casos 3 (CAR-T) y
+  4 (checkpoint). Guárdalas con ese nombre y esa ruta (carpeta `img/`, no
+  `images/`) para que sustituyan automáticamente al aviso de hueco.
+
+Además, al pasar el ratón (o tocar en móvil) sobre los puntos de colores
+de los esquemas de mecanismo aparece una explicación breve de ese hallazgo.
 
 ## Añadir o corregir una cita
 

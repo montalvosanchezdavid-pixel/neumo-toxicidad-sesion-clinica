@@ -1,5 +1,11 @@
 # Originales sin recortar, ya procesados en /images. Se quedan solo en local.
 *.webp
+*.jpeg
 rx bleomicina *.png
 tac bleomicina *.png
+tac belomicina *.png
+toxicidad por bleomicina.jpg
 neumo sesion clinica.html
+
+# Ficheros de la sesión de Claude Code, no del proyecto.
+.claude/
