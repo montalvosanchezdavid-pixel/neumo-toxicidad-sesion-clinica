@@ -244,12 +244,7 @@
     hotspots.forEach(function(h){
       h.addEventListener('mouseenter', function(){ showTip(h); });
       h.addEventListener('mouseleave', hideTip);
-      h.addEventListener('click', function(e){
-        e.stopPropagation();
-        var isShown = tip.classList.contains('show') && tip.textContent === h.getAttribute('data-tip');
-        hideTip();
-        if(!isShown) showTip(h);
-      });
+      h.addEventListener('click', function(e){ e.stopPropagation(); showTip(h); });
     });
     document.addEventListener('click', hideTip);
   });
