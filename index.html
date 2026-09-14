@@ -20,9 +20,9 @@
 *{box-sizing:border-box}
 body{margin:0;background:var(--ink);color:var(--bone);font-family:var(--sans);font-size:16px;line-height:1.5;-webkit-font-smoothing:antialiased}
 
-.stage{min-height:100dvh;display:grid;grid-template-rows:auto 1fr auto;max-width:1180px;margin:0 auto;padding:0 clamp(16px,4vw,40px)}
+.stage{height:100dvh;display:grid;grid-template-rows:auto 1fr auto;max-width:1180px;margin:0 auto;padding:0 clamp(16px,3vw,32px)}
 
-.rail{display:flex;align-items:center;gap:12px;padding:16px 0 12px;border-bottom:1px solid var(--line);font-size:.8rem;color:var(--mist);flex-wrap:wrap}
+.rail{display:flex;align-items:center;gap:12px;padding:10px 0 8px;border-bottom:1px solid var(--line);font-size:.78rem;color:var(--mist);flex-wrap:wrap}
 .rail__chip{display:inline-flex;align-items:center;gap:7px;color:var(--bone);font-weight:600}
 .rail__chip::before{content:"";width:9px;height:9px;border-radius:2px;background:var(--accent)}
 .rail__who{border:1px solid var(--line);border-radius:999px;padding:2px 9px;font-size:.72rem;font-weight:600;color:var(--mist)}
@@ -32,76 +32,81 @@ body{margin:0;background:var(--ink);color:var(--bone);font-family:var(--sans);fo
 .rail__clock:hover{border-color:var(--accent)}
 .rail__clock[data-over="1"]{color:var(--warn);border-color:var(--warn)}
 
-.deck{padding:clamp(20px,3.5vh,38px) 0}
-.slide{display:none;animation:in .2s ease-out}
-.slide.is-live{display:block}
+.deck{height:100%;overflow:hidden;padding:clamp(8px,1.6vh,16px) 0;container-type:size;container-name:deck}
+.slide{display:none}
+.slide.is-live{display:flex;flex-direction:column;height:100%;overflow-y:auto;animation:in .2s ease-out}
+.slide.is-live>*{flex-shrink:0}
 @keyframes in{from{opacity:0}to{opacity:1}}
-@media (prefers-reduced-motion:reduce){.slide{animation:none}}
+@media (prefers-reduced-motion:reduce){.slide.is-live{animation:none}}
 
-.slide h1{font-family:var(--serif);font-weight:300;font-size:clamp(2.3rem,6vw,4.2rem);line-height:1.03;margin:0 0 .3em;letter-spacing:-.015em;max-width:16ch}
-.slide h2{font-family:var(--serif);font-weight:400;font-size:clamp(1.5rem,3.2vw,2.3rem);line-height:1.12;margin:0 0 .55em;letter-spacing:-.01em;max-width:28ch}
-.slide p{max-width:64ch;margin:0 0 1em}
-.lede{font-family:var(--serif);font-size:clamp(1.05rem,2vw,1.28rem);line-height:1.55}
+.slide h1{font-family:var(--serif);font-weight:300;font-size:clamp(1.9rem,5.4cqh,3.4rem);line-height:1.04;margin:0 0 .22em;letter-spacing:-.015em;max-width:16ch;flex:none}
+.slide h2{font-family:var(--serif);font-weight:400;font-size:clamp(1.3rem,4.1cqh,1.9rem);line-height:1.1;margin:0 0 .4em;letter-spacing:-.01em;max-width:32ch;flex:none}
+.slide p{max-width:66ch;margin:0 0 .7em}
+.lede{font-family:var(--serif);font-size:clamp(.95rem,2.4cqh,1.15rem);line-height:1.45;flex:none}
 .muted{color:var(--mist)}
-.meta{color:var(--mist);font-size:.88rem;margin-bottom:2rem}
+.meta{color:var(--mist);font-size:.82rem;margin-bottom:.6rem;flex:none}
 
-.split{display:grid;gap:24px;grid-template-columns:1.15fr .85fr;align-items:start;margin-bottom:20px}
+.split{display:grid;gap:18px;grid-template-columns:1.15fr .85fr;align-items:start;margin-bottom:12px}
 @media (max-width:820px){.split{grid-template-columns:1fr}}
 
-.case{background:var(--ink-2);border-left:3px solid var(--accent);border-radius:0 6px 6px 0;padding:18px 22px}
-.case .step{font-family:var(--serif);font-size:1.03rem;line-height:1.6;margin:0 0 .75em;max-width:70ch}
+.case{background:var(--ink-2);border-left:3px solid var(--accent);border-radius:0 6px 6px 0;padding:9px 14px}
+.case .step{font-family:var(--serif);font-size:clamp(.88rem,2.1cqh,1rem);line-height:1.42;margin:0 0 .5em;max-width:70ch}
 .case .step:last-of-type{margin-bottom:0}
 .case .step[hidden]{display:none}
 .case b{font-weight:600;color:#fff}
-.more{margin-top:16px;background:none;border:1px dashed var(--line);color:var(--accent);border-radius:6px;padding:8px 15px;cursor:pointer;font-family:var(--sans);font-size:.85rem;font-weight:600}
+.more{margin-top:10px;background:none;border:1px dashed var(--line);color:var(--accent);border-radius:6px;padding:6px 13px;cursor:pointer;font-family:var(--sans);font-size:.8rem;font-weight:600}
 .more:hover{border-color:var(--accent);border-style:solid}
 .more:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
 .more[hidden]{display:none}
 
-.figs{display:grid;gap:14px}
-.dgm{margin:0;background:var(--ink-2);border-radius:6px;padding:12px}
-.dgm svg{width:100%;height:auto;display:block}
-.dgm figcaption{font-size:.78rem;color:var(--mist);margin-top:8px;line-height:1.4}
+.figs{display:grid;gap:6px}
+.dgm{margin:0;background:var(--ink-2);border-radius:6px;padding:4px}
+.dgm svg{width:100%;height:auto;max-height:17cqh;display:block;margin:0 auto}
+.dgm figcaption{font-size:.66rem;color:var(--mist);margin-top:3px;line-height:1.28}
 .shot{margin:0;background:var(--ink-2);border-radius:6px;overflow:hidden}
-.shot img{width:100%;display:block}
-.shot figcaption{font-size:.78rem;color:var(--mist);padding:8px 12px;line-height:1.4}
-.empty{border:1px dashed var(--line);border-radius:6px;padding:22px 16px;text-align:center;font-size:.8rem;color:var(--mist);line-height:1.5}
+.shot img{width:100%;max-height:17cqh;object-fit:cover;display:block}
+.shot figcaption{font-size:.66rem;color:var(--mist);padding:4px 8px;line-height:1.28}
+.empty{border:1px dashed var(--line);border-radius:6px;padding:14px 12px;text-align:center;font-size:.76rem;color:var(--mist);line-height:1.45}
 .empty code{color:var(--accent);font-family:var(--sans);font-weight:600}
 
 .pair{display:grid;grid-template-columns:1fr 1fr;gap:2px;background:var(--ink-3)}
-.pair img{width:100%;display:block}
-.pair span{display:block;text-align:center;font-size:.7rem;color:var(--mist);padding:5px 0;background:var(--ink-2)}
+.pair img{width:100%;max-height:17cqh;object-fit:cover;display:block}
+.pair span{display:block;text-align:center;font-size:.66rem;color:var(--mist);padding:4px 0;background:var(--ink-2)}
 
-.ct-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px 8px}
-.ct-cell img{width:100%;border-radius:4px;display:block}
-.ct-cell span{display:block;text-align:center;font-size:.68rem;color:var(--mist);margin-top:4px}
-.ct-cell.is-empty{border:1px dashed var(--line);border-radius:4px;aspect-ratio:1/1;display:flex;align-items:center;justify-content:center;text-align:center;font-size:.68rem;color:var(--mist);padding:6px}
-.ct-row-label{grid-column:1/-1;font-size:.7rem;color:var(--mist);margin-top:6px}
+.ct-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:6px}
+.ct-cell img{width:100%;height:4cqh;object-fit:cover;border-radius:4px;display:block}
+.ct-cell span{display:block;text-align:center;font-size:.56rem;color:var(--mist);margin-top:1px}
+.ct-cell.is-empty{border:1px dashed var(--line);border-radius:4px;height:4cqh;display:flex;align-items:center;justify-content:center;text-align:center;font-size:.54rem;color:var(--mist);padding:2px}
+.ct-row-label{grid-column:1/-1;font-size:.62rem;color:var(--mist);margin-top:2px}
 .ct-row-label:first-child{margin-top:0}
 
-.reveal-pair{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:18px;max-width:640px}
-.reveal-img{background:var(--ink-2);border-radius:6px;overflow:hidden;aspect-ratio:404/434}
+.reveal-pair{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:10px;max-width:560px}
+.reveal-img{background:var(--ink-2);border-radius:6px;overflow:hidden;height:26cqh}
 .reveal-img img{width:100%;height:100%;object-fit:cover;display:block}
-.reveal-label{text-align:center;margin-top:9px;font-weight:600;color:#fff;font-size:.95rem}
+.reveal-img .empty{height:100%;display:flex;align-items:center;justify-content:center;border:none}
+.reveal-label{text-align:center;margin-top:6px;font-weight:600;color:#fff;font-size:.88rem}
 .reveal-label[hidden]{display:none}
 
-.keys{list-style:none;margin:0;padding:0;display:grid;gap:2px}
-.keys li{display:grid;grid-template-columns:minmax(105px,145px) 1fr;gap:18px;padding:10px 0;border-top:1px solid var(--ink-3);align-items:baseline}
-.keys li:last-child{border-bottom:1px solid var(--ink-3)}
-.keys dfn{font-style:normal;color:var(--accent);font-weight:600;font-size:.83rem}
-.keys span{font-size:.95rem;line-height:1.5}
-.keys b{color:#fff;font-weight:600}
+.keys{list-style:none;margin:0;padding:0}
+.keycards{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(3,1fr);gap:5px 12px}
+@media (max-width:900px){.keycards{grid-template-columns:repeat(2,1fr)}}
+@media (max-width:560px){.keycards{grid-template-columns:1fr}}
+.keycards li{background:var(--ink-2);border-left:3px solid var(--accent);border-radius:0 6px 6px 0;padding:4px 10px}
+.keycards dfn{display:block;font-style:normal;color:var(--accent);font-weight:600;font-size:.64rem;text-transform:uppercase;letter-spacing:.04em;margin-bottom:1px}
+.keycards span{display:block;font-size:.71rem;line-height:1.18}
+.keycards b{color:#fff;font-weight:600}
 .cite{font-size:.68em;color:var(--warn);font-weight:600;margin-left:2px}
-@media (max-width:640px){.keys li{grid-template-columns:1fr;gap:2px}}
 
-.trap{margin-top:20px;padding:13px 17px;border-radius:6px;background:rgba(224,178,60,.09);border:1px solid rgba(224,178,60,.28);font-size:.93rem;line-height:1.55;max-width:74ch}
+.trap{margin-top:3px;padding:4px 11px;border-radius:6px;background:rgba(224,178,60,.09);border:1px solid rgba(224,178,60,.28);font-size:.68rem;line-height:1.24;max-width:78ch;flex:none}
 .trap strong{color:var(--warn);font-weight:600}
 
 .quiz[hidden]{display:none}
-.quiz__q{font-family:var(--serif);font-size:clamp(1.1rem,2.2vw,1.38rem);line-height:1.35;margin:22px 0 8px;max-width:56ch}
-.quiz__note{font-size:.78rem;color:var(--mist);margin:0 0 14px}
-.quiz__opts{list-style:none;margin:0;padding:0;display:grid;gap:8px}
-.opt{width:100%;display:grid;grid-template-columns:28px 1fr;gap:12px;text-align:left;align-items:start;background:var(--ink-2);border:1px solid transparent;color:var(--bone);border-radius:6px;padding:12px 15px;cursor:pointer;font-family:var(--sans);font-size:.96rem;line-height:1.45}
+.quiz__q{font-family:var(--serif);font-size:clamp(.92rem,2.6cqh,1.15rem);line-height:1.26;margin:6px 0 4px;max-width:60ch}
+.quiz__note{font-size:.68rem;color:var(--mist);margin:0 0 5px}
+.quiz__opts{list-style:none;margin:0;padding:0;display:grid;gap:5px}
+.quiz[data-multi] .quiz__opts{grid-template-columns:repeat(2,1fr);gap:5px 8px}
+@media (max-width:700px){.quiz[data-multi] .quiz__opts{grid-template-columns:1fr}}
+.opt{width:100%;display:grid;grid-template-columns:18px 1fr;gap:7px;text-align:left;align-items:start;background:var(--ink-2);border:1px solid transparent;color:var(--bone);border-radius:6px;padding:4px 9px;cursor:pointer;font-family:var(--sans);font-size:.72rem;line-height:1.2}
 .opt:hover:not(:disabled){border-color:var(--line)}
 .opt:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
 .opt:disabled{cursor:default;opacity:.5}
@@ -111,18 +116,27 @@ body{margin:0;background:var(--ink);color:var(--bone);font-family:var(--sans);fo
 .opt.is-right .opt__k{color:var(--ok)}
 .opt.is-wrong{border-color:var(--warn);background:rgba(224,178,60,.1);opacity:1}
 .opt.is-wrong .opt__k{color:var(--warn)}
-.check{margin-top:12px;background:var(--accent);border:none;color:var(--ink);border-radius:6px;padding:9px 18px;font-family:var(--sans);font-weight:600;font-size:.88rem;cursor:pointer}
+.check{margin-top:6px;background:var(--accent);border:none;color:var(--ink);border-radius:6px;padding:5px 14px;font-family:var(--sans);font-weight:600;font-size:.76rem;cursor:pointer}
 .check[hidden]{display:none}
 .check:focus-visible{outline:2px solid var(--bone);outline-offset:2px}
-.quiz__fb{border-left:2px solid var(--ok);padding:2px 0 2px 17px;margin-top:16px;font-size:.95rem;line-height:1.6;max-width:70ch}
-.quiz__fb p{margin:0 0 .65em}
+.quiz__fb{border-left:2px solid var(--ok);padding:1px 0 1px 11px;margin-top:6px;font-size:.72rem;line-height:1.3;max-width:76ch}
+.quiz__fb p{margin:0 0 .32em}
 .quiz__fb p:last-child{margin:0}
 .quiz__fb b{color:#fff;font-weight:600}
 
-.match{display:grid;grid-template-columns:1fr minmax(150px,230px);gap:12px;margin-bottom:16px}
+.tiles{display:grid;grid-template-columns:repeat(auto-fit,minmax(100px,1fr));gap:5px;margin:5px 0}
+.tile{background:var(--ink-2);border-top:2px solid var(--accent);border-radius:0 0 6px 6px;padding:5px 8px 6px}
+.tile__icon{width:15px;height:15px;color:var(--accent);opacity:.85;display:block;margin-bottom:3px}
+.tile__label{display:block;font-size:.62rem;color:var(--mist);text-transform:uppercase;letter-spacing:.03em;line-height:1.2}
+.tile__value{display:block;font-family:var(--serif);font-size:clamp(1rem,2.8cqh,1.3rem);font-weight:500;color:#fff;line-height:1.15;margin-top:1px}
+.tile__value.is-flag{color:var(--warn)}
+.tile__ref{display:block;font-size:.62rem;color:var(--mist);line-height:1.25;margin-top:1px}
+.tile-line{font-family:var(--serif);font-size:.85rem;line-height:1.4;color:var(--bone);margin:6px 0 0}
+
+.match{display:grid;grid-template-columns:1fr minmax(150px,230px);gap:8px;margin-bottom:8px}
 @media (max-width:700px){.match{grid-template-columns:1fr}}
-.col{display:grid;gap:8px;align-content:start}
-.mi{background:var(--ink-2);border:1px solid transparent;color:var(--bone);border-radius:6px;padding:12px 14px;text-align:left;cursor:pointer;font-family:var(--sans);font-size:.93rem;line-height:1.4}
+.col{display:grid;gap:5px;align-content:start}
+.mi{background:var(--ink-2);border:1px solid transparent;color:var(--bone);border-radius:6px;padding:7px 11px;text-align:left;cursor:pointer;font-family:var(--sans);font-size:.78rem;line-height:1.3}
 .mi:hover:not(:disabled){border-color:var(--line)}
 .mi:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
 .mi.is-sel{border-color:var(--accent);background:rgba(127,196,217,.12)}
@@ -130,28 +144,25 @@ body{margin:0;background:var(--ink);color:var(--bone);font-family:var(--sans);fo
 .mi.is-miss{border-color:var(--warn);animation:shake .3s}
 @keyframes shake{25%{transform:translateX(-4px)}75%{transform:translateX(4px)}}
 @media (prefers-reduced-motion:reduce){.mi.is-miss{animation:none}}
-.mi small{display:block;color:var(--mist);font-size:.78rem;margin-top:3px}
+.mi small{display:block;color:var(--mist);font-size:.7rem;margin-top:2px}
 
-.tbl-wrap{overflow-x:auto;margin:0 0 16px}
-table{border-collapse:collapse;width:100%;min-width:740px;font-size:.86rem}
-th,td{text-align:left;padding:10px 13px;vertical-align:top;line-height:1.4}
-thead th{color:var(--mist);font-weight:600;font-size:.77rem;border-bottom:1px solid var(--line)}
-tbody th{font-weight:600;color:#fff;white-space:nowrap}
-tbody tr{border-bottom:1px solid var(--ink-3)}
-tbody tr:nth-child(1) th{border-left:3px solid var(--c1);padding-left:10px}
-tbody tr:nth-child(2) th{border-left:3px solid var(--c2);padding-left:10px}
-tbody tr:nth-child(3) th{border-left:3px solid var(--c3);padding-left:10px}
-tbody tr:nth-child(4) th{border-left:3px solid var(--c4);padding-left:10px}
+.drugcards{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin:6px 0 8px}
+@media (max-width:820px){.drugcards{grid-template-columns:repeat(2,1fr)}}
+.drugcard{background:var(--ink-2);border-top:3px solid var(--c);border-radius:0 0 8px 8px;padding:9px 11px;display:flex;flex-direction:column;gap:5px}
+.drugcard h3{font-family:var(--serif);font-weight:500;font-size:.92rem;color:#fff;margin:0}
+.drugcard .row{font-size:.7rem;line-height:1.3}
+.drugcard .row dfn{display:block;font-style:normal;color:var(--c);font-weight:600;font-size:.6rem;text-transform:uppercase;letter-spacing:.03em}
+.drugcard .row span{color:var(--bone)}
 
-.take{list-style:none;margin:0 0 24px;padding:0;display:grid;gap:13px;max-width:74ch}
-.take li{font-family:var(--serif);font-size:clamp(1.02rem,2vw,1.24rem);line-height:1.45;padding-left:19px;border-left:2px solid var(--accent)}
-.refs{font-size:.81rem;color:var(--mist);line-height:1.6;max-width:76ch}
-.refs h3{font-family:var(--sans);font-size:.8rem;color:var(--bone);margin:0 0 7px;font-weight:600}
-.refs ol{margin:0;padding-left:1.2em}
-.refs li{margin-bottom:4px}
+.take{list-style:none;margin:0 0 10px;padding:0;display:grid;gap:7px;max-width:78ch}
+.take li{font-family:var(--serif);font-size:clamp(.86rem,2.3cqh,1.02rem);line-height:1.32;padding-left:15px;border-left:2px solid var(--accent)}
+.refs{font-size:.72rem;color:var(--mist);line-height:1.4;max-width:80ch}
+.refs h3{font-family:var(--sans);font-size:.74rem;color:var(--bone);margin:0 0 4px;font-weight:600}
+.refs ol{margin:0;padding-left:1.1em}
+.refs li{margin-bottom:2px}
 .refs i{font-style:italic}
 
-.controls{display:flex;align-items:center;gap:13px;padding:13px 0 18px;border-top:1px solid var(--line)}
+.controls{display:flex;align-items:center;gap:13px;padding:8px 0 10px;border-top:1px solid var(--line);flex:none}
 .track{display:flex;gap:3px;flex:1}
 .tick{flex:1;height:5px;border:none;padding:0;border-radius:2px;background:var(--ink-3);cursor:pointer}
 .tick:hover{background:var(--line)}
@@ -178,6 +189,12 @@ tbody tr:nth-child(4) th{border-left:3px solid var(--c4);padding-left:10px}
 </style>
 </head>
 <body>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <symbol id="icon-droplet" viewBox="0 0 20 20"><path d="M10 2C10 2 4 9 4 13a6 6 0 0 0 12 0C16 9 10 2 10 2Z" fill="currentColor"/></symbol>
+  <symbol id="icon-wave" viewBox="0 0 20 20"><path d="M2 12c2 0 2-6 4-6s2 6 4 6 2-6 4-6 2 6 4 6" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></symbol>
+  <symbol id="icon-flask" viewBox="0 0 20 20"><path d="M8 2h4M8 2v5l-4.5 8a1.5 1.5 0 0 0 1.3 2.2h10.4a1.5 1.5 0 0 0 1.3-2.2L12 7V2" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"/></symbol>
+  <symbol id="icon-pulse" viewBox="0 0 20 20"><path d="M2 10h3l2-5 3 10 2-7 1.5 2H18" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+</svg>
 <div class="stage">
 
 <header class="rail">
@@ -200,7 +217,7 @@ tbody tr:nth-child(4) th{border-left:3px solid var(--c4);padding-left:10px}
 <section class="slide" data-chip="Punto de partida" data-who="Ponente A" data-accent="var(--glass)" data-notes="Insistid en que la infección va primero, siempre. El marco de cronología, mecanismo y consecuencia es el hilo que vais a repetir en los cuatro casos: usadlo para anclar la atención antes de entrar en el primero.">
   <h2>El fármaco es siempre un diagnóstico de exclusión</h2>
   <p>En un paciente inmunodeprimido con un infiltrado nuevo, la infección va primero. Pero descartarla no basta: hay que saber a qué toxicidad nos enfrentamos, porque el manejo cambia por completo.</p>
-  <ul class="keys">
+  <ul class="keycards">
     <li><dfn>Cronología</dfn><span>¿Cuántos días u horas desde la última dosis? Es el dato que más discrimina y el que peor recogemos.</span></li>
     <li><dfn>Mecanismo</dfn><span>Daño oxidativo, hipersensibilidad, fuga capilar por citoquinas o desregulación inmune. Cada uno responde a un tratamiento distinto.</span></li>
     <li><dfn>Consecuencia</dfn><span>Retirar, reducir, mantener o reintroducir. La respuesta no es la misma en los cuatro casos.</span></li>
@@ -213,9 +230,16 @@ tbody tr:nth-child(4) th{border-left:3px solid var(--c4);padding-left:10px}
   <div class="split">
     <div class="case" data-reveal>
       <p class="step">Estadio IIB, en tratamiento con <b>ABVD</b>. Consulta tres semanas después del quinto ciclo por tos seca y disnea de esfuerzo progresiva. Sin fiebre.</p>
-      <p class="step" hidden>Crepitantes secos bibasales. SpO₂ 95 % en reposo, <b>87 % tras la prueba de marcha</b>. PCR 6 mg/L, procalcitonina normal, galactomanano sérico negativo.</p>
+      <div class="step tiles" hidden>
+        <div class="tile"><svg class="tile__icon"><use href="#icon-droplet"/></svg><span class="tile__label">SpO₂ reposo</span><strong class="tile__value">95 %</strong></div>
+        <div class="tile"><svg class="tile__icon"><use href="#icon-droplet"/></svg><span class="tile__label">SpO₂ tras marcha</span><strong class="tile__value is-flag">87 %</strong><span class="tile__ref">crepitantes secos bibasales</span></div>
+        <div class="tile"><svg class="tile__icon"><use href="#icon-flask"/></svg><span class="tile__label">PCR</span><strong class="tile__value">6 mg/L</strong><span class="tile__ref">procalcitonina normal</span></div>
+        <div class="tile"><svg class="tile__icon"><use href="#icon-flask"/></svg><span class="tile__label">Galactomanano</span><strong class="tile__value">Negativo</strong></div>
+      </div>
       <p class="step" hidden>TC: opacidades reticulares y en vidrio deslustrado <b>subpleurales, de predominio en bases</b>, con engrosamiento septal. Sin nódulos ni signo del halo.</p>
-      <p class="step" hidden>PFR: <b>DLCO 47 %</b>, frente a un 91 % basal. Patrón restrictivo leve.</p>
+      <div class="step tiles" hidden>
+        <div class="tile"><svg class="tile__icon"><use href="#icon-wave"/></svg><span class="tile__label">DLCO</span><strong class="tile__value is-flag">47 %</strong><span class="tile__ref">basal 91 % · patrón restrictivo leve</span></div>
+      </div>
       <button class="more">Siguiente dato</button>
     </div>
     <div class="figs">
@@ -268,7 +292,7 @@ tbody tr:nth-child(4) th{border-left:3px solid var(--c4);padding-left:10px}
 
 <section class="slide" data-chip="Caso 1 · Claves" data-who="Ponente A" data-accent="var(--c1)" data-notes="La tarjeta de interacción es nueva: parad ahí un momento, el filtrado glomerular bajo es el factor que menos se recoge en la anamnesis. En el quiz múltiple dejad que la sala debata antes de comprobar.">
   <h2>Bleomicina</h2>
-  <ul class="keys">
+  <ul class="keycards">
     <li><dfn>Mecanismo</dfn><span>Daño oxidativo directo. El pulmón carece de bleomicina hidrolasa: por eso es el órgano diana.</span></li>
     <li><dfn>Interacción</dfn><span>FiO₂ elevada perioperatoria, radioterapia torácica previa, filtrado glomerular bajo (la eliminación es renal), G-CSF y cisplatino potencian el daño.<sup class="cite">[PENDIENTE]</sup></span></li>
     <li><dfn>Latencia</dfn><span>Semanas a meses; mediana en torno a 2–3 meses en Hodgkin, más precoz en tumores germinales.</span></li>
@@ -287,7 +311,7 @@ tbody tr:nth-child(4) th{border-left:3px solid var(--c4);padding-left:10px}
       <div class="ct-cell"><img src="images/caso1-tc-medio-despues.jpg" alt="TC axial, campo medio, tras la toxicidad"><span>Medio</span></div>
       <div class="ct-cell"><img src="images/caso1-tc-inferior-despues.jpg" alt="TC axial, campo inferior, tras la toxicidad"><span>Inferior</span></div>
     </div>
-    <figcaption>El gradiente basal se acentúa con la progresión: el campo superior casi no cambia, el inferior se satura. Fuente: <sup class="cite">[PENDIENTE]</sup></figcaption>
+    <figcaption>El gradiente basal se acentúa con la progresión. Fuente: <sup class="cite">[PENDIENTE]</sup></figcaption>
   </figure>
   <div class="quiz" data-multi data-key="a,c,d,e">
     <p class="quiz__q">¿Cuáles aumentan el riesgo de toxicidad?</p>
@@ -314,9 +338,18 @@ tbody tr:nth-child(4) th{border-left:3px solid var(--c4);padding-left:10px}
   <div class="split">
     <div class="case" data-reveal>
       <p class="step">En <b>mantenimiento</b>: metotrexato oral semanal y mercaptopurina. Profilaxis con cotrimoxazol, cumplimiento verificado.</p>
-      <p class="step" hidden>A las 7 semanas: tos seca, disnea de dos semanas y <b>febrícula de 38,1 °C</b>. SpO₂ 92 %. Eosinófilos 780/µL. LDH elevada.</p>
+      <div class="step tiles" hidden>
+        <div class="tile"><svg class="tile__icon"><use href="#icon-pulse"/></svg><span class="tile__label">Temperatura</span><strong class="tile__value is-flag">38,1 ºC</strong><span class="tile__ref">a las 7 semanas</span></div>
+        <div class="tile"><svg class="tile__icon"><use href="#icon-droplet"/></svg><span class="tile__label">SpO₂</span><strong class="tile__value is-flag">92 %</strong></div>
+        <div class="tile"><svg class="tile__icon"><use href="#icon-flask"/></svg><span class="tile__label">Eosinófilos</span><strong class="tile__value is-flag">780/µL</strong></div>
+        <div class="tile"><svg class="tile__icon"><use href="#icon-flask"/></svg><span class="tile__label">LDH</span><strong class="tile__value is-flag">Elevada</strong></div>
+      </div>
       <p class="step" hidden>TC: <b>vidrio deslustrado bilateral difuso</b>, sin quistes ni neumotórax.</p>
-      <p class="step" hidden>LBA: 340.000 células/mL con <b>62 % de linfocitos</b> y CD4/CD8 descendido. PCR para <i>Pneumocystis</i> negativa, galactomanano en LBA negativo, cultivos estériles.</p>
+      <div class="step tiles" hidden>
+        <div class="tile"><svg class="tile__icon"><use href="#icon-flask"/></svg><span class="tile__label">LBA celularidad</span><strong class="tile__value">340.000/mL</strong></div>
+        <div class="tile"><svg class="tile__icon"><use href="#icon-flask"/></svg><span class="tile__label">LBA linfocitos</span><strong class="tile__value is-flag">62 %</strong><span class="tile__ref">CD4/CD8 descendido</span></div>
+        <div class="tile"><svg class="tile__icon"><use href="#icon-flask"/></svg><span class="tile__label">PCR Pneumocystis</span><strong class="tile__value">Negativa</strong><span class="tile__ref">galactomanano LBA negativo, cultivos estériles</span></div>
+      </div>
       <button class="more">Siguiente dato</button>
     </div>
     <div class="figs">
@@ -357,7 +390,7 @@ tbody tr:nth-child(4) th{border-left:3px solid var(--c4);padding-left:10px}
 
 <section class="slide" data-chip="Caso 2 · Claves" data-who="Ponente A" data-accent="var(--c2)" data-notes="La tarjeta de interacción con cotrimoxazol conecta directamente con el caso: recordad que es la misma profilaxis que ya llevaba. Aprovechad para nombrar AINE e IBP, que se olvidan más.">
   <h2>Metotrexato</h2>
-  <ul class="keys">
+  <ul class="keycards">
     <li><dfn>Mecanismo</dfn><span>Reacción de hipersensibilidad. Impredecible e independiente de la dosis: no hay umbral que vigilar.</span></li>
     <li><dfn>Interacción</dfn><span>Cotrimoxazol: compite por la secreción tubular, sube el AUC del metotrexato y suma mielotoxicidad. Vigilar también AINE, IBP y probenecid, por el mismo mecanismo.<sup class="cite">[PENDIENTE]</sup></span></li>
     <li><dfn>Latencia</dfn><span>Desde días hasta años, con la mayoría en el primer año de exposición.</span></li>
@@ -398,9 +431,19 @@ tbody tr:nth-child(4) th{border-left:3px solid var(--c4);padding-left:10px}
   <div class="split">
     <div class="case" data-reveal>
       <p class="step">Linfoma B difuso de célula grande refractario. Recibió <b>axicabtagén ciloleucel</b> hace tres días tras linfodepleción.</p>
-      <p class="step" hidden>Fiebre de 39,4 °C desde el día +1. Ahora <b>TA 82/48</b> con noradrenalina a dosis baja, 32 rpm y <b>SpO₂ 89 % con gafas nasales a 4 L/min</b>.</p>
+      <div class="step tiles" hidden>
+        <div class="tile"><svg class="tile__icon"><use href="#icon-pulse"/></svg><span class="tile__label">Temperatura</span><strong class="tile__value is-flag">39,4 ºC</strong><span class="tile__ref">desde el día +1</span></div>
+        <div class="tile"><svg class="tile__icon"><use href="#icon-pulse"/></svg><span class="tile__label">TA</span><strong class="tile__value is-flag">82/48</strong><span class="tile__ref">con noradrenalina</span></div>
+        <div class="tile"><svg class="tile__icon"><use href="#icon-pulse"/></svg><span class="tile__label">FR</span><strong class="tile__value is-flag">32 rpm</strong></div>
+        <div class="tile"><svg class="tile__icon"><use href="#icon-droplet"/></svg><span class="tile__label">SpO₂</span><strong class="tile__value is-flag">89 %</strong><span class="tile__ref">gafas nasales 4 L/min</span></div>
+      </div>
       <p class="step" hidden>Infiltrados alveolointersticiales bilaterales difusos, líneas B en la ecografía y derrame pleural bilateral escaso.</p>
-      <p class="step" hidden>Ferritina 8.400 ng/mL, PCR 214 mg/L, fibrinógeno descendido. Sin foco infeccioso. Exploración neurológica normal, <b>ICE 10/10</b>.</p>
+      <div class="step tiles" hidden>
+        <div class="tile"><svg class="tile__icon"><use href="#icon-flask"/></svg><span class="tile__label">Ferritina</span><strong class="tile__value is-flag">8.400 ng/mL</strong></div>
+        <div class="tile"><svg class="tile__icon"><use href="#icon-flask"/></svg><span class="tile__label">PCR</span><strong class="tile__value is-flag">214 mg/L</strong></div>
+        <div class="tile"><svg class="tile__icon"><use href="#icon-flask"/></svg><span class="tile__label">Fibrinógeno</span><strong class="tile__value is-flag">Descendido</strong></div>
+        <div class="tile"><svg class="tile__icon"><use href="#icon-pulse"/></svg><span class="tile__label">ICE</span><strong class="tile__value">10/10</strong><span class="tile__ref">exploración neurológica normal</span></div>
+      </div>
       <button class="more">Siguiente dato</button>
     </div>
     <div class="figs">
@@ -443,7 +486,7 @@ tbody tr:nth-child(4) th{border-left:3px solid var(--c4);padding-left:10px}
 
 <section class="slide" data-chip="Caso 3 · Claves" data-who="Ponente B" data-accent="var(--c3)" data-notes="La tarjeta de interacción con la inhibición de CYP por IL-6 explica por qué el tacrolimus y el voriconazol se disparan justo en estos días. Cerrad con la idea de las dos ventanas: día +3 en UCI, día +60 en vuestra consulta.">
   <h2>CAR-T</h2>
-  <ul class="keys">
+  <ul class="keycards">
     <li><dfn>Mecanismo</dfn><span>Tormenta de citoquinas con IL-6 en el centro. El pulmón sufre por fuga capilar y edema, no por inflamación intersticial primaria.</span></li>
     <li><dfn>Interacción</dfn><span>La IL-6 del síndrome de liberación de citoquinas inhibe los CYP hepáticos. Se acumulan voriconazol, tacrolimus y otros sustratos justo en la ventana de mayor uso.<sup class="cite">[PENDIENTE]</sup></span></li>
     <li><dfn>Latencia</dfn><span>Primeros 1–14 días. Muy precoz con axi-cel, algo más tardío con tisagenlecleucel.</span></li>
@@ -459,8 +502,13 @@ tbody tr:nth-child(4) th{border-left:3px solid var(--c4);padding-left:10px}
   <div class="split">
     <div class="case" data-reveal>
       <p class="step">Recaída tras autotrasplante y brentuximab. En tratamiento con <b>nivolumab</b>, doce dosis en cinco meses.</p>
-      <p class="step" hidden>Disnea de esfuerzo progresiva de dos semanas y tos seca. <b>Afebril.</b> SpO₂ 93 % en reposo.</p>
-      <p class="step" hidden>Camina con dificultad hasta el supermercado, pero es <b>autónomo para el aseo y el vestido</b>.</p>
+      <div class="step tiles" hidden>
+        <div class="tile"><svg class="tile__icon"><use href="#icon-droplet"/></svg><span class="tile__label">SpO₂ reposo</span><strong class="tile__value">93 %</strong></div>
+        <div class="tile"><svg class="tile__icon"><use href="#icon-pulse"/></svg><span class="tile__label">Fiebre</span><strong class="tile__value">Ausente</strong><span class="tile__ref">disnea progresiva, 2 semanas</span></div>
+      </div>
+      <div class="step tiles" hidden>
+        <div class="tile"><svg class="tile__icon"><use href="#icon-pulse"/></svg><span class="tile__label">Estado funcional</span><strong class="tile__value is-flag">Limitación instrumental</strong><span class="tile__ref">aseo y vestido conservados</span></div>
+      </div>
       <p class="step" hidden>TC: <b>vidrio deslustrado parcheado periférico con consolidaciones peribroncovasculares</b>, sugestivo de patrón organizativo. Sin progresión ganglionar. LBA linfocitario, microbiología negativa.</p>
       <button class="more">Siguiente dato</button>
     </div>
@@ -510,7 +558,7 @@ tbody tr:nth-child(4) th{border-left:3px solid var(--c4);padding-left:10px}
 
 <section class="slide" data-chip="Caso 4 · Claves" data-who="Ponente B" data-accent="var(--c4)" data-notes="La tarjeta de interacción con radiation recall y el brentuximab previo conecta con la historia del propio paciente: señaladlo explícitamente. Cerrad con el sesgo del trasplante, es lo que más rentabilidad da a la sala.">
   <h2>Inhibidores de checkpoint</h2>
-  <ul class="keys">
+  <ul class="keycards">
     <li><dfn>Mecanismo</dfn><span>Desinhibición de la respuesta T. No es toxicidad directa, es autoinmunidad inducida.</span></li>
     <li><dfn>Interacción</dfn><span>Radioterapia torácica previa, con riesgo de radiation recall, y brentuximab previo, que ya consta en la historia de este paciente.<sup class="cite">[PENDIENTE]</sup></span></li>
     <li><dfn>Latencia</dfn><span>Mediana de 2–3 meses, con rango de días a más de un año. Antes y más frecuente con combinaciones anti-PD-1 y anti-CTLA-4.</span></li>
@@ -544,18 +592,37 @@ tbody tr:nth-child(4) th{border-left:3px solid var(--c4);padding-left:10px}
 
 <section class="slide" data-chip="Comparación" data-who="Los dos" data-accent="var(--glass)" data-notes="Id fila por fila señalando que ninguno tiene un hallazgo patognomónico. Es la diapo para recapitular en voz alta, no para leer la tabla.">
   <h2>Los cuatro, uno al lado del otro</h2>
-  <div class="tbl-wrap">
-  <table>
-    <thead><tr><th scope="col">Fármaco</th><th scope="col">Latencia</th><th scope="col">Patrón dominante</th><th scope="col">Tratamiento</th><th scope="col">¿Se puede volver a dar?</th></tr></thead>
-    <tbody>
-      <tr><th scope="row">Bleomicina</th><td>Semanas a meses; puede debutar tras terminar el ciclo</td><td>Reticular y vidrio deslustrado subpleural basal, con tendencia a fibrosis</td><td>Retirada. Corticoide si hay síntomas; respuesta variable</td><td>No</td></tr>
-      <tr><th scope="row">Metotrexato</th><td>Días a años; impredecible, sin relación con la dosis</td><td>Vidrio deslustrado difuso; LBA linfocitario, eosinofilia periférica</td><td>Retirada y corticoide. Buena respuesta habitual</td><td>No recomendada</td></tr>
-      <tr><th scope="row">CAR-T</th><td>Días +1 a +14</td><td>Edema por fuga capilar, infiltrados difusos y derrame</td><td>Tocilizumab primero; corticoide si refractario o ICANS</td><td>No procede (dosis única)</td></tr>
-      <tr><th scope="row">Checkpoint</th><td>Mediana 2–3 meses; de días a más de un año</td><td>Variable: organizativo, NINE, hipersensibilidad</td><td>Corticoide según grado; escalada a los 2–3 días si no mejora</td><td>Sí tras grado 2 resuelto, con riesgo de recidiva</td></tr>
-    </tbody>
-  </table>
+  <div class="drugcards">
+    <div class="drugcard" style="--c:var(--c1)">
+      <h3>Bleomicina</h3>
+      <div class="row"><dfn>Latencia</dfn><span>Semanas a meses; puede debutar tras terminar el ciclo</span></div>
+      <div class="row"><dfn>Patrón</dfn><span>Reticular y vidrio deslustrado subpleural basal, con tendencia a fibrosis</span></div>
+      <div class="row"><dfn>Tratamiento</dfn><span>Retirada. Corticoide si hay síntomas; respuesta variable</span></div>
+      <div class="row"><dfn>¿Reintroducir?</dfn><span>No</span></div>
+    </div>
+    <div class="drugcard" style="--c:var(--c2)">
+      <h3>Metotrexato</h3>
+      <div class="row"><dfn>Latencia</dfn><span>Días a años; impredecible, sin relación con la dosis</span></div>
+      <div class="row"><dfn>Patrón</dfn><span>Vidrio deslustrado difuso; LBA linfocitario, eosinofilia periférica</span></div>
+      <div class="row"><dfn>Tratamiento</dfn><span>Retirada y corticoide. Buena respuesta habitual</span></div>
+      <div class="row"><dfn>¿Reintroducir?</dfn><span>No recomendada</span></div>
+    </div>
+    <div class="drugcard" style="--c:var(--c3)">
+      <h3>CAR-T</h3>
+      <div class="row"><dfn>Latencia</dfn><span>Días +1 a +14</span></div>
+      <div class="row"><dfn>Patrón</dfn><span>Edema por fuga capilar, infiltrados difusos y derrame</span></div>
+      <div class="row"><dfn>Tratamiento</dfn><span>Tocilizumab primero; corticoide si refractario o ICANS</span></div>
+      <div class="row"><dfn>¿Reintroducir?</dfn><span>No procede (dosis única)</span></div>
+    </div>
+    <div class="drugcard" style="--c:var(--c4)">
+      <h3>Checkpoint</h3>
+      <div class="row"><dfn>Latencia</dfn><span>Mediana 2–3 meses; de días a más de un año</span></div>
+      <div class="row"><dfn>Patrón</dfn><span>Variable: organizativo, NINE, hipersensibilidad</span></div>
+      <div class="row"><dfn>Tratamiento</dfn><span>Corticoide según grado; escalada a los 2–3 días si no mejora</span></div>
+      <div class="row"><dfn>¿Reintroducir?</dfn><span>Sí tras grado 2 resuelto, con riesgo de recidiva</span></div>
+    </div>
   </div>
-  <p class="muted" style="font-size:.85rem">Ninguno tiene un hallazgo patognomónico. El diagnóstico se sostiene en la cronología, la exclusión y la respuesta a la retirada.</p>
+  <p class="muted" style="font-size:.78rem">Ninguno tiene un hallazgo patognomónico. El diagnóstico se sostiene en la cronología, la exclusión y la respuesta a la retirada.</p>
 </section>
 
 <section class="slide" data-chip="Cierre" data-who="Los dos" data-accent="var(--glass)" data-notes="Cerrad con las cuatro ideas sin prisa, dejad un silencio antes de abrir turno de preguntas.">
