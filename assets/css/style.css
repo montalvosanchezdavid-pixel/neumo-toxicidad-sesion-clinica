@@ -283,13 +283,65 @@ section.slide{
 .flip-front h4{ font-family:var(--font-body); font-size:1rem; color:var(--text-primary); margin:0; }
 .flip-back{ background:var(--bg-panel-2); transform:rotateY(180deg); font-size:.86rem; color:var(--text-muted); }
 
-/* ================= REFERENCES ================= */
-.ref-list{ counter-reset:ref; margin-top:1.4rem; }
-.ref-item{ display:flex; gap:.85rem; padding:.85rem 0; border-bottom:1px solid var(--border-soft); font-size:.88rem; scroll-margin-top:2rem; transition:background .6s ease; border-radius:8px; }
-.ref-item:target{ background:var(--c2-dim); animation:refFlash 1.6s ease; }
-@keyframes refFlash{ 0%{ background:rgba(79,184,214,.28); } 100%{ background:var(--c2-dim); } }
-.ref-item::before{ counter-increment:ref; content:'[' counter(ref) ']'; font-family:var(--font-mono); color:var(--c2); flex-shrink:0; }
-.ref-item .pending{ color:var(--c1); font-weight:700; }
+/* ================= REFERENCES — recortes brutalistas de papel ================= */
+.ref-list{ display:flex; flex-direction:column; gap:1.2rem; margin-top:2rem; max-width:720px; }
+
+.ref-item{
+  display:block; position:relative; text-decoration:none; cursor:pointer;
+  background:var(--bg-panel); color:var(--text-primary); border-radius:0; padding:1.15rem 1.3rem 1.2rem;
+  border:2px solid var(--text-primary);
+  box-shadow:6px 6px 0 var(--ref-accent,var(--c2));
+  scroll-margin-top:2rem;
+  transition:transform .18s ease, box-shadow .18s ease, border-color .18s ease;
+}
+.ref-item:hover, .ref-item:focus-visible{
+  transform:translate(-3px,-3px);
+  box-shadow:9px 9px 0 var(--ref-accent,var(--c2));
+  border-color:var(--ref-accent,var(--c2));
+  outline:none; z-index:5;
+}
+.ref-item:active{ transform:translate(0,0); box-shadow:3px 3px 0 var(--ref-accent,var(--c2)); }
+.ref-item:target{ animation:refFlash 1.6s ease; }
+@keyframes refFlash{ 0%{ background:var(--c2-dim); } 100%{ background:var(--bg-panel); } }
+
+/* variante 1: muesca cortada en la esquina, como un archivador troquelado */
+.ref-item.type-notch::before{
+  content:''; position:absolute; top:-2px; left:-2px; width:20px; height:20px; pointer-events:none; z-index:1;
+  background:
+    linear-gradient(135deg, transparent 49%, var(--text-primary) 49%, var(--text-primary) 52%, transparent 52%),
+    linear-gradient(135deg, var(--bg-deep) 50%, transparent 50%);
+}
+
+.ref-num{
+  font-family:var(--font-mono); font-weight:800; font-size:1.15rem;
+  color:var(--ref-accent,var(--c2)); letter-spacing:.02em; display:block; margin-bottom:.5rem;
+  padding-bottom:.4rem; border-bottom:2px dashed var(--border-soft);
+}
+.ref-thumb{ width:100%; max-height:110px; object-fit:cover; border-radius:0; border:2px solid var(--border-soft); margin:0 0 .7rem; display:block; }
+.ref-title{
+  font-family:var(--font-display); font-weight:700; font-size:1.05rem; line-height:1.28;
+  letter-spacing:-.01em; text-transform:uppercase; margin:0 0 .4rem; color:var(--text-primary);
+}
+.ref-byline{ font-family:var(--font-mono); font-size:.68rem; text-transform:uppercase; letter-spacing:.06em; color:var(--text-faint); }
+.ref-byline em{ color:var(--text-faint); }
+
+.ref-more{ max-height:0; opacity:0; overflow:hidden; transition:max-height .4s cubic-bezier(.2,.8,.2,1), opacity .25s ease, margin-top .25s ease; }
+.ref-item:hover .ref-more, .ref-item:focus-visible .ref-more{ max-height:280px; opacity:1; margin-top:.7rem; }
+.ref-clave{ font-size:.85rem; line-height:1.45; margin:0 0 .5rem; padding-top:.65rem; border-top:2px dashed var(--border-soft); color:var(--text-muted); }
+.ref-clave b{ color:var(--ref-accent,var(--c2)); }
+.ref-cite{ font-size:.74rem; line-height:1.4; margin:0; color:var(--text-faint); }
+.ref-cite em{ color:var(--text-faint); }
+
+.ref-goto{
+  display:inline-flex; align-items:center; gap:.3rem; margin-top:.65rem;
+  font-family:var(--font-mono); font-weight:700; font-size:.68rem; text-transform:uppercase; letter-spacing:.05em; color:var(--ref-accent,var(--c2));
+  opacity:0; transform:translateY(4px); transition:opacity .25s ease, transform .25s ease;
+}
+.ref-item:hover .ref-goto, .ref-item:focus-visible .ref-goto{ opacity:1; transform:translateY(0); }
+@media (prefers-reduced-motion:reduce){
+  .ref-item, .ref-more, .ref-goto{ transition:none; }
+  .ref-item:hover, .ref-item:focus-visible{ transform:none; }
+}
 
 footer.end{ text-align:center; padding:3rem 1rem 4rem; color:var(--text-faint); font-size:.85rem; }
 ::selection{ background:var(--c2); color:#04121a; }
