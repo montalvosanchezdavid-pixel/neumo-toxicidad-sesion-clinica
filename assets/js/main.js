@@ -143,6 +143,8 @@
     var btn = document.createElement('button');
     btn.setAttribute('aria-label', sec.getAttribute('data-title') || ('Sección ' + (i + 1)));
     btn.title = sec.getAttribute('data-title') || '';
+    var accent = getComputedStyle(sec).getPropertyValue('--c-case').trim();
+    if(accent) btn.style.setProperty('--dot-c', accent);
     btn.addEventListener('click', function(){ sec.scrollIntoView({ behavior:'smooth', block:'start' }); });
     nav.appendChild(btn);
     dotButtons.push(btn);
