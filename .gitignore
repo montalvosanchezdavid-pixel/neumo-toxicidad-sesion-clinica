@@ -9,3 +9,4 @@ neumo sesion clinica.html
 
 # Ficheros de la sesión de Claude Code, no del proyecto.
 .claude/
+_make_pdf.py
