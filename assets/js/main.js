@@ -13,6 +13,14 @@
   window.addEventListener('scroll', updateProgressBar, { passive:true });
   updateProgressBar();
 
+  /* ---------- hero tag pills: jump straight to that case ---------- */
+  document.querySelectorAll('.tag-link[data-goto]').forEach(function(btn){
+    btn.addEventListener('click', function(){
+      var target = document.getElementById(btn.getAttribute('data-goto'));
+      if(target) target.scrollIntoView({ behavior:'smooth', block:'start' });
+    });
+  });
+
   /* ---------- reveal on scroll ---------- */
   var io = new IntersectionObserver(function(entries){
     entries.forEach(function(entry){
