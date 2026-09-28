@@ -227,6 +227,30 @@ section.slide{
 .ct-cell span{ display:block; text-align:center; font-size:.68rem; color:var(--text-faint); padding:.35rem 0; }
 .ct-cell.is-empty{ display:flex; align-items:center; justify-content:center; height:110px; text-align:center; font-size:.68rem; color:var(--text-faint); padding:.5rem; border-style:dashed; }
 
+/* before/after draggable image compare */
+.compare{
+  position:relative; aspect-ratio:516/419; margin-top:1.6rem; border-radius:14px; overflow:hidden;
+  border:1px solid var(--border-soft); background:var(--bg-deep); cursor:ew-resize; touch-action:none; user-select:none;
+}
+.compare img{ position:absolute; inset:0; width:100%; height:100%; object-fit:contain; display:block; pointer-events:none; }
+.compare-before{ clip-path:inset(0 50% 0 0); z-index:2; }
+.compare-label{
+  position:absolute; top:.7rem; font-family:var(--font-mono); font-size:.68rem; text-transform:uppercase; letter-spacing:.05em;
+  color:var(--text-primary); background:rgba(10,14,23,.72); border:1px solid var(--border-soft); border-radius:999px;
+  padding:.3rem .7rem; z-index:3; pointer-events:none;
+}
+.compare-label-before{ left:.7rem; }
+.compare-label-after{ right:.7rem; }
+.compare-handle{
+  position:absolute; top:0; bottom:0; left:50%; width:2px; background:var(--text-primary); z-index:4;
+  transform:translateX(-50%); pointer-events:none;
+}
+.compare-handle span{
+  position:absolute; top:50%; left:50%; transform:translate(-50%,-50%); width:34px; height:34px; border-radius:50%;
+  background:var(--text-primary); color:var(--bg-deep); display:flex; align-items:center; justify-content:center;
+  font-size:.9rem; box-shadow:0 6px 18px rgba(0,0,0,.4);
+}
+
 /* blind comparison (caso 2) */
 .reveal-pair{ display:grid; grid-template-columns:1fr 1fr; gap:1rem; margin-top:1.6rem; max-width:560px; }
 .reveal-img{ background:var(--bg-panel); border:1px solid var(--border-soft); border-radius:14px; overflow:hidden; aspect-ratio:4/4.3; }

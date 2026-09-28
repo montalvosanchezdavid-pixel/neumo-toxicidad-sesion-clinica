@@ -110,6 +110,40 @@
     }
   });
 
+  /* ---------- before/after image compare: drag to reveal, click to enlarge ---------- */
+  document.querySelectorAll('.compare').forEach(function(box){
+    var beforeImg = box.querySelector('.compare-before');
+    var afterImg = box.querySelector('.compare-after');
+    var handle = box.querySelector('.compare-handle');
+    var pct = 50, dragging = false, moved = false, startX = 0, startY = 0;
+    function pctFromClientX(clientX){
+      var rect = box.getBoundingClientRect();
+      return Math.min(100, Math.max(0, ((clientX - rect.left) / rect.width) * 100));
+    }
+    function paint(p){
+      pct = p;
+      beforeImg.style.clipPath = 'inset(0 ' + (100 - pct) + '% 0 0)';
+      handle.style.left = pct + '%';
+    }
+    box.addEventListener('pointerdown', function(e){
+      dragging = true; moved = false; startX = e.clientX; startY = e.clientY;
+      box.setPointerCapture(e.pointerId);
+    });
+    box.addEventListener('pointermove', function(e){
+      if(!dragging) return;
+      if(!moved && (Math.abs(e.clientX - startX) > 4 || Math.abs(e.clientY - startY) > 4)) moved = true;
+      if(moved) paint(pctFromClientX(e.clientX));
+    });
+    box.addEventListener('pointerup', function(e){
+      if(dragging && !moved){
+        var clickPct = pctFromClientX(e.clientX);
+        openLightbox(clickPct <= pct ? beforeImg : afterImg);
+      }
+      dragging = false;
+    });
+    box.addEventListener('pointercancel', function(){ dragging = false; });
+  });
+
   /* ---------- blind image reveal (caso 2) ---------- */
   document.querySelectorAll('.reveal-btn').forEach(function(btn){
     btn.addEventListener('click', function(){

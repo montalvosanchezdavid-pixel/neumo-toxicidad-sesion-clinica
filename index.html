@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Neumotoxicidad por fármacos — Sesión clínica</title>
 <meta name="description" content="Sesión clínica de Neumología: neumotoxicidad por fármacos en el paciente hematológico. Bleomicina, metotrexato, CAR-T e inhibidores de checkpoint.">
-<link rel="stylesheet" href="assets/css/style.css?v=19">
+<link rel="stylesheet" href="assets/css/style.css?v=21">
 </head>
 <body>
 
@@ -115,10 +115,14 @@
       <div class="cb-body"><p>Opacidades reticulares y en vidrio deslustrado <b>subpleurales, de predominio en bases</b>, con engrosamiento septal. Sin nódulos ni signo del halo.</p></div>
     </div>
 
-    <div class="img-row reveal">
-      <figure class="img-card"><img data-slot alt="Radiografía PA al momento de la consulta" src="images/caso1-rx-antes.jpg"><span class="tagline">Al consultar</span></figure>
-      <figure class="img-card"><img data-slot alt="Radiografía PA de control" src="images/caso1-rx-despues.jpg"><span class="tagline">En el seguimiento</span></figure>
+    <div class="compare reveal" style="max-width:420px">
+      <img class="compare-after" data-slot alt="Radiografía PA de control" src="images/caso1-rx-despues.jpg">
+      <img class="compare-before" data-slot alt="Radiografía PA al momento de la consulta" src="images/caso1-rx-antes.jpg">
+      <span class="compare-label compare-label-before">Al consultar</span>
+      <span class="compare-label compare-label-after">En el seguimiento</span>
+      <div class="compare-handle" aria-hidden="true"><span>↔</span></div>
     </div>
+    <p class="reveal" style="font-size:.78rem;color:var(--text-faint);margin-top:.6rem">Arrastra para comparar la radiografía al consultar y en el seguimiento.</p>
 
     <div class="quiz-step reveal">
       <div class="q-prompt"><strong>Decisión:</strong> ¿Qué hacéis con el esquema de tratamiento?</div>
@@ -807,6 +811,6 @@
   </div>
 </section>
 
-<script src="assets/js/main.js?v=19"></script>
+<script src="assets/js/main.js?v=21"></script>
 </body>
 </html>
