@@ -193,6 +193,18 @@ section.slide{
 .case-block.open .cb-body{ max-height:600px; padding-top:.9rem; }
 .cb-body p:last-child{ margin-bottom:0; }
 
+/* ================= GRADE TABLE (dentro de case-block) ================= */
+.table-scroll{ overflow-x:auto; margin-top:.2rem; }
+.grade-table{ width:100%; min-width:480px; border-collapse:collapse; font-size:.82rem; }
+.grade-table th{
+  text-align:left; font-family:var(--font-mono); font-size:.66rem; text-transform:uppercase;
+  letter-spacing:.05em; color:var(--text-faint); padding:.5rem .6rem; border-bottom:1px solid var(--border-soft);
+}
+.grade-table td{ padding:.55rem .6rem; border-bottom:1px solid var(--border-soft); color:var(--text-muted); vertical-align:top; }
+.grade-table tr:last-child td{ border-bottom:none; }
+.grade-table td:first-child{ font-family:var(--font-mono); font-weight:700; color:var(--c-case,var(--c2)); }
+.grade-table td b{ color:var(--text-primary); }
+
 /* ================= LAB / DATA CARDS ================= */
 .lab-grid{ display:grid; grid-template-columns:repeat(auto-fit,minmax(180px,1fr)); gap:.9rem; margin-top:1.6rem; }
 .lab-card{ background:var(--bg-panel); border:1px solid var(--border-soft); border-radius:14px; padding:1.1rem 1.2rem; position:relative; overflow:hidden; }
