@@ -179,7 +179,7 @@ section.slide{
 
 #hero h1{ font-size:clamp(2.1rem,5.6vw,3.7rem); line-height:1.06; max-width:16ch; }
 #hero .sub{ font-size:clamp(1rem,2vw,1.15rem); max-width:56ch; margin-top:.4rem; }
-.hero-meta{ margin-top:2.4rem; display:flex; gap:2.2rem; flex-wrap:wrap; font-family:var(--font-mono); font-size:0.8rem; color:var(--text-faint); }
+.hero-meta{ margin-top:2.4rem; display:flex; gap:2.2rem; flex-wrap:wrap; font-family:var(--font-mono); font-size:0.8rem; color:var(--text-primary); }
 .hero-meta b{ display:block; color:var(--text-primary); font-family:var(--font-body); font-size:0.95rem; }
 .scroll-cue{ margin-top:2.8rem; font-family:var(--font-mono); font-size:0.74rem; color:var(--text-faint); display:flex; align-items:center; gap:0.6rem; }
 .scroll-cue .arrow{ animation:bob 1.6s ease-in-out infinite; }
@@ -399,7 +399,14 @@ section.slide{
 .flip-back{ background:var(--bg-panel-2); transform:rotateY(180deg); font-size:.86rem; color:var(--text-muted); }
 
 /* ================= REFERENCES — recortes brutalistas de papel ================= */
-.ref-list{ display:flex; flex-direction:column; gap:1.2rem; margin-top:2rem; max-width:720px; }
+.ref-list{ display:flex; flex-direction:column; gap:1.2rem; margin-top:2rem; max-width:900px; }
+.ref-item{ max-width:78%; }
+.ref-list .ref-item:nth-child(odd){ align-self:flex-start; }
+.ref-list .ref-item:nth-child(even){ align-self:flex-end; }
+@media (max-width:760px){
+  .ref-item{ max-width:100%; }
+  .ref-list .ref-item:nth-child(odd), .ref-list .ref-item:nth-child(even){ align-self:stretch; }
+}
 
 .ref-item{
   display:block; position:relative; text-decoration:none; cursor:pointer;

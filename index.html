@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Neumotoxicidad por fármacos — Sesión clínica</title>
 <meta name="description" content="Sesión clínica de Neumología: neumotoxicidad por fármacos en el paciente hematológico. Bleomicina, metotrexato, CAR-T e inhibidores de checkpoint.">
-<link rel="stylesheet" href="assets/css/style.css?v=32">
+<link rel="stylesheet" href="assets/css/style.css?v=37">
 </head>
 <body>
 
@@ -318,14 +318,6 @@
       </div>
     </div>
 
-    <h3 class="reveal" style="margin-top:2.4rem">Una imagen no las separa</h3>
-    <p class="reveal">Metotrexato a la izquierda, <i>Pneumocystis</i> a la derecha. Sin mirar la historia clínica, decidid cuál es cuál.</p>
-    <div class="reveal-pair reveal">
-      <figure><div class="reveal-img"><img src="images/caso2-metotrexato-tc.jpg" alt="TC de tórax, corte coronal, sin identificar"></div><figcaption class="reveal-label" hidden>Metotrexato</figcaption></figure>
-      <figure><div class="reveal-img"><img src="images/caso2-pneumocystis.jpg" alt="Radiografía de tórax, sin identificar"></div><figcaption class="reveal-label" hidden>Pneumocystis</figcaption></figure>
-    </div>
-    <button class="pill-btn reveal-btn reveal" style="margin-top:1rem">Revelar</button>
-    <p class="reveal-msg" hidden style="font-size:.85rem;color:var(--text-faint);margin-top:.8rem">Vidrio deslustrado difuso en ambas, sin gradiente que las distinga. La respuesta está en la cronología, la profilaxis y el LBA, no en la imagen.</p>
   </div>
 </section>
 
@@ -364,7 +356,7 @@
           <li><b>Mecanismo:</b> reacción de hipersensibilidad. Impredecible e independiente de la dosis: no hay umbral que vigilar. <sup class="cite"><a href="#ref-14">14</a></sup></li>
           <li><b>Latencia:</b> desde días hasta años, con la mayoría en el primer año de exposición.</li>
           <li><b>Clínica:</b> tos, disnea subaguda y fiebre en torno al 50 %. Eosinofilia periférica en una proporción relevante.</li>
-          <li><b>Imagen:</b> vidrio deslustrado difuso, a veces con patrón de neumonitis por hipersensibilidad. Adenopatías mediastínicas ocasionales.</li>
+          <li><b>Imagen:</b> vidrio deslustrado difuso, a veces con patrón de neumonitis por hipersensibilidad. Adenopatías mediastínicas ocasionales. Ningún hallazgo es patognomónico. <sup class="cite"><a href="#ref-16">16</a></sup></li>
           <li><b>Manejo:</b> retirada y corticoide, con buena respuesta habitual. La reintroducción no se recomienda: las recidivas descritas son más graves.</li>
         </ul>
       </div>
@@ -373,13 +365,29 @@
     </div>
 
     <div class="pm-collapse reveal">
-      <button class="pm-collapse-head pm-title-always" type="button"><span>Evolución tras la retirada</span><span class="pm-collapse-icon">+</span></button>
+      <button class="pm-collapse-head pm-title-always" type="button"><span>TC completo · 5 reconstrucciones</span><span class="pm-collapse-icon">+</span></button>
       <div class="pm-collapse-body">
-    <div class="img-row reveal" style="margin-top:.6rem">
-      <figure class="img-card"><img alt="Radiografía PA al ingreso, con infiltrados bilaterales" src="images/caso2-rx-inicial.jpg"><span class="tagline">Al ingreso</span></figure>
-      <figure class="img-card"><img alt="Radiografía PA tras retirar metotrexato e iniciar corticoide" src="images/caso2-rx-resolucion.jpg"><span class="tagline">Tras retirada y corticoide</span></figure>
+    <p class="reveal" style="margin-top:.6rem">Caso distinto al del paciente descrito arriba, ilustrativo del mismo mecanismo de hipersensibilidad. Fuente: <sup class="cite"><a href="#ref-17">17</a></sup></p>
+    <div class="ct-strip reveal">
+      <div class="ct-strip-row" style="grid-template-columns:repeat(5,1fr)">
+        <div class="ct-cell"><img src="images/caso2-mtx-tc-coronal.jpg" alt="TC coronal"><span>Coronal</span></div>
+        <div class="ct-cell"><img src="images/caso2-mtx-tc-inspiratorio.jpg" alt="TC axial en inspiración, atenuación en mosaico"><span>Inspiración</span></div>
+        <div class="ct-cell"><img src="images/caso2-mtx-tc-espiratorio.jpg" alt="TC axial en espiración, atrapamiento aéreo"><span>Espiración</span></div>
+        <div class="ct-cell"><img src="images/caso2-mtx-tc-prono.jpg" alt="TC axial en decúbito prono"><span>Prono</span></div>
+        <div class="ct-cell"><img src="images/caso2-mtx-tc-mediastino.jpg" alt="TC axial, ventana mediastínica"><span>Vent. mediastínica</span></div>
+      </div>
     </div>
-    <p class="reveal" style="font-size:.85rem;color:var(--text-faint)">Resolución casi completa en pocas semanas, la evolución típica una vez retirado el fármaco.</p>
+    <p class="reveal" style="font-size:.85rem;color:var(--text-faint)">El mismo parénquima se ve más heterogéneo en espiración que en inspiración: las zonas que no atrapan aire se vacían y oscurecen, las afectadas se quedan claras — atrapamiento aéreo en mosaico, típico de neumonitis por hipersensibilidad. El prono y la ventana mediastínica descartan que sea un artefacto de decúbito o un problema puramente vascular.</p>
+      </div>
+    </div>
+
+    <div class="pm-collapse reveal">
+      <button class="pm-collapse-head pm-title-always" type="button"><span>Radiografía</span><span class="pm-collapse-icon">+</span></button>
+      <div class="pm-collapse-body">
+    <div class="img-row solo reveal" style="margin-top:.6rem;max-width:420px">
+      <figure class="img-card"><img alt="Radiografía PA, opacidades reticulares basales con pérdida de volumen" src="images/caso2-mtx-rx.jpg"><span class="tagline">Al diagnóstico</span></figure>
+    </div>
+    <p class="reveal" style="font-size:.85rem;color:var(--text-faint)">Reticulación difusa de predominio en bases, con pérdida de volumen y engrosamiento pleural — sugestiva de EPID fibrosante, por eso se pidió el TC de alta resolución. Caso distinto, ilustrativo. Fuente: <sup class="cite"><a href="#ref-17">17</a></sup></p>
       </div>
     </div>
   </div>
@@ -901,12 +909,35 @@
         <span class="ref-goto">Ver artículo ↗</span>
       </a>
 
+      <a class="ref-item type-notch" id="ref-16" style="--ref-accent:var(--c2)" href="https://doi.org/10.53347/rID-171941" target="_blank" rel="noopener noreferrer">
+        <span class="ref-num">16</span>
+        <h4 class="ref-title">Ningún hallazgo de imagen es exclusivo de la neumonitis por metotrexato</h4>
+        <div class="ref-byline">Chan B · Radiopaedia.org, rID 171941</div>
+        <div class="ref-more">
+          <p class="ref-clave"><b>Clave —</b> Artículo de referencia: vidrio deslustrado, fibrosis basal, nódulos centrolobulillares mal definidos o consolidación en espacio aéreo — ninguno es patognomónico, y suele mejorar en el primer mes tras retirar el fármaco.</p>
+          <p class="ref-cite">Methotrexate induced pneumonitis. Reference article, Radiopaedia.org. https://doi.org/10.53347/rID-171941</p>
+        </div>
+        <span class="ref-goto">Ver artículo ↗</span>
+      </a>
+
+      <a class="ref-item type-tab" id="ref-17" style="--ref-accent:var(--c2)" href="https://doi.org/10.53347/rID-98433" target="_blank" rel="noopener noreferrer">
+        <span class="ref-num">17</span>
+        <img class="ref-thumb" src="images/caso2-mtx-tc-espiratorio.jpg" alt="TC axial en espiración con atrapamiento aéreo en mosaico">
+        <h4 class="ref-title">Atrapamiento aéreo en mosaico, inspiración vs. espiración</h4>
+        <div class="ref-byline">Markey P · Radiopaedia.org, rID 98433 (CC BY-NC-SA)</div>
+        <div class="ref-more">
+          <p class="ref-clave"><b>Clave —</b> Caso con el par inspiración/espiración que hace evidente el atrapamiento aéreo en mosaico de la neumonitis por hipersensibilidad crónica a metotrexato. Origen de las imágenes de TC del caso 2.</p>
+          <p class="ref-cite">Methotrexate-induced pulmonary toxicity. Case study, Radiopaedia.org. https://doi.org/10.53347/rID-98433</p>
+        </div>
+        <span class="ref-goto">Ver artículo ↗</span>
+      </a>
+
     </div>
 
     <footer class="end">Ana Sánchez Navasa, David Montalvo · R1 Hematología · HUSE — Neumotoxicidad</footer>
   </div>
 </section>
 
-<script src="assets/js/main.js?v=32"></script>
+<script src="assets/js/main.js?v=35"></script>
 </body>
 </html>
