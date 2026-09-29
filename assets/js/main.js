@@ -34,6 +34,13 @@
     block.addEventListener('click', function(){ block.classList.toggle('open'); });
   });
 
+  /* ---------- pm-collapse: solo se pliega en modo presentación ---------- */
+  document.querySelectorAll('.pm-collapse-head').forEach(function(head){
+    head.addEventListener('click', function(){
+      head.closest('.pm-collapse').classList.toggle('open');
+    });
+  });
+
   /* ---------- lab-card counters (trigger once, on scroll into view) ---------- */
   var labIo = new IntersectionObserver(function(entries){
     entries.forEach(function(entry){
@@ -108,6 +115,34 @@
         if(feedback) feedback.classList.add('show');
       });
     }
+  });
+
+  /* ---------- wheel of 3: one centered, the other two small and behind ---------- */
+  document.querySelectorAll('.wheel3').forEach(function(wheel){
+    var items = Array.prototype.slice.call(wheel.querySelectorAll('.wheel3-item'));
+    var active = 0;
+    function render(){
+      items.forEach(function(el, idx){
+        el.classList.remove('is-active', 'is-left', 'is-right');
+        if(idx === active) el.classList.add('is-active');
+        else if(idx === (active + 1) % items.length) el.classList.add('is-right');
+        else el.classList.add('is-left');
+      });
+    }
+    items.forEach(function(el, idx){
+      el.addEventListener('click', function(){
+        if(idx === active) return;
+        active = idx; render();
+      });
+    });
+    render();
+    /* al salir de la vista (subiendo o bajando), vuelve al estado inicial */
+    var wheelIo = new IntersectionObserver(function(entries){
+      entries.forEach(function(entry){
+        if(!entry.isIntersecting && active !== 0){ active = 0; render(); }
+      });
+    }, { threshold:0 });
+    wheelIo.observe(wheel);
   });
 
   /* ---------- before/after image compare: drag to reveal, click to enlarge ---------- */
@@ -219,6 +254,46 @@
     var on = document.body.classList.toggle('presentation-mode');
     modeBtn.classList.toggle('on', on);
     modeBtn.textContent = on ? 'Modo libre' : 'Modo presentación';
+    if(on) fitSlides(); else resetSlideFit();
+  });
+
+  /* ---------- ajusta cada diapositiva para que quepa siempre entera en pantalla ---------- */
+  var MIN_ZOOM = 0.5;
+  function resetSlideFit(){
+    document.querySelectorAll('section.slide').forEach(function(sec){
+      var wrap = sec.querySelector('.wrap');
+      if(wrap) wrap.style.transform = '';
+      sec.classList.remove('pm-scroll-fallback');
+    });
+  }
+  function fitSlides(){
+    if(!document.body.classList.contains('presentation-mode')) return;
+    document.querySelectorAll('section.slide').forEach(function(sec){
+      var wrap = sec.querySelector('.wrap');
+      if(!wrap) return;
+      wrap.style.transform = '';
+      sec.classList.remove('pm-scroll-fallback');
+      var secStyle = getComputedStyle(sec);
+      var available = sec.clientHeight - parseFloat(secStyle.paddingTop) - parseFloat(secStyle.paddingBottom);
+      var natural = wrap.getBoundingClientRect().height;
+      if(natural > available){
+        var z = Math.max(MIN_ZOOM, available / natural);
+        wrap.style.transform = 'scale(' + z + ')';
+        if(wrap.getBoundingClientRect().height > available + 2){ sec.classList.add('pm-scroll-fallback'); }
+      }
+    });
+  }
+  var fitTimer = null;
+  function scheduleFit(delay){
+    if(!document.body.classList.contains('presentation-mode')) return;
+    clearTimeout(fitTimer);
+    fitTimer = setTimeout(fitSlides, delay || 150);
+  }
+  window.addEventListener('resize', function(){ scheduleFit(150); });
+  /* recalcula si algo dentro de la diapositiva cambia de alto (desplegables, quiz, revelar);
+     se espera a que termine la transición del acordeón antes de medir */
+  document.addEventListener('click', function(e){
+    if(e.target.closest('.pm-collapse-head, .case-block, .q-opt, .q-check, .reveal-btn, .cmp-row, .flip-card')) scheduleFit(450);
   });
 
   /* ---------- 20-minute timer (visible in top-controls) ---------- */

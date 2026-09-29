@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Neumotoxicidad por fármacos — Sesión clínica</title>
 <meta name="description" content="Sesión clínica de Neumología: neumotoxicidad por fármacos en el paciente hematológico. Bleomicina, metotrexato, CAR-T e inhibidores de checkpoint.">
-<link rel="stylesheet" href="assets/css/style.css?v=23">
+<link rel="stylesheet" href="assets/css/style.css?v=32">
 </head>
 <body>
 
@@ -53,22 +53,22 @@
     <span class="eyebrow reveal">Punto de partida</span>
     <h2 class="reveal">El fármaco es siempre un diagnóstico de exclusión</h2>
     <p class="reveal">En un paciente inmunodeprimido con un infiltrado nuevo, la infección va primero. Pero descartarla no basta: hay que saber a qué toxicidad nos enfrentamos, porque el manejo cambia por completo.</p>
-    <div class="frame-grid">
-      <div class="frame-card reveal">
+    <div class="wheel3 reveal" role="group" aria-label="Las tres preguntas, en rueda">
+      <button class="wheel3-item" type="button" data-idx="0">
         <div class="fc-num">01</div>
         <h4>Cronología</h4>
         <p>¿Cuántos días u horas desde la última dosis? Es el dato que más discrimina y el que peor recogemos.</p>
-      </div>
-      <div class="frame-card reveal d1">
+      </button>
+      <button class="wheel3-item" type="button" data-idx="1">
         <div class="fc-num">02</div>
         <h4>Mecanismo</h4>
         <p>Daño oxidativo, hipersensibilidad, fuga capilar por citoquinas o desregulación inmune. Cada uno responde a un tratamiento distinto.</p>
-      </div>
-      <div class="frame-card reveal d2">
+      </button>
+      <button class="wheel3-item" type="button" data-idx="2">
         <div class="fc-num">03</div>
         <h4>Consecuencia</h4>
         <p>Retirar, reducir, mantener o reintroducir. La respuesta no es la misma en los cuatro casos.</p>
-      </div>
+      </button>
     </div>
   </div>
 </section>
@@ -82,6 +82,9 @@
     <h2 class="reveal">Varón de 24 años, linfoma de Hodgkin</h2>
     <p class="reveal">Estadio IIB, en tratamiento con <b><span class="abbr-tip" tabindex="0" data-tip="Adriamicina (doxorrubicina), bleomicina, vinblastina, dacarbazina.">ABVD</span></b>. Consulta tres semanas después del quinto ciclo por tos seca y disnea de esfuerzo progresiva. Sin fiebre.</p>
 
+    <div class="pm-collapse reveal">
+      <button class="pm-collapse-head" type="button"><span>Analítica</span><span class="pm-collapse-icon">+</span></button>
+      <div class="pm-collapse-body">
     <div class="lab-grid">
       <div class="lab-card reveal">
         <div class="lab-head"><svg class="lab-icon" viewBox="0 0 20 20"><path d="M10 2C10 2 4 9 4 13a6 6 0 0 0 12 0C16 9 10 2 10 2Z" fill="currentColor" opacity=".85"/></svg><div class="lab-label">SpO₂ reposo</div></div>
@@ -107,6 +110,8 @@
         <div class="lab-value abn"><span class="counter">0</span> %</div>
         <div class="lab-ref">Basal 91 % · patrón restrictivo leve</div>
         <div class="lab-bar"><span></span></div>
+      </div>
+    </div>
       </div>
     </div>
 
@@ -189,6 +194,9 @@
       <div class="trap"><strong>Para vosotros:</strong> la DLCO cae más de un 10 % en la mayoría de los tratados con <span class="abbr-tip" tabindex="0" data-tip="Adriamicina (doxorrubicina), bleomicina, vinblastina, dacarbazina.">ABVD</span>, y a los 5 años un tercio sigue por debajo del 75 %. Una caída aislada no diagnostica toxicidad, y ese antecedente explica muchas DLCO bajas que os llegan años después.</div>
     </div>
 
+    <div class="pm-collapse reveal">
+      <button class="pm-collapse-head" type="button"><span>TC de tórax · 6 cortes + referencia</span><span class="pm-collapse-icon">+</span></button>
+      <div class="pm-collapse-body">
     <div class="ct-strip reveal">
       <div class="ct-strip-label">TC axial · antes de la toxicidad</div>
       <div class="ct-strip-row">
@@ -206,6 +214,8 @@
 
     <div class="img-row solo reveal" style="margin-top:1.6rem">
       <figure class="img-card"><img src="images/caso1-tc-referencia.jpg" alt="TC coronal y axial de referencia, toxicidad por bleomicina"><figcaption>Reticulación subpleural de predominio basal, cortes coronal y axial.</figcaption></figure>
+    </div>
+      </div>
     </div>
 
     <div class="quiz-step reveal" data-multi>
@@ -237,6 +247,9 @@
     <h2 class="reveal">Mujer de 58 años, leucemia linfoblástica aguda</h2>
     <p class="reveal">En <b>mantenimiento</b>: metotrexato oral semanal y mercaptopurina. Profilaxis con cotrimoxazol, cumplimiento verificado. A las 7 semanas: tos seca y disnea de dos semanas.</p>
 
+    <div class="pm-collapse reveal">
+      <button class="pm-collapse-head" type="button"><span>Analítica</span><span class="pm-collapse-icon">+</span></button>
+      <div class="pm-collapse-body">
     <div class="lab-grid">
       <div class="lab-card abn reveal" data-target="38.1" data-decimals="1" data-fill="70%">
         <div class="lab-head"><svg class="lab-icon" viewBox="0 0 20 20"><path d="M2 10h3l2-5 3 10 2-7 1.5 2H18" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg><div class="lab-label">Temperatura</div></div>
@@ -260,12 +273,17 @@
         <div class="lab-bar"><span></span></div>
       </div>
     </div>
+      </div>
+    </div>
 
     <div class="case-block reveal" style="--c-case:var(--c2)">
       <div class="cb-head"><span>TC de tórax</span><span class="cb-icon">+</span></div>
       <div class="cb-body"><p><b>Vidrio deslustrado bilateral difuso</b>, sin quistes ni neumotórax.</p></div>
     </div>
 
+    <div class="pm-collapse reveal">
+      <button class="pm-collapse-head" type="button"><span>LBA</span><span class="pm-collapse-icon">+</span></button>
+      <div class="pm-collapse-body">
     <div class="lab-grid">
       <div class="lab-card reveal">
         <div class="lab-head"><svg class="lab-icon" viewBox="0 0 20 20"><path d="M8 2h4M8 2v5l-4.5 8a1.5 1.5 0 0 0 1.3 2.2h10.4a1.5 1.5 0 0 0 1.3-2.2L12 7V2" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"/></svg><div class="lab-label">LBA celularidad</div></div>
@@ -281,6 +299,8 @@
         <div class="lab-head"><svg class="lab-icon" viewBox="0 0 20 20"><path d="M8 2h4M8 2v5l-4.5 8a1.5 1.5 0 0 0 1.3 2.2h10.4a1.5 1.5 0 0 0 1.3-2.2L12 7V2" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"/></svg><div class="lab-label">PCR Pneumocystis</div></div>
         <div class="lab-value">Negativa</div>
         <div class="lab-ref">Galactomanano LBA negativo, cultivos estériles</div>
+      </div>
+    </div>
       </div>
     </div>
 
@@ -352,12 +372,16 @@
       <div class="trap"><strong>La trampa:</strong> el metotrexato también produce edema pulmonar no cardiogénico, derrame pleural y neumonía organizada. Y coexiste con inmunosupresión real: la neumonitis no exime de completar el estudio microbiológico, solo de esperar a sus resultados para retirar el fármaco.</div>
     </div>
 
-    <h3 class="reveal" style="margin-top:2rem">Evolución tras la retirada</h3>
-    <div class="img-row reveal">
+    <div class="pm-collapse reveal">
+      <button class="pm-collapse-head pm-title-always" type="button"><span>Evolución tras la retirada</span><span class="pm-collapse-icon">+</span></button>
+      <div class="pm-collapse-body">
+    <div class="img-row reveal" style="margin-top:.6rem">
       <figure class="img-card"><img alt="Radiografía PA al ingreso, con infiltrados bilaterales" src="images/caso2-rx-inicial.jpg"><span class="tagline">Al ingreso</span></figure>
       <figure class="img-card"><img alt="Radiografía PA tras retirar metotrexato e iniciar corticoide" src="images/caso2-rx-resolucion.jpg"><span class="tagline">Tras retirada y corticoide</span></figure>
     </div>
     <p class="reveal" style="font-size:.85rem;color:var(--text-faint)">Resolución casi completa en pocas semanas, la evolución típica una vez retirado el fármaco.</p>
+      </div>
+    </div>
   </div>
 </section>
 
@@ -370,6 +394,9 @@
     <h2 class="reveal">Varón de 55 años, día +3 tras CAR-T</h2>
     <p class="reveal">Linfoma B difuso de célula grande refractario. Recibió <b>axicabtagén ciloleucel</b> hace tres días tras linfodepleción.</p>
 
+    <div class="pm-collapse reveal">
+      <button class="pm-collapse-head" type="button"><span>Analítica</span><span class="pm-collapse-icon">+</span></button>
+      <div class="pm-collapse-body">
     <div class="lab-grid">
       <div class="lab-card abn reveal" data-target="39.4" data-decimals="1" data-fill="82%">
         <div class="lab-head"><svg class="lab-icon" viewBox="0 0 20 20"><path d="M2 10h3l2-5 3 10 2-7 1.5 2H18" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg><div class="lab-label">Temperatura</div></div>
@@ -413,6 +440,8 @@
         <div class="lab-head"><svg class="lab-icon" viewBox="0 0 20 20"><path d="M3 15 a7 7 0 0 1 14 0" fill="none" stroke="currentColor" stroke-width="1.6"/><line x1="10" y1="15" x2="14" y2="9" stroke="currentColor" stroke-width="1.6"/><circle cx="10" cy="15" r="1.4" fill="currentColor"/></svg><div class="lab-label">ICE</div></div>
         <div class="lab-value">10/10</div>
         <div class="lab-ref">Exploración neurológica normal</div>
+      </div>
+    </div>
       </div>
     </div>
 
@@ -518,6 +547,9 @@
     <h2 class="reveal">Varón de 68 años, Hodgkin en recaída</h2>
     <p class="reveal">Recaída tras autotrasplante y brentuximab. En tratamiento con <b>nivolumab</b>, doce dosis en cinco meses. Disnea de esfuerzo progresiva de dos semanas y tos seca.</p>
 
+    <div class="pm-collapse reveal">
+      <button class="pm-collapse-head" type="button"><span>Analítica</span><span class="pm-collapse-icon">+</span></button>
+      <div class="pm-collapse-body">
     <div class="lab-grid">
       <div class="lab-card reveal">
         <div class="lab-head"><svg class="lab-icon" viewBox="0 0 20 20"><path d="M10 2C10 2 4 9 4 13a6 6 0 0 0 12 0C16 9 10 2 10 2Z" fill="currentColor" opacity=".85"/></svg><div class="lab-label">SpO₂ reposo</div></div>
@@ -532,6 +564,8 @@
         <div class="lab-value abn">Limitación instrumental</div>
         <div class="lab-ref">Aseo y vestido conservados</div>
         <div class="lab-bar"><span></span></div>
+      </div>
+    </div>
       </div>
     </div>
 
@@ -873,6 +907,6 @@
   </div>
 </section>
 
-<script src="assets/js/main.js?v=23"></script>
+<script src="assets/js/main.js?v=32"></script>
 </body>
 </html>
