@@ -325,23 +325,89 @@
   /* ---------- lightbox: click any clinical image to see it full-screen ---------- */
   var lightbox = document.createElement('div');
   lightbox.id = 'lightbox';
-  lightbox.innerHTML = '<button class="lb-close" aria-label="Cerrar">×</button><img alt=""><div class="lb-caption"></div>';
+  lightbox.innerHTML =
+    '<button class="lb-close" aria-label="Cerrar">×</button>' +
+    '<button class="lb-pen" type="button" aria-label="Rotulador" title="Rotulador: pinta sobre la imagen">✏️</button>' +
+    '<button class="lb-clear" type="button" aria-label="Borrar trazos" title="Borrar lo pintado">🧹</button>' +
+    '<div class="lb-stage"><img alt=""><canvas class="lb-canvas"></canvas></div>' +
+    '<div class="lb-caption"></div>';
   document.body.appendChild(lightbox);
+  var lbStage = lightbox.querySelector('.lb-stage');
   var lbImg = lightbox.querySelector('img');
+  var lbCanvas = lightbox.querySelector('.lb-canvas');
+  var lbCtx = lbCanvas.getContext('2d');
   var lbCaption = lightbox.querySelector('.lb-caption');
+  var lbPenBtn = lightbox.querySelector('.lb-pen');
+  var lbClearBtn = lightbox.querySelector('.lb-clear');
+  var penActive = false, drawing = false, lastX = 0, lastY = 0;
+
+  function sizeCanvasToImage(){
+    var r = lbImg.getBoundingClientRect();
+    if(!r.width || !r.height) return;
+    var dpr = window.devicePixelRatio || 1;
+    lbCanvas.width = r.width * dpr;
+    lbCanvas.height = r.height * dpr;
+    lbCtx.setTransform(dpr, 0, 0, dpr, 0, 0);
+  }
+  function setPen(on){
+    penActive = on;
+    lightbox.classList.toggle('pen-active', penActive);
+    lbPenBtn.classList.toggle('active', penActive);
+  }
+  function clearInk(){ lbCtx.clearRect(0, 0, lbCanvas.width, lbCanvas.height); }
+
   function openLightbox(img){
     lbImg.src = img.currentSrc || img.src;
     lbImg.alt = img.alt || '';
-    lbCaption.textContent = img.alt || '';
+    lbCaption.textContent = img.getAttribute('data-finding') || img.alt || '';
     lightbox.classList.add('show');
+    setPen(false);
+    lbImg.onload = function(){ sizeCanvasToImage(); clearInk(); };
   }
-  function closeLightbox(){ lightbox.classList.remove('show'); lbImg.src = ''; }
+  function closeLightbox(){
+    lightbox.classList.remove('show');
+    lbImg.src = '';
+    setPen(false);
+    clearInk();
+  }
+  lbStage.addEventListener('click', function(e){ e.stopPropagation(); });
   lightbox.addEventListener('click', closeLightbox);
+  lightbox.querySelector('.lb-close').addEventListener('click', function(e){ e.stopPropagation(); closeLightbox(); });
+  lbPenBtn.addEventListener('click', function(e){ e.stopPropagation(); setPen(!penActive); });
+  lbClearBtn.addEventListener('click', function(e){ e.stopPropagation(); clearInk(); });
   document.addEventListener('click', function(e){
     var img = e.target.closest('.img-card img, .ct-cell img, .reveal-img img');
     if(img){ e.stopPropagation(); openLightbox(img); }
   });
   window.addEventListener('keydown', function(e){ if(e.key === 'Escape') closeLightbox(); });
+  window.addEventListener('resize', function(){ if(lightbox.classList.contains('show')) sizeCanvasToImage(); });
+
+  function inkPos(e){
+    var r = lbCanvas.getBoundingClientRect();
+    return [e.clientX - r.left, e.clientY - r.top];
+  }
+  lbCanvas.addEventListener('pointerdown', function(e){
+    if(!penActive) return;
+    drawing = true;
+    var p = inkPos(e); lastX = p[0]; lastY = p[1];
+    lbCanvas.setPointerCapture(e.pointerId);
+    e.stopPropagation();
+  });
+  lbCanvas.addEventListener('pointermove', function(e){
+    if(!drawing) return;
+    var p = inkPos(e);
+    lbCtx.strokeStyle = 'rgba(255,209,70,.7)';
+    lbCtx.lineWidth = 7;
+    lbCtx.lineCap = 'round';
+    lbCtx.lineJoin = 'round';
+    lbCtx.beginPath();
+    lbCtx.moveTo(lastX, lastY);
+    lbCtx.lineTo(p[0], p[1]);
+    lbCtx.stroke();
+    lastX = p[0]; lastY = p[1];
+    e.stopPropagation();
+  });
+  window.addEventListener('pointerup', function(){ drawing = false; });
 
   /* ---------- SVG hotspots: hover/tap a marked point for a short explanation ---------- */
   document.querySelectorAll('.mech-grid').forEach(function(grid){
