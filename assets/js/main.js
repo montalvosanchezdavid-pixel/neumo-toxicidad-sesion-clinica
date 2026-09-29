@@ -29,6 +29,18 @@
   }, { threshold:0.15 });
   document.querySelectorAll('.reveal').forEach(function(el){ io.observe(el); });
 
+  /* ---------- referencias: tamaño, giro y posición pseudoaleatorios ---------- */
+  function seedRnd(n){ var x = Math.sin(n * 12.9898) * 43758.5453; return x - Math.floor(x); }
+  document.querySelectorAll('.ref-list .ref-item').forEach(function(el, i){
+    var r1 = seedRnd(i * 3 + 1), r2 = seedRnd(i * 3 + 2), r3 = seedRnd(i * 3 + 3);
+    var width = 56 + r1 * 36;
+    var rot = (r2 - 0.5) * 4.5;
+    var align = r3 < 0.4 ? 'flex-start' : (r3 < 0.78 ? 'flex-end' : 'center');
+    el.style.setProperty('--ref-w', width.toFixed(1) + '%');
+    el.style.setProperty('--ref-rot', rot.toFixed(2) + 'deg');
+    el.style.alignSelf = align;
+  });
+
   /* ---------- case-block accordion ---------- */
   document.querySelectorAll('.case-block').forEach(function(block){
     block.addEventListener('click', function(){ block.classList.toggle('open'); });

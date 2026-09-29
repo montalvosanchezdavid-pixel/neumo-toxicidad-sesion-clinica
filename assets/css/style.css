@@ -399,13 +399,10 @@ section.slide{
 .flip-back{ background:var(--bg-panel-2); transform:rotateY(180deg); font-size:.86rem; color:var(--text-muted); }
 
 /* ================= REFERENCES — recortes brutalistas de papel ================= */
-.ref-list{ display:flex; flex-direction:column; gap:1.2rem; margin-top:2rem; max-width:900px; }
-.ref-item{ max-width:78%; }
-.ref-list .ref-item:nth-child(odd){ align-self:flex-start; }
-.ref-list .ref-item:nth-child(even){ align-self:flex-end; }
+.ref-list{ display:flex; flex-direction:column; gap:1.3rem; margin-top:2rem; max-width:960px; }
+.ref-item{ max-width:var(--ref-w,78%); }
 @media (max-width:760px){
-  .ref-item{ max-width:100%; }
-  .ref-list .ref-item:nth-child(odd), .ref-list .ref-item:nth-child(even){ align-self:stretch; }
+  .ref-item{ max-width:100% !important; align-self:stretch !important; --ref-rot:0deg; }
 }
 
 .ref-item{
@@ -414,15 +411,16 @@ section.slide{
   border:2px solid var(--text-primary);
   box-shadow:6px 6px 0 var(--ref-accent,var(--c2));
   scroll-margin-top:2rem;
+  transform:rotate(var(--ref-rot,0deg));
   transition:transform .18s ease, box-shadow .18s ease, border-color .18s ease;
 }
 .ref-item:hover, .ref-item:focus-visible{
-  transform:translate(-3px,-3px);
+  transform:rotate(var(--ref-rot,0deg)) translate(-3px,-3px);
   box-shadow:9px 9px 0 var(--ref-accent,var(--c2));
   border-color:var(--ref-accent,var(--c2));
   outline:none; z-index:5;
 }
-.ref-item:active{ transform:translate(0,0); box-shadow:3px 3px 0 var(--ref-accent,var(--c2)); }
+.ref-item:active{ transform:rotate(var(--ref-rot,0deg)) translate(0,0); box-shadow:3px 3px 0 var(--ref-accent,var(--c2)); }
 .ref-item:target{ animation:refFlash 1.6s ease; }
 @keyframes refFlash{ 0%{ background:var(--c2-dim); } 100%{ background:var(--bg-panel); } }
 
