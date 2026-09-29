@@ -326,9 +326,12 @@
   var lightbox = document.createElement('div');
   lightbox.id = 'lightbox';
   lightbox.innerHTML =
-    '<button class="lb-close" aria-label="Cerrar">×</button>' +
-    '<button class="lb-pen" type="button" aria-label="Rotulador" title="Rotulador: pinta sobre la imagen">✏️</button>' +
-    '<button class="lb-clear" type="button" aria-label="Borrar trazos" title="Borrar lo pintado">🧹</button>' +
+    '<div class="lb-toolbar">' +
+      '<input class="lb-pen-size" type="range" min="1" max="10" value="3" step="1" aria-label="Grosor del rotulador" title="Grosor del rotulador">' +
+      '<button class="lb-pen" type="button" aria-label="Rotulador" title="Rotulador: pinta sobre la imagen">✏️</button>' +
+      '<button class="lb-clear" type="button" aria-label="Borrar trazos" title="Borrar lo pintado">🧹</button>' +
+      '<button class="lb-close" aria-label="Cerrar">×</button>' +
+    '</div>' +
     '<div class="lb-stage"><img alt=""><canvas class="lb-canvas"></canvas></div>' +
     '<div class="lb-caption"></div>';
   document.body.appendChild(lightbox);
@@ -339,7 +342,9 @@
   var lbCaption = lightbox.querySelector('.lb-caption');
   var lbPenBtn = lightbox.querySelector('.lb-pen');
   var lbClearBtn = lightbox.querySelector('.lb-clear');
-  var penActive = false, drawing = false, lastX = 0, lastY = 0;
+  var lbSizeInput = lightbox.querySelector('.lb-pen-size');
+  var penActive = false, drawing = false, lastX = 0, lastY = 0, penSize = 3;
+  var inkHistory = [];
 
   function sizeCanvasToImage(){
     var r = lbImg.getBoundingClientRect();
@@ -354,7 +359,16 @@
     lightbox.classList.toggle('pen-active', penActive);
     lbPenBtn.classList.toggle('active', penActive);
   }
-  function clearInk(){ lbCtx.clearRect(0, 0, lbCanvas.width, lbCanvas.height); }
+  function clearInk(){ lbCtx.clearRect(0, 0, lbCanvas.width, lbCanvas.height); inkHistory = []; }
+  function pushHistory(){
+    inkHistory.push(lbCtx.getImageData(0, 0, lbCanvas.width, lbCanvas.height));
+    if(inkHistory.length > 25) inkHistory.shift();
+  }
+  function undoInk(){
+    if(!inkHistory.length) return;
+    var last = inkHistory.pop();
+    lbCtx.putImageData(last, 0, 0);
+  }
 
   function openLightbox(img){
     lbImg.src = img.currentSrc || img.src;
@@ -371,15 +385,22 @@
     clearInk();
   }
   lbStage.addEventListener('click', function(e){ e.stopPropagation(); });
+  lightbox.querySelector('.lb-toolbar').addEventListener('click', function(e){ e.stopPropagation(); });
   lightbox.addEventListener('click', closeLightbox);
   lightbox.querySelector('.lb-close').addEventListener('click', function(e){ e.stopPropagation(); closeLightbox(); });
   lbPenBtn.addEventListener('click', function(e){ e.stopPropagation(); setPen(!penActive); });
-  lbClearBtn.addEventListener('click', function(e){ e.stopPropagation(); clearInk(); });
+  lbClearBtn.addEventListener('click', function(e){ e.stopPropagation(); if(lbCanvas.width) pushHistory(); clearInk(); });
+  lbSizeInput.addEventListener('input', function(){ penSize = parseFloat(lbSizeInput.value); });
+  lbSizeInput.addEventListener('pointerdown', function(e){ e.stopPropagation(); });
   document.addEventListener('click', function(e){
     var img = e.target.closest('.img-card img, .ct-cell img, .reveal-img img');
     if(img){ e.stopPropagation(); openLightbox(img); }
   });
-  window.addEventListener('keydown', function(e){ if(e.key === 'Escape') closeLightbox(); });
+  window.addEventListener('keydown', function(e){
+    if(!lightbox.classList.contains('show')) return;
+    if(e.key === 'Escape') closeLightbox();
+    else if((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === 'z'){ e.preventDefault(); undoInk(); }
+  });
   window.addEventListener('resize', function(){ if(lightbox.classList.contains('show')) sizeCanvasToImage(); });
 
   function inkPos(e){
@@ -389,17 +410,22 @@
   lbCanvas.addEventListener('pointerdown', function(e){
     if(!penActive) return;
     drawing = true;
+    pushHistory();
     var p = inkPos(e); lastX = p[0]; lastY = p[1];
+    lbCtx.strokeStyle = 'rgba(255,209,70,.7)';
+    lbCtx.lineWidth = penSize;
+    lbCtx.lineCap = 'round';
+    lbCtx.lineJoin = 'round';
+    lbCtx.beginPath();
+    lbCtx.moveTo(lastX, lastY);
+    lbCtx.lineTo(lastX + 0.01, lastY + 0.01);
+    lbCtx.stroke();
     lbCanvas.setPointerCapture(e.pointerId);
     e.stopPropagation();
   });
   lbCanvas.addEventListener('pointermove', function(e){
     if(!drawing) return;
     var p = inkPos(e);
-    lbCtx.strokeStyle = 'rgba(255,209,70,.7)';
-    lbCtx.lineWidth = 7;
-    lbCtx.lineCap = 'round';
-    lbCtx.lineJoin = 'round';
     lbCtx.beginPath();
     lbCtx.moveTo(lastX, lastY);
     lbCtx.lineTo(p[0], p[1]);
