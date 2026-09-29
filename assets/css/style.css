@@ -399,10 +399,10 @@ section.slide{
 .flip-back{ background:var(--bg-panel-2); transform:rotateY(180deg); font-size:.86rem; color:var(--text-muted); }
 
 /* ================= REFERENCES — recortes brutalistas de papel ================= */
-.ref-list{ display:flex; flex-direction:column; gap:1.3rem; margin-top:2rem; max-width:960px; }
-.ref-item{ max-width:var(--ref-w,78%); }
+.ref-list{ display:flex; flex-flow:row wrap; align-items:flex-start; gap:1.3rem; margin-top:2rem; max-width:960px; }
+.ref-item{ width:var(--ref-w,78%); margin-top:var(--ref-overlap,0px); }
 @media (max-width:760px){
-  .ref-item{ max-width:100% !important; align-self:stretch !important; --ref-rot:0deg; }
+  .ref-item{ width:100% !important; margin-top:0 !important; --ref-rot:0deg; }
 }
 
 .ref-item{

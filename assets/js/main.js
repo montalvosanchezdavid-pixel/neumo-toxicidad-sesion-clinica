@@ -29,17 +29,33 @@
   }, { threshold:0.15 });
   document.querySelectorAll('.reveal').forEach(function(el){ io.observe(el); });
 
-  /* ---------- referencias: tamaño, giro y posición pseudoaleatorios ---------- */
+  /* ---------- referencias: tamaño, giro, solape y posición pseudoaleatorios ---------- */
   function seedRnd(n){ var x = Math.sin(n * 12.9898) * 43758.5453; return x - Math.floor(x); }
-  document.querySelectorAll('.ref-list .ref-item').forEach(function(el, i){
-    var r1 = seedRnd(i * 3 + 1), r2 = seedRnd(i * 3 + 2), r3 = seedRnd(i * 3 + 3);
-    var width = 56 + r1 * 36;
-    var rot = (r2 - 0.5) * 4.5;
-    var align = r3 < 0.4 ? 'flex-start' : (r3 < 0.78 ? 'flex-end' : 'center');
-    el.style.setProperty('--ref-w', width.toFixed(1) + '%');
-    el.style.setProperty('--ref-rot', rot.toFixed(2) + 'deg');
-    el.style.alignSelf = align;
-  });
+  (function(){
+    var items = Array.prototype.slice.call(document.querySelectorAll('.ref-list .ref-item'));
+    // un par concreto que comparten línea, uno junto al otro
+    var pairIdx = Math.min(5, items.length - 2);
+    items.forEach(function(el, i){
+      var r1 = seedRnd(i * 3 + 1), r2 = seedRnd(i * 3 + 2), r3 = seedRnd(i * 3 + 3);
+      var isPaired = (i === pairIdx || i === pairIdx + 1);
+      var width = isPaired ? 44 : 56 + r1 * 36;
+      var rot = (r2 - 0.5) * 4.5;
+      el.style.setProperty('--ref-w', width.toFixed(1) + '%');
+      el.style.setProperty('--ref-rot', rot.toFixed(2) + 'deg');
+      if(isPaired){
+        el.style.marginLeft = '0'; el.style.marginRight = i === pairIdx ? '0' : '0';
+      } else {
+        var align = r3 < 0.4 ? 'left' : (r3 < 0.78 ? 'right' : 'center');
+        el.style.marginLeft = (align === 'right' || align === 'center') ? 'auto' : '0';
+        el.style.marginRight = (align === 'left' || align === 'center') ? 'auto' : '0';
+      }
+      // solapa alguna tarjeta suelta con la de encima, tirando un poco hacia arriba
+      if(!isPaired && i > 0 && seedRnd(i * 7 + 5) < 0.3){
+        el.style.setProperty('--ref-overlap', (-14 - seedRnd(i * 11) * 14).toFixed(0) + 'px');
+        el.style.zIndex = 2;
+      }
+    });
+  })();
 
   /* ---------- case-block accordion ---------- */
   document.querySelectorAll('.case-block').forEach(function(block){
