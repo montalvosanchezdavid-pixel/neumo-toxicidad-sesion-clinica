@@ -515,7 +515,8 @@ footer.end{ text-align:center; padding:3rem 1rem 4rem; color:var(--text-faint); 
   transition:width .2s ease, opacity .2s ease;
 }
 #lightbox.pen-active .lb-pen-size{ width:100px; opacity:1; pointer-events:auto; }
-#lightbox .lb-caption{ max-width:640px; text-align:center; font-size:.85rem; color:var(--text-muted); }
+#lightbox .lb-caption{ max-width:680px; text-align:center; font-size:.9rem; line-height:1.5; color:var(--text-muted); }
+#lightbox .lb-caption b{ color:var(--text-primary); }
 
 /* ================= SVG HOTSPOTS ================= */
 .mech-grid{ position:relative; }

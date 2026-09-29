@@ -373,7 +373,7 @@
   function openLightbox(img){
     lbImg.src = img.currentSrc || img.src;
     lbImg.alt = img.alt || '';
-    lbCaption.textContent = img.getAttribute('data-finding') || img.alt || '';
+    lbCaption.innerHTML = img.getAttribute('data-finding') || img.alt || '';
     lightbox.classList.add('show');
     setPen(false);
     lbImg.onload = function(){ sizeCanvasToImage(); clearInk(); };
